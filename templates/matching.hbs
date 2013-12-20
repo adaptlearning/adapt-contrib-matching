@@ -1,0 +1,79 @@
+{{! Maintainers - Kevin Corry}}
+<div class="matching-inner component-inner">
+  {{#if title}}
+  <div class="matching-title component-title">
+    <h4 class="matching-title-inner component-inner-title">
+      {{{title}}}
+    </h4>
+  </div>
+  {{/if}}
+  {{#if body}}
+  <div class="matching-body component-body">
+    <div class="matching-body-inner component-body-inner">
+      {{{body}}}
+    </div>
+  </div>
+  {{/if}}
+  <div class="matching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isComplete}} complete submitted user {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
+    {{#each items}}
+    <div class="matching-item item {{#unless ../_isEnabled}} {{#if _isCorrect}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
+      <div class="matching-item-title">
+        {{text}}
+      </div>
+      <div class="matching-select-container">
+        <div class="matching-select-state">
+          <div class="matching-select-icon matching-dropdown-icon icon icon-controls-small-down"></div>
+          <div class="matching-select-icon matching-correct-icon icon icon-tick"></div>
+          <div class="matching-select-icon matching-incorrect-icon icon icon-cross"></div>
+        </div>
+        <select class="matching-select" {{#unless ../_isEnabled}}disabled="true"{{/unless}}>
+          <option {{#if ../_isEnabled}}selected="selected"{{/if}}>
+            {{../placeholder}}
+          </option>
+          {{#each options}}
+          <option {{#unless ../_isEnabled}}{{#if selected}}selected="selected"{{/if}}{{/unless}}>
+            {{text}}
+          </option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+    {{/each}}
+    <a href="#" class="button submit">
+      <h6>
+        {{#if button.submit}}
+          {{{button.submit}}}
+        {{else}}
+          Submit
+        {{/if}}
+      </h6>
+    </a>
+    <a href="#" class="button reset">
+      <h6>
+      {{#if button.reset}}
+        {{{button.reset}}}
+      {{else}}
+        Reset
+      {{/if}}
+      </h6>
+    </a>
+    <a href="#" class="button model">
+      <h6>
+        {{#if button.model}}
+          {{{button.model}}}
+        {{else}}
+          Model Answer
+        {{/if}}
+      </h6>
+    </a>
+    <a href="#" class="button user">
+      <h6>
+        {{#if button.user}}
+          {{{button.user}}}
+        {{else}}
+          My Answer
+        {{/if}}
+      </h6>
+    </a>
+  </div>
+</div>

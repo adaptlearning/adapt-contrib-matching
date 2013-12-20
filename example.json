@@ -1,0 +1,84 @@
+{
+    "_id": "m05-t05-p10-a05-b15-c05",
+    "_classes": "",
+    "_layout": "left",
+    "_parentId":"b-05",
+    "_type":"component",
+    "_component": "matching",
+    "_attempts": 2,
+    "_random": true,
+    "title": "Matching",
+    "body": "Basically what you need to do is match the questions below with the drop down box option.",
+    "audio": {
+        "mp3": "",
+        "ogg": ""
+    },
+    "button": {
+        "submit": "Submit",
+        "reset": "Reset",
+        "model": "Model Answer",
+        "user": "My Answer"
+    },
+    "feedback": {
+        "correct": "FINAL and NON-FINAL This feedback will appear if you answered the question correctly.",
+        "incorrect": [
+            "FINAL This feedback will appear if you answered the question incorrectly.",
+            "NON-FINAL This feedback will appear if you answered the question incorrectly."
+        ],
+        "partly": "FINAL and NON-FINAL This feedback will appear if you answered part of the question correctly."
+    },
+    "placeholder": "select an option",
+    "items": [
+        {
+            "text": "Pick option two",
+            "options": [
+                {
+                    "text": "Option one",
+                    "correct": false
+                },
+                {
+                    "text": "Option two (correct)",
+                    "correct": true
+                },
+                {
+                    "text": "Option three",
+                    "correct": false
+                }
+            ]
+        },
+        {
+            "text": "Pick option three",
+            "options": [
+                {
+                    "text": "Option one",
+                    "correct": false
+                },
+                {
+                    "text": "Option two",
+                    "correct": false
+                },
+                {
+                    "text": "Option three (correct)",
+                    "correct": true
+                }
+            ]
+        },
+        {
+            "text": "Pick option one",
+            "options": [
+                {
+                    "text": "Option one (correct)",
+                    "correct": true
+                },
+                {
+                    "text": "Option two",
+                    "correct": false
+                },
+                {
+                    "text": "Option three",
+                    "correct": false
+                }
+            ]
+        }
+    ]
+  }
