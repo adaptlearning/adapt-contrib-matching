@@ -9,10 +9,6 @@
     "_random": true,
     "title": "Matching",
     "body": "Basically what you need to do is match the questions below with the drop down box option.",
-    "audio": {
-        "mp3": "",
-        "ogg": ""
-    },
     "button": {
         "submit": "Submit",
         "reset": "Reset",

@@ -8,19 +8,19 @@ define(function(require) {
   var QuestionView = require('coreViews/questionView');
 
   var Matching = QuestionView.extend({
-    
+
     events: {
       "change .matching-select": "onSelectChanged",
-      "click .button.submit":"onSubmitClicked",
-      "click .button.reset":"onResetClicked",
-      "click .button.model":"onModelAnswerClicked",
-      "click .button.user":"onUserAnswerClicked"
+      "click .matching-widget .button.submit": "onSubmitClicked",
+      "click .matching-widget .button.reset": "onResetClicked",
+      "click .matching-widget .button.model": "onModelAnswerClicked",
+      "click .matching-widget .button.user": "onUserAnswerClicked"
     },
 
     postRender: function() {
       this.setReadyStatus();
     },
-    
+
     canSubmit: function() {
       var canSubmit = true;
       $('.matching-select option:selected',this.el).each(
@@ -38,7 +38,9 @@ define(function(require) {
       _.each(this.model.get('items'), function(item, index) {
         var $selectedOption = this.$('.matching-select option:selected').eq(index);
         var correctSelection = item.options[$selectedOption.index()-1].correct;
-        if(correctSelection) this.model.set('_isAtLeastOneCorrectSelection', true);
+        if (correctSelection) {
+          this.model.set('_isAtLeastOneCorrectSelection', true);
+        }
         callback(correctSelection, item);
       }, this);
     },
@@ -58,7 +60,9 @@ define(function(require) {
       _.each(this.model.get('items'), function(item, index) {
         var correctOptionIndex;
         _.each(item.options, function(option, optionIndex) {
-          if(option.correct) correctOptionIndex = optionIndex + 1;
+          if (option.correct) {
+            correctOptionIndex = optionIndex + 1;
+          }
         }, this);
         var $parent = this.$('.matching-select').eq(index);
         this.selectOption($parent, correctOptionIndex);
@@ -89,6 +93,7 @@ define(function(require) {
       }, this);
       this.model.set('_userAnswer', userAnswer);
     }
+
   });
 
   Adapt.register("matching", Matching);
