@@ -12,7 +12,7 @@
 
   .matching-select-container {
     position: relative;
-    width: 260px;
+    width: 300px;
     overflow: hidden;
     background-color: @item-color;
     color: @item-text-color;
@@ -23,18 +23,18 @@
   }
 
   .matching-correct-icon {
-    color: #0FB300;
+    color: @icon-correct-color;
     display: none;
   }
 
   .matching-incorrect-icon {
-    color: #FF4A4A;
+    color: @icon-incorrect-color;
     display: none;
   }
 
   .matching-select {
     position: relative;
-    width: 280px;
+    width: 320px;
     border: none;
     background: transparent;
     padding: @item-padding-top 0px @item-padding-bottom @item-padding-left;
@@ -159,5 +159,38 @@
     &.disabled {
       background-color: @item-disabled-color;
     }
+  }
+}
+
+
+
+@media all and (max-width:760px) and (min-width:520px) {
+  .matching-component {
+      .matching-select-container{
+         width:100%;
+      }
+      .matching-select{
+          width:105%;
+      }  
+  }
+}
+
+
+@media all and (max-width:519px) {
+  .matching-component {
+      .matching-select-container{
+         width:100%;
+      }
+      .matching-select{
+          width:110%;
+      }  
+  }
+}
+
+
+//*IE FIX FOR DISABLED ITEMS
+.matching-component {
+  select[disabled]::-ms-value{
+      color: @item-text-color;
   }
 }
