@@ -16,6 +16,10 @@
     overflow: hidden;
     background-color: @item-color;
     color: @item-text-color;
+
+    @media all and (max-width:760px) {
+      width:100%;
+    }
   }
 
   .matching-select-icon {
@@ -32,6 +36,7 @@
     display: none;
   }
 
+
   .matching-select {
     position: relative;
     width: 320px;
@@ -40,6 +45,14 @@
     padding: @item-padding-top 0px @item-padding-bottom @item-padding-left;
     cursor: pointer;
     color: @item-text-color;
+
+    @media all and (max-width:760px) and (min-width:520px) {
+        width:105%;
+    }
+      
+    @media all and (max-width:519px) {
+       width:110%;
+    }
 
     &:focus {
       background-color: @item-selected-color;
@@ -159,31 +172,6 @@
     &.disabled {
       background-color: @item-disabled-color;
     }
-  }
-}
-
-
-
-@media all and (max-width:760px) and (min-width:520px) {
-  .matching-component {
-      .matching-select-container{
-         width:100%;
-      }
-      .matching-select{
-          width:105%;
-      }  
-  }
-}
-
-
-@media all and (max-width:519px) {
-  .matching-component {
-      .matching-select-container{
-         width:100%;
-      }
-      .matching-select{
-          width:110%;
-      }  
   }
 }
 
