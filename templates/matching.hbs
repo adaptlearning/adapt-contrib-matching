@@ -2,7 +2,7 @@
 <div class="matching-inner component-inner">
   {{#if title}}
   <div class="matching-title component-title">
-    <h4 class="matching-title-inner component-inner-title">
+    <h4 class="matching-title-inner component-title-inner">
       {{{title}}}
     </h4>
   </div>
@@ -40,40 +40,25 @@
     </div>
     {{/each}}
     <a href="#" class="button submit">
-      <h6>
-        {{#if button.submit}}
-          {{{button.submit}}}
-        {{else}}
-          Submit
-        {{/if}}
-      </h6>
+        <h6>  
+            {{{buttons.submit}}} 
+        </h6>
     </a>
     <a href="#" class="button reset">
-      <h6>
-      {{#if button.reset}}
-        {{{button.reset}}}
-      {{else}}
-        Reset
-      {{/if}}
-      </h6>
-    </a>
+        <h6>
+            {{{buttons.reset}}} 
+        </h6>
+    </a> 
     <a href="#" class="button model">
-      <h6>
-        {{#if button.model}}
-          {{{button.model}}}
-        {{else}}
-          Model Answer
-        {{/if}}
-      </h6>
+        <h6> 
+            {{{buttons.showCorrectAnswer}}} 
+        </h6>
     </a>
+
     <a href="#" class="button user">
-      <h6>
-        {{#if button.user}}
-          {{{button.user}}}
-        {{else}}
-          My Answer
-        {{/if}}
-      </h6>
+        <h6>
+            {{{buttons.hideCorrectAnswer}}} 
+        </h6>
     </a>
   </div>
 </div>

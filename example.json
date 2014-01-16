@@ -9,11 +9,11 @@
     "_random": true,
     "title": "Matching",
     "body": "Basically what you need to do is match the questions below with the drop down box option.",
-    "button": {
-        "submit": "Submit",
-        "reset": "Reset",
-        "model": "Model Answer",
-        "user": "My Answer"
+    "buttons":{
+        "submit":"SUBMIT",
+        "reset":"RESET",
+        "showCorrectAnswer":"MODEL ANSWER",
+        "hideCorrectAnswer":"YOUR ANSWER"
     },
     "feedback": {
         "correct": "FINAL and NON-FINAL This feedback will appear if you answered the question correctly.",
