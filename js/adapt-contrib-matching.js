@@ -18,6 +18,7 @@ define(function(require) {
     },
 
     postRender: function() {
+      QuestionView.prototype.postRender.apply(this);
       this.setReadyStatus();
     },
 
@@ -39,7 +40,10 @@ define(function(require) {
         var $selectedOption = this.$('.matching-select option:selected').eq(index);
         var correctSelection = item.options[$selectedOption.index()-1].correct;
         if (correctSelection) {
+          item.correct = true;
           this.model.set('_isAtLeastOneCorrectSelection', true);
+        } else {
+          item.correct = false;
         }
         callback(correctSelection, item);
       }, this);
