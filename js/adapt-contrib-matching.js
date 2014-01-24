@@ -40,10 +40,10 @@ define(function(require) {
         var $selectedOption = this.$('.matching-select option:selected').eq(index);
         var correctSelection = item.options[$selectedOption.index()-1].correct;
         if (correctSelection) {
-          item._correct = true;
+          item.correct = true;
           this.model.set('_isAtLeastOneCorrectSelection', true);
         } else {
-          item._correct = false;
+          item.correct = false;
         }
         callback(correctSelection, item);
       }, this);

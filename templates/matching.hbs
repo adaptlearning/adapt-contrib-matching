@@ -16,7 +16,7 @@
   {{/if}}
   <div class="matching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isComplete}} complete submitted user {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
     {{#each items}}
-    <div class="matching-item item {{#unless ../_isEnabled}} {{#if _correct}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
+    <div class="matching-item item {{#unless ../_isEnabled}} {{#if correct}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
       <div class="matching-item-title">
         {{text}}
       </div>
