@@ -3,17 +3,16 @@
     "_classes": "",
     "_layout": "left",
     "_parentId":"b-05",
-    "_type":"component",
+    "_type": "component",
     "_component": "matching",
     "_attempts": 2,
-    "_random": true,
     "title": "Matching",
     "body": "Basically what you need to do is match the questions below with the drop down box option.",
     "buttons":{
-        "submit":"SUBMIT",
-        "reset":"RESET",
-        "showCorrectAnswer":"MODEL ANSWER",
-        "hideCorrectAnswer":"YOUR ANSWER"
+        "submit":"Submit",
+        "reset":"Reset",
+        "showCorrectAnswer":"Model Answer",
+        "hideCorrectAnswer":"Your Answer"
     },
     "feedback": {
         "correct": "FINAL and NON-FINAL This feedback will appear if you answered the question correctly.",
