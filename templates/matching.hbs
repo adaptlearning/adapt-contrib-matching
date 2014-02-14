@@ -1,19 +1,6 @@
 {{! Maintainers - Kevin Corry}}
 <div class="matching-inner component-inner">
-  {{#if title}}
-  <div class="matching-title component-title">
-    <h4 class="matching-title-inner component-title-inner">
-      {{{title}}}
-    </h4>
-  </div>
-  {{/if}}
-  {{#if body}}
-  <div class="matching-body component-body">
-    <div class="matching-body-inner component-body-inner">
-      {{{body}}}
-    </div>
-  </div>
-  {{/if}}
+  {{> component this}}
   <div class="matching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isComplete}} complete submitted user {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
     {{#each items}}
     <div class="matching-item item {{#unless ../_isEnabled}} {{#if correct}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
