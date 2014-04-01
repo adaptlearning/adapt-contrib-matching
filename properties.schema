@@ -1,0 +1,89 @@
+{
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "$ref": "http://localhost/plugins/content/component/model.schema",
+  "properties": {
+    "placeholder": {
+      "type":"string",
+      "required":true
+    },
+    "items": {
+      "type":"array",
+      "required":true,
+      "items": {
+        "type":"object",
+        "required":true,
+        "properties": {
+          "text": {
+            "type":"string",
+            "required":true
+          },
+          "options": {
+            "type":"array",
+            "required":true,
+            "items": {
+              "type":"object",
+              "required":true,
+              "properties": {
+                "correct": {
+                  "type":"boolean",
+                  "required":true,
+                  "default":false
+                },
+                "text": {
+                  "type":"string",
+                  "required":true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "buttons": {
+      "type":"object",
+      "required":false,
+      "properties": {
+        "hideCorrectAnswer": {
+          "type":"string",
+          "required":false,
+          "default":"Your Answer"
+        },
+        "showCorrectAnswer": {
+          "type":"string",
+          "required":false,
+          "default":"Model Answer"
+        },
+        "submit": {
+          "type":"string",
+          "required":false,
+          "default":"Submit"
+        },
+        "reset": {
+          "type":"string",
+          "required":false,
+          "default":"Reset"
+        }
+      }
+    },
+    "feedback": {
+      "type":"object",
+      "required":false,
+      "properties": {
+        "correct": {
+          "type":"string",
+          "required":false
+        },
+        "incorrect": {
+          "type":"string",
+          "required":false
+        },
+        "partly": {
+          "type":"string",
+          "required":false
+        }
+      }
+    }
+  }
+}
