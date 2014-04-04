@@ -7,6 +7,8 @@
   ],
   "description": "A question component that allows the learner to match the options to question stems",
   "main": "/js/adapt-contrib-matching.js",
+  "displayName" : "Matching Question",
+  "component" : "matching",
   "keywords": [
     "adapt-plugin",
     "adapt-component"
