@@ -6,6 +6,7 @@
     "_type": "component",
     "_component": "matching",
     "_attempts": 2,
+    "_isRandom":true,
     "title": "Matching",
     "body": "Basically what you need to do is match the questions below with the drop down box option.",
     "buttons":{
