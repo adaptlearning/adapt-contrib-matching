@@ -17,6 +17,16 @@ define(function(require) {
       "click .matching-widget .button.user": "onUserAnswerClicked"
     },
 
+     preRender:function(){
+        QuestionView.prototype.preRender.apply(this);
+
+        if (this.model.get('_isRandom') && this.model.get('_isEnabled')) {
+            _.each(this.model.get('items'), function(item) {             
+              item.options =  _.shuffle(item.options); 
+            })
+         }
+    },
+
     postRender: function() {
       QuestionView.prototype.postRender.apply(this);
       this.setReadyStatus();
