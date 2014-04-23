@@ -35,6 +35,18 @@ define(function(require) {
       return canSubmit;
     },
 
+    onCannotSubmit: function() {
+      this.showValidationError();
+    },
+
+    showValidationError: function() {
+      this.$(".matching-select.error").parent(".matching-select-container").addClass("matching-validation-error");
+    },
+
+    clearValidationError: function(event) {
+      $(event.currentTarget).removeClass("error").parent(".matching-select-container").removeClass("matching-validation-error");
+    },
+
     forEachAnswer: function(callback) {
       _.each(this.model.get('_items'), function(item, index) {
         var $selectedOption = this.$('.matching-select option:selected').eq(index);
@@ -75,6 +87,7 @@ define(function(require) {
 
     onSelectChanged: function(event) {
       $(event.target).blur();
+      this.clearValidationError(event);
     },
 
     onUserAnswerShown: function(event) {
