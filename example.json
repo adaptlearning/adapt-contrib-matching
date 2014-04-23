@@ -23,55 +23,55 @@
         "partly": "FINAL and NON-FINAL This feedback will appear if you answered part of the question correctly."
     },
     "placeholder": "select an option",
-    "items": [
+    "_items": [
         {
             "text": "Pick option two",
-            "options": [
+            "_options": [
                 {
                     "text": "Option one",
-                    "correct": false
+                    "_isCorrect": false
                 },
                 {
                     "text": "Option two (correct)",
-                    "correct": true
+                    "_isCorrect": true
                 },
                 {
                     "text": "Option three",
-                    "correct": false
+                    "_isCorrect": false
                 }
             ]
         },
         {
             "text": "Pick option three",
-            "options": [
+            "_options": [
                 {
                     "text": "Option one",
-                    "correct": false
+                    "_isCorrect": false
                 },
                 {
                     "text": "Option two",
-                    "correct": false
+                    "_isCorrect": false
                 },
                 {
                     "text": "Option three (correct)",
-                    "correct": true
+                    "_isCorrect": true
                 }
             ]
         },
         {
             "text": "Pick option one",
-            "options": [
+            "_options": [
                 {
                     "text": "Option one (correct)",
-                    "correct": true
+                    "_isCorrect": true
                 },
                 {
                     "text": "Option two",
-                    "correct": false
+                    "_isCorrect": false
                 },
                 {
                     "text": "Option three",
-                    "correct": false
+                    "_isCorrect": false
                 }
             ]
         }

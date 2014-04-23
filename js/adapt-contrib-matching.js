@@ -36,14 +36,14 @@ define(function(require) {
     },
 
     forEachAnswer: function(callback) {
-      _.each(this.model.get('items'), function(item, index) {
+      _.each(this.model.get('_items'), function(item, index) {
         var $selectedOption = this.$('.matching-select option:selected').eq(index);
-        var correctSelection = item.options[$selectedOption.index()-1].correct;
+        var correctSelection = item._options[$selectedOption.index()-1]._isCorrect;
         if (correctSelection) {
-          item.correct = true;
+          item._isCorrect = true;
           this.model.set('_isAtLeastOneCorrectSelection', true);
         } else {
-          item.correct = false;
+          item._isCorrect = false;
         }
         callback(correctSelection, item);
       }, this);
@@ -61,10 +61,10 @@ define(function(require) {
     },
 
     onModelAnswerShown: function() {
-      _.each(this.model.get('items'), function(item, index) {
+      _.each(this.model.get('_items'), function(item, index) {
         var correctOptionIndex;
-        _.each(item.options, function(option, optionIndex) {
-          if (option.correct) {
+        _.each(item._options, function(option, optionIndex) {
+          if (option._isCorrect) {
             correctOptionIndex = optionIndex + 1;
           }
         }, this);
@@ -78,7 +78,7 @@ define(function(require) {
     },
 
     onUserAnswerShown: function(event) {
-      for(var i = 0, count = this.model.get('items').length; i < count; i++) {
+      for(var i = 0, count = this.model.get('_items').length; i < count; i++) {
         var $parent = this.$('.matching-select').eq(i);
         this.selectOption($parent, this.model.get('_userAnswer')[i]);
       }
@@ -91,7 +91,7 @@ define(function(require) {
 
     storeUserAnswer: function() {
       var userAnswer = [];
-      _.each(this.model.get('items'), function(item, index) {
+      _.each(this.model.get('_items'), function(item, index) {
         var $selectedOption = this.$('.matching-select option:selected').eq(index);
         userAnswer.push($selectedOption.index());
       }, this);

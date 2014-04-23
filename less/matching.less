@@ -1,7 +1,7 @@
 .matching-component {
 
   .matching-item {
-    border-bottom: @item-border;
+    border-bottom: 1px solid @foreground-color;
     margin-bottom: @item-padding-bottom;
     padding-bottom: @item-padding-bottom;
   }
@@ -70,19 +70,6 @@
     z-index: 0;
   }
 
-  .button {
-    outline: none;
-    text-decoration: none;
-    padding: @button-padding;
-    color: @button-text-color;
-    background-color: @button-color;
-    display: none;
-
-    &.submit {
-      display: inline-block;
-    }
-  }
-
   .matching-widget {
 
     &.submitted {
@@ -92,18 +79,9 @@
       .matching-select-container {
         background-color: @item-disabled-color;
       }
-      .button.submit {
-        display: none;
-      }
-      .button.reset {
-        display: inline-block;
-      }
     }
 
     &.user {
-      .button.model {
-        display: inline-block;
-      }
       .matching-select-icon {
         display: none;
       }
@@ -120,26 +98,11 @@
     }
 
     &.model {
-      .button.user {
-        display: inline-block;
-      }
       .matching-select-icon {
         display: none;
       }
       .matching-correct-icon {
         display: block;
-      }
-    }
-
-    &.disabled {
-      .button.reset {
-        display: none;
-      }
-    }
-
-    &.correct {
-      .button {
-        visibility: hidden;
       }
     }
 
@@ -157,12 +120,6 @@
     &:hover {
       color: @button-text-hover-color;
       background-color: @item-hover-color;
-    }
-  }
-  .button {
-    &:hover {
-      color: @button-text-hover-color;
-      background-color: @button-hover-color;
     }
   }
 }
