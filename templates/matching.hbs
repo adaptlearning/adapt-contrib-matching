@@ -2,8 +2,8 @@
 <div class="matching-inner component-inner">
   {{> component this}}
   <div class="matching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isComplete}} complete submitted user {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
-    {{#each items}}
-    <div class="matching-item item {{#unless ../_isEnabled}} {{#if correct}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
+    {{#each _items}}
+    <div class="matching-item item {{#unless ../_isEnabled}} {{#if _isCorrect}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
       <div class="matching-item-title">{{{text}}}</div>
       <div class="matching-select-container">
         <div class="matching-select-state">
@@ -15,7 +15,7 @@
           <option {{#if ../_isEnabled}}selected="selected"{{/if}}>
             {{../placeholder}}
           </option>
-          {{#each options}}
+          {{#each _options}}
           <option {{#unless ../_isEnabled}}{{#if selected}}selected="selected"{{/if}}{{/unless}}>
             {{text}}
           </option>
@@ -24,26 +24,8 @@
       </div>
     </div>
     {{/each}}
-    <a href="#" class="button submit">
-        <span>  
-            {{{buttons.submit}}} 
-        </span>
-    </a>
-    <a href="#" class="button reset">
-        <span>
-            {{{buttons.reset}}} 
-        </span>
-    </a> 
-    <a href="#" class="button model">
-        <span> 
-            {{{buttons.showCorrectAnswer}}} 
-        </span>
-    </a>
-
-    <a href="#" class="button user">
-        <span>
-            {{{buttons.hideCorrectAnswer}}} 
-        </span>
-    </a>
+    <div class="buttons">
+        {{> buttons this}}
+    </div>
   </div>
 </div>
