@@ -1,27 +1,33 @@
 {
     "_id": "m05-t05-p10-a05-b15-c05",
+    "_parentId":"b-05",
     "_classes": "",
     "_layout": "left",
-    "_parentId":"b-05",
     "_type": "component",
     "_component": "matching",
     "_attempts": 2,
     "_isRandom":true,
+    "_questionWeight":10,
     "title": "Matching",
+    "displayTitle": "Matching",
     "body": "Basically what you need to do is match the questions below with the drop down box option.",
-    "buttons":{
+    "instruction":"",
+    "_buttons":{
         "submit":"Submit",
         "reset":"Reset",
         "showCorrectAnswer":"Model Answer",
         "hideCorrectAnswer":"Your Answer"
     },
-    "feedback": {
-        "correct": "FINAL and NON-FINAL This feedback will appear if you answered the question correctly.",
-        "incorrect": [
-            "FINAL This feedback will appear if you answered the question incorrectly.",
-            "NON-FINAL This feedback will appear if you answered the question incorrectly."
-        ],
-        "partly": "FINAL and NON-FINAL This feedback will appear if you answered part of the question correctly."
+    "_feedback": {
+        "correct": "This feedback will appear if you answered the question correctly.",
+        "_incorrect": {
+            "notFinal": "",
+            "final": "This feedback will appear if you answered the question incorrectly."
+        },
+        "_partlyCorrect": {
+            "notFinal": "",
+            "final": "This feedback will appear if you answered part of the question correctly."
+        }
     },
     "placeholder": "select an option",
     "_items": [
