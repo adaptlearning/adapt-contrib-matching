@@ -57,7 +57,7 @@ Setting this value to `true` will cause the `_items` to appear in a random order
 
 ####placeholder
 
-Use `placeholder` to set the text that will be displayed in the drop down answers befor a user has made a selection.
+Use `placeholder` to set the text that will be displayed in the drop down answers before a user has made a selection.
 
 ####_items
 
