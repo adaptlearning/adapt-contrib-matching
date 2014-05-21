@@ -4,11 +4,23 @@
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
   "properties": {
+    "_attempts": {
+      "type":"number",
+      "required":true,
+      "default":1
+    },
+    "_isRandom": {
+      "type":"boolean",
+      "required":true
+    },
+    "_questionWeight": {
+      "type":"number"
+    },
     "placeholder": {
       "type":"string",
       "required":true
     },
-    "items": {
+    "_items": {
       "type":"array",
       "required":true,
       "items": {
@@ -19,14 +31,14 @@
             "type":"string",
             "required":true
           },
-          "options": {
+          "_options": {
             "type":"array",
             "required":true,
             "items": {
               "type":"object",
               "required":true,
-              "properties": {
-                "correct": {
+              "properties":{
+                "_isCorrect": {
                   "type":"boolean",
                   "required":true,
                   "default":false
@@ -41,47 +53,55 @@
         }
       }
     },
-    "buttons": {
+    "_buttons": {
       "type":"object",
-      "required":false,
       "properties": {
         "hideCorrectAnswer": {
-          "type":"string",
-          "required":false,
-          "default":"Your Answer"
-        },
-        "showCorrectAnswer": {
-          "type":"string",
-          "required":false,
-          "default":"Model Answer"
-        },
-        "submit": {
-          "type":"string",
-          "required":false,
-          "default":"Submit"
+          "type":"string"
         },
         "reset": {
-          "type":"string",
-          "required":false,
-          "default":"Reset"
+          "type":"string"
+        },
+        "showCorrectAnswer": {
+          "type":"string"
+        },
+        "submit": {
+          "type":"string"
         }
       }
     },
-    "feedback": {
+    "_feedback": {
       "type":"object",
-      "required":false,
+      "required":true,
       "properties": {
+        "_incorrect": {
+          "type":"object",
+          "required":true,
+          "properties":{
+            "final": {
+              "type":"string"
+            },
+            "notFinal": {
+              "type":"string"
+            }
+          }
+        },
+        "_partlyCorrect": {
+          "type":"object",
+          "required":true,
+          "properties": {
+            "final": {
+              "type":"string",
+              "required":true
+            },
+            "notFinal": {
+              "type":"string"
+            }
+          }
+        },
         "correct": {
           "type":"string",
-          "required":false
-        },
-        "incorrect": {
-          "type":"string",
-          "required":false
-        },
-        "partly": {
-          "type":"string",
-          "required":false
+          "required":true
         }
       }
     }
