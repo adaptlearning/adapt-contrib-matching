@@ -10,7 +10,6 @@ define(function(require) {
   var Matching = QuestionView.extend({
 
     events: {
-      "change .matching-select": "onSelectChanged",
       "click .matching-widget .button.submit": "onSubmitClicked",
       "click .matching-widget .button.reset": "onResetClicked",
       "click .matching-widget .button.model": "onModelAnswerClicked",
@@ -81,10 +80,6 @@ define(function(require) {
         var $parent = this.$('.matching-select').eq(index);
         this.selectOption($parent, correctOptionIndex);
       }, this);
-    },
-
-    onSelectChanged: function(event) {
-      $(event.target).blur();
     },
 
     onUserAnswerShown: function(event) {
