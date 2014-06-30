@@ -22,7 +22,7 @@ define(function(require) {
 
         // Used by the question to reset the question when revisiting the component
         resetQuestionOnRevisit: function() {
-            //this.resetQuestion();
+            this.resetQuestion();
         },
 
         // Left blank for question setup - should be used instead of preRender
