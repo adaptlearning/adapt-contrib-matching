@@ -1,5 +1,5 @@
 /*
-* adapt-contrib-question
+* adapt-contrib-matching
 * License - http://github.com/adaptlearning/adapt_framework/LICENSE
 * Maintainers - Kevin Corry <kevinc@learningpool.com>, Daryl Hedley <darylhedley@gmail.com>
 */
@@ -9,8 +9,6 @@ define(function(require) {
     var Adapt = require('coreJS/adapt');
     
     var Matching = QuestionView.extend({
-
-        events: {},
 
         // Used by question to disable the question during submit and complete stages
         disableQuestion: function() {
@@ -40,7 +38,6 @@ define(function(require) {
 
         // Blank method used just like postRender is for presentational components
         onQuestionRendered: function() {
-            console.log('onQuestionRendered');
             this.setReadyStatus();
         },
 
@@ -188,7 +185,6 @@ define(function(require) {
         },
 
         selectOption: function($parent, optionIndex) {
-            console.log('select options');
             $("option", $parent).eq(optionIndex).attr('selected', 'selected');
         }
 
