@@ -3,7 +3,9 @@
   "version": "0.0.3",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-matching",
   "authors": [
-    "Kevin Corry <kevinc@learningpool.com>, Daryl Hedley <darylhedley@gmail.com>"
+    "Kevin Corry <kevinc@learningpool.com>",
+	"Daryl Hedley <darylhedley@gmail.com>",
+	"Himanshu Rajotia <himanshu.rajotia@credipoint.com>"
   ],
   "description": "A question component that allows the learner to match the options to question stems",
   "main": "/js/adapt-contrib-matching.js",

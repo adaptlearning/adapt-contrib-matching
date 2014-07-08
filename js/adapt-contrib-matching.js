@@ -1,7 +1,7 @@
 /*
 * adapt-contrib-matching
 * License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Kevin Corry <kevinc@learningpool.com>, Daryl Hedley <darylhedley@gmail.com>
+* Maintainers - Kevin Corry <kevinc@learningpool.com>, Daryl Hedley <darylhedley@gmail.com>, Himanshu Rajotia <himanshu.rajotia@credipoint.com>
 */
 define(function(require) {
 
@@ -149,7 +149,10 @@ define(function(require) {
         // This is triggered when the reset button is clicked so it shouldn't
         // be a full reset
         resetQuestion: function() {
-            this.$('.matching-select option').attr('selected', false);
+            this.$('.matching-select option').prop('selected', false);
+            _.each(this.$('.matching-select'), function(item) {
+                this.selectOption($(item), 0);
+            }, this);
         },
 
         // Used by the question to display the correct answer to the user
@@ -179,13 +182,13 @@ define(function(require) {
         hideCorrectAnswer: function() {
             for(var i = 0, count = this.model.get('_items').length; i < count; i++) {
                 var $parent = this.$('.matching-select').eq(i);
-                $('option', $parent).eq(this.model.get('_userAnswer')[i]).attr('selected', true);
+                $('option', $parent).eq(this.model.get('_userAnswer')[i]).prop('selected', true);
                 this.selectOption($parent, this.model.get('_userAnswer')[i]);
             }
         },
 
         selectOption: function($parent, optionIndex) {
-            $("option", $parent).eq(optionIndex).attr('selected', 'selected');
+            $("option", $parent).eq(optionIndex).prop('selected', true);
         }
 
     });

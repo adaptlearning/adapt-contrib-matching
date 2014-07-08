@@ -1,6 +1,6 @@
 {
   "name": "adapt-contrib-matching",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A question component that allows the learner to match the options to question stems",
   "main": "",
   "scripts": {
