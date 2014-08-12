@@ -101,6 +101,8 @@ define(function(require) {
 
             }, this);
 
+            this.model.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
+
             if (numberOfCorrectAnswers === this.model.get('_items').length) {
                 return true;
             } else {
@@ -111,8 +113,14 @@ define(function(require) {
 
         // Used to set the score based upon the _questionWeight
         setScore: function() {
-            var numberOfCorrectAnswers = this.model.get('_numberOfCorrectAnswers');
             var questionWeight = this.model.get("_questionWeight");
+
+            if (this.model.get('_isCorrect')) {
+                this.model.set('_score', questionWeight);
+                return;
+            }
+            
+            var numberOfCorrectAnswers = this.model.get('_numberOfCorrectAnswers');
             var itemLength = this.model.get('_items').length;
 
             var score = questionWeight * numberOfCorrectAnswers / itemLength;
