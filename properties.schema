@@ -7,33 +7,45 @@
     "_attempts": {
       "type":"number",
       "required":true,
-      "default":1
+      "default":1,
+      "minimum": 1,
+      "title": "Number of Attempts"
     },
     "_isRandom": {
       "type":"boolean",
-      "required":true
+      "required":true,
+      "title": "Random Order"
     },
     "_questionWeight": {
-      "type":"number"
+      "type":"number",
+      "title": "Question Weight"
     },
     "placeholder": {
       "type":"string",
-      "required":true
+      "required":true,
+      "minLength": 1,
+      "title": "Selection placeholder text"
     },
     "_items": {
       "type":"array",
       "required":true,
+      "minItems": 1,
+      "title": "Matching questions",
       "items": {
         "type":"object",
         "required":true,
         "properties": {
           "text": {
             "type":"string",
-            "required":true
+            "required":true,
+            "minLength": 1,
+            "title": "Question text"
           },
           "_options": {
             "type":"array",
             "required":true,
+            "minItems": 1,
+            "title": "Matching answers",
             "items": {
               "type":"object",
               "required":true,
@@ -41,11 +53,14 @@
                 "_isCorrect": {
                   "type":"boolean",
                   "required":true,
-                  "default":false
+                  "default":false,
+                  "title": "Correct answer"
                 },
                 "text": {
                   "type":"string",
-                  "required":true
+                  "required":true,
+                  "minLength": 1,
+                  "title": "Matching answer text"
                 }
               }
             }
@@ -55,53 +70,68 @@
     },
     "_buttons": {
       "type":"object",
+      "title": "Buttons",
       "properties": {
         "hideCorrectAnswer": {
-          "type":"string"
+          "type":"string",
+          "title": "Hide correct answer button label"
         },
         "reset": {
-          "type":"string"
+          "type":"string",
+          "title": "Reset button label"
         },
         "showCorrectAnswer": {
-          "type":"string"
+          "type":"string",
+          "title": "Show correct answer button label"
         },
         "submit": {
-          "type":"string"
+          "type":"string",
+          "title": "Submit button label"
         }
       }
     },
     "_feedback": {
       "type":"object",
       "required":true,
+      "title": "Feedback text",
       "properties": {
         "_incorrect": {
           "type":"object",
           "required":true,
+          "title": "Feedback for incorrect answers",
           "properties":{
             "final": {
-              "type":"string"
+              "type":"string",
+              "title": "Incorrect final answer"
             },
             "notFinal": {
-              "type":"string"
+              "type":"string",
+              "title": "Incorrect non final answer"
             }
           }
         },
         "_partlyCorrect": {
           "type":"object",
           "required":true,
+          "title": "Feedback when answer is partly correct",
           "properties": {
             "final": {
               "type":"string",
-              "required":true
+              "required":true,
+              "minLength": 1,
+              "title": "Partially correct final answer"
             },
             "notFinal": {
-              "type":"string"
+              "type":"string",
+              "title": "Partially correct non final answer"
             }
           }
         },
         "correct": {
           "type":"string",
-          "required":true
+          "required":true,
+          "minLength": 1,
+          "title": "Feedback for correct answer "
         }
       }
     }
