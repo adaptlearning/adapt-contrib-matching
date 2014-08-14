@@ -9,16 +9,16 @@
       "required":true,
       "default":1,
       "minimum": 1,
-      "title": "Number of Attempts"
+      "title": "Number of attempts"
     },
     "_isRandom": {
       "type":"boolean",
       "required":true,
-      "title": "Random Order"
+      "title": "Random order"
     },
     "_questionWeight": {
       "type":"number",
-      "title": "Question Weight"
+      "title": "Question weight"
     },
     "placeholder": {
       "type":"string",
@@ -131,7 +131,7 @@
           "type":"string",
           "required":true,
           "minLength": 1,
-          "title": "Feedback for correct answer "
+          "title": "Feedback for correct answer"
         }
       }
     }
