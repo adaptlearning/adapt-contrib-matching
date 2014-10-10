@@ -12,11 +12,30 @@
     "displayTitle": "Matching",
     "body": "Basically what you need to do is match the questions below with the drop down box option.",
     "instruction":"",
-    "_buttons":{
-        "submit":"Submit",
-        "reset":"Reset",
-        "showCorrectAnswer":"Model Answer",
-        "hideCorrectAnswer":"Your Answer"
+    "_buttons": {
+      "_submit": {
+        "buttonText": "Submit",
+        "ariaLabel": "Select here to submit your answer."
+      },
+      "_reset": {
+        "buttonText": "Reset",
+        "ariaLabel": ""
+      },
+      "_showCorrectAnswer": {
+        "buttonText": "Correct Answer",
+        "ariaLabel": ""
+      },
+      "_hideCorrectAnswer": {
+        "buttonText": "My Answer",
+        "ariaLabel": ""
+      },
+      "_showFeedback": {
+        "buttonText": "Show feedback",
+        "ariaLabel": ""
+      },
+      "remainingAttemptsText": "attempts remaining",
+      "remainingAttemptText": "final attempt",
+      "disabledAriaLabel": "This button is disabled at the moment"
     },
     "_feedback": {
         "correct": "This feedback will appear if you answered the question correctly.",
