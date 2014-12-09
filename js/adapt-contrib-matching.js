@@ -158,6 +158,8 @@ define(function(require) {
         // be a full reset
         resetQuestion: function() {
             this.$('.matching-select option').prop('selected', false);
+            this.$(".matching-item").removeClass("correct").removeClass("incorrect");
+            this.model.set('_isAtLeastOneCorrectSelection', false);
             _.each(this.$('.matching-select'), function(item) {
                 this.selectOption($(item), 0);
             }, this);
