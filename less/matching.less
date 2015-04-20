@@ -1,8 +1,6 @@
 .matching-component {
 
   .matching-item {
-    border-bottom: 1px solid @foreground-color;
-    margin-bottom: @item-padding-bottom;
     padding-bottom: @item-padding-bottom;
   }
 
@@ -12,7 +10,6 @@
 
   .matching-select-container {
     position: relative;
-    width: 300px;
     overflow: hidden;
     background-color: @item-color;
 
@@ -40,10 +37,14 @@
     position: relative;
     width: 320px;
     border: none;
+    -webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
     background: transparent;
-    padding: @item-padding-top 0px @item-padding-bottom @item-padding-left;
+    padding: 15px 35px 15px 20px;
     cursor: pointer;
     color: @item-text-color;
+    width: 100%;
 
     @media all and (max-width:760px) and (min-width:520px) {
         width:105%;
@@ -57,6 +58,10 @@
       background-color: @item-selected-color;
     }
   }
+
+ 	.matching-select:disabled {
+		color: @item-text-disabled-color;
+	}
 
   .matching-select-state {
     background: none;
@@ -141,4 +146,30 @@
   select[disabled]::-ms-value{
       color: @item-text-color;
   }
+}*/
+
+// REMOVE/FIX BROWSER DEFAULT STYLING
+
+// Chrome, Safari
+select {
+    -webkit-appearance: none;
+
+}
+
+// IE10+
+select::-ms-expand {
+    display: none;
+} 
+
+// FIREFOX/IE8+9 SELECT OVERRIDE FIX
+
+.Firefox,
+.ie9,
+.Internet.Explorer {
+	select {
+		width: 115%!important;
+	}
+	.matching-component .matching-select {
+		width: 115%!important;
+	}
 }
