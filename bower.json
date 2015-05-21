@@ -1,6 +1,7 @@
 {
   "name": "adapt-contrib-matching",
-  "version": "0.0.3",
+  "version": "2.0.0",
+  "framework": "^2.0.0",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-matching",
   "authors": [
     "Kevin Corry <kevinc@learningpool.com>",
