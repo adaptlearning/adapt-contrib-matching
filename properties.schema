@@ -74,7 +74,7 @@
           "_options": {
             "type":"array",
             "required":true,
-            "title": "Mathing Options",
+            "title": "Matching Options",
             "items": {
               "type":"object",
               "required":true,
