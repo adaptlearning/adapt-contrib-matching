@@ -16,7 +16,7 @@
             {{../placeholder}}
           </option>
           {{#each _options}}
-          <option>
+          <option {{#if _isSelected}}selected{{/if}}>
             {{text}}
           </option>
           {{/each}}
