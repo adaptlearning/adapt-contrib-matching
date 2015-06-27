@@ -178,7 +178,7 @@ define(function(require) {
             _.each(this.model.get('_items'), function(item, i) {
 
                 var $item = this.$('.matching-item').eq(i);
-                $item.addClass(item._isCorrect ? 'correct' : 'incorrect');
+                $item.removeClass('correct incorrect').addClass(item._isCorrect ? 'correct' : 'incorrect');
 
             }, this);
 
