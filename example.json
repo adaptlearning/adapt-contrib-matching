@@ -6,6 +6,7 @@
     "_type": "component",
     "_component": "matching",
     "_attempts": 2,
+    "_shouldDisplayAttempts": false,
     "_isRandom":true,
     "_questionWeight":10,
     "title": "Matching",
