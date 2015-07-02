@@ -4,34 +4,70 @@
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
   "properties": {
+    "_supportedLayout": {
+      "type": "string",
+      "required": true,
+      "enum": ["full-width", "half-width", "both"],
+      "default": "half-width",
+      "editorOnly": true
+    },
+    "instruction": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the instruction text"
+    },
     "_attempts": {
       "type":"number",
       "required":true,
       "default":1,
-      "minimum": 1,
-      "title": "Number of attempts"
+      "title": "Attempts",
+      "inputType":"Number",
+      "validators": ["required", "number"],
+      "help": "How many attempts the learner is allowed"
+    },
+    "_shouldDisplayAttempts": {
+      "type":"boolean",
+      "required":false,
+      "default": false,
+      "title": "Display Attempts",
+      "inputType": {"type": "Boolean", "options": [true, false]},
+      "validators": [],
+      "help": "Select 'true' to display the numbers of attempts left"
     },
     "_isRandom": {
       "type":"boolean",
       "required":true,
-      "default":false,
-      "title": "Random order"
+      "default": true,
+      "title": "Randomised Items",
+      "inputType": {"type": "Boolean", "options": [true, false]},
+      "validators": [],
+      "help": "If set to 'true', all items will be randomised"
     },
     "_questionWeight": {
       "type":"number",
-      "title": "Question weight"
+      "required":false,
+      "default": 1,
+      "title": "Question Weight",
+      "inputType": "Number",
+      "validators": ["number"],
+      "help": "How much this question is worth"
     },
     "placeholder": {
       "type":"string",
       "required":true,
-      "minLength": 1,
-      "title": "Selection placeholder text"
+      "default":"Please enter your answer",
+      "title": "",
+      "inputType": "Text",
+      "validators": ["required"],
+      "help": "Enter answer here"
     },
     "_items": {
       "type":"array",
       "required":true,
-      "minItems": 1,
-      "title": "Matching questions",
+      "title": "Matching Items",
       "items": {
         "type":"object",
         "required":true,
@@ -39,31 +75,103 @@
           "text": {
             "type":"string",
             "required":true,
-            "minLength": 1,
-            "title": "Question text"
+            "default": "",
+            "inputType": "Text",
+            "validators": ["required"],
+            "help": "Title text displayed above the matching option"
           },
           "_options": {
             "type":"array",
             "required":true,
-            "minItems": 1,
-            "title": "Matching answers",
+            "title": "Matching Options",
             "items": {
               "type":"object",
               "required":true,
               "properties":{
+                "text": {
+                  "type":"string",
+                  "required":true,
+                  "default":"",
+                  "title": "Option Text",
+                  "inputType": "Text",
+                  "validators": ["required"],
+                  "help": "Option text"
+                },
                 "_isCorrect": {
                   "type":"boolean",
                   "required":true,
                   "default":false,
-                  "title": "Correct answer"
-                },
-                "text": {
-                  "type":"string",
-                  "required":true,
-                  "minLength": 1,
-                  "title": "Matching answer text"
+                  "title": "Is correct option",
+                  "inputType": {"type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Set this option to 'true' if this is one of the correct answers"
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    "_feedback": {
+      "type":"object",
+      "required":true,
+      "title": "Feedback",
+      "properties":{
+        "correct": {
+          "type":"string",
+          "required":true,
+          "default": "",
+          "title": "Correct",
+          "inputType": "TextArea",
+          "validators": ["required"],
+          "help": "Correct feedback for this question"
+        },
+        "_incorrect": {
+          "type":"object",
+          "required":true,
+          "title": "Incorrect Feedback",
+          "properties":{
+            "final": {
+              "type":"string",
+              "required": true,
+              "default": "",
+              "title": "Incorrect Final",
+              "inputType": "TextArea",
+              "validators": ["required"],
+              "help": "Incorrect feedback for the final attempt"
+            },
+            "notFinal": {
+              "type":"string",
+              "required": true,
+              "default": "",
+              "title": "Incorrect Not Final",
+              "inputType": "TextArea",
+              "validators": ["required"],
+              "help": "Incorrect feedback for any attempt apart from the last attempt"
+            }
+          }
+        },
+        "_partlyCorrect": {
+          "type":"object",
+          "required":true,
+          "properties":{
+            "final": {
+              "type":"string",
+              "required": true,
+              "default": "",
+              "title": "Partly Correct Final",
+              "inputType": "TextArea",
+              "validators": ["required"],
+              "help": "Partly correct feedback for the final attempt"
+            },
+            "notFinal": {
+              "type":"string",
+              "required": true,
+              "default": "",
+              "title": "Partly Correct Not Final",
+              "inputType": "TextArea",
+              "validators": ["required"],
+              "help": "Partly correct feedback for any attempt apart from the last attempt"
             }
           }
         }
@@ -72,67 +180,145 @@
     "_buttons": {
       "type":"object",
       "title": "Buttons",
-      "properties": {
-        "hideCorrectAnswer": {
-          "type":"string",
-          "title": "Hide correct answer button label"
-        },
-        "reset": {
-          "type":"string",
-          "title": "Reset button label"
-        },
-        "showCorrectAnswer": {
-          "type":"string",
-          "title": "Show correct answer button label"
-        },
-        "submit": {
-          "type":"string",
-          "title": "Submit button label"
-        }
-      }
-    },
-    "_feedback": {
-      "type":"object",
-      "required":true,
-      "title": "Feedback text",
-      "properties": {
-        "_incorrect": {
+      "required": false,
+      "properties":{
+        "_submit": {
           "type":"object",
-          "required":true,
-          "title": "Feedback for incorrect answers",
+          "title": "Submit",
           "properties":{
-            "final": {
+            "buttonText": {
               "type":"string",
-              "title": "Incorrect final answer"
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text for the submit button"
             },
-            "notFinal": {
+            "ariaLabel": {
               "type":"string",
-              "title": "Incorrect non final answer"
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the submit button"
             }
           }
         },
-        "_partlyCorrect": {
+        "_reset": {
           "type":"object",
-          "required":true,
-          "title": "Feedback when answer is partly correct",
-          "properties": {
-            "final": {
+          "title": "Reset",
+          "properties":{
+            "buttonText": {
               "type":"string",
-              "required":true,
-              "minLength": 1,
-              "title": "Partially correct final answer"
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text for the reset button"
             },
-            "notFinal": {
+            "ariaLabel": {
               "type":"string",
-              "title": "Partially correct non final answer"
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the reset button"
             }
           }
         },
-        "correct": {
+        "_showCorrectAnswer": {
+          "type":"object",
+          "title": "Show Correct Answer",
+          "properties":{
+            "buttonText": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text to show the model answer"
+            },
+            "ariaLabel": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the show model answer button"
+            }
+          }
+        },
+        "_hideCorrectAnswer": {
+          "type":"object",
+          "title": "Hide Correct Answer",
+          "properties":{
+            "buttonText": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text to hide the model answer"
+            },
+            "ariaLabel": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the hide model answer button"
+            }
+          }
+        },
+        "_showFeedback": {
+          "type":"object",
+          "title": "Show Feedback",
+          "properties":{
+            "buttonText": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "QuestionButton",
+              "validators": [],
+              "help": "Button label text to show feedback"
+            },
+            "ariaLabel": {
+              "type":"string",
+              "required": false,
+              "default": "",
+              "title": "",
+              "inputType": "Text",
+              "validators": [],
+              "help": "Aria label for the show feedback button"
+            }
+          }
+        },
+        "remainingAttemptsText": {
           "type":"string",
-          "required":true,
-          "minLength": 1,
-          "title": "Feedback for correct answer"
+          "required": false,
+          "default": "",
+          "title": "Attempts Remaining Text",
+          "inputType": "Text",
+          "validators": [],
+          "help": "Shown when there are multiple attempts left"
+        },
+        "remainingAttemptText": {
+          "type":"string",
+          "required": false,
+          "default": "",
+          "title": "Final Attempt Text",
+          "inputType": "Text",
+          "validators": [],
+          "help": "Shown when there is one attempt left"
         }
       }
     }
