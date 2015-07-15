@@ -26,9 +26,50 @@ define(function(require) {
         },
 
         setupQuestion: function() {
+            this.setupItemIndexes();
+            this.restoreUserAnswers();
+
             if (this.model.get('_isRandom') && this.model.get('_isEnabled')) {
                 this.randomiseOptions();
             }
+        },
+
+        setupItemIndexes: function() {
+
+            _.each(this.model.get("_items"), function(item, index) {
+                if (item._index == undefined) {
+                    item._index = index;
+                    item._selected = false;
+                }
+                _.each(item._options, function(option, index) {
+                    if (option._index == undefined) {
+                        option._index = index;
+                        option._isSelected = false;
+                    }
+                });
+            });
+
+        },
+
+        restoreUserAnswers: function() {
+            if (!this.model.get("_isSubmitted")) return;
+
+            var userAnswer = this.model.get("_userAnswer");
+
+            _.each(this.model.get("_items"), function(item, index) {
+                _.each(item._options, function(option, index) {
+                    if (option._index == userAnswer[item._index]) {
+                        option._isSelected = true;
+                        item._selected = option;
+                    }
+                });
+            });
+
+            this.setQuestionAsSubmitted();
+            this.markQuestion();
+            this.setScore();
+            this.showMarking();
+            this.setupFeedback();
         },
 
         randomiseOptions: function() {
@@ -71,11 +112,14 @@ define(function(require) {
         // This should preserve the state of the users answers
         storeUserAnswer: function() {
 
-            var userAnswer = [];
+            var userAnswer = new Array(this.model.get('_items').length);
 
             _.each(this.model.get('_items'), function(item, index) {
                 var $selectedOption = this.$('.matching-select option:selected').eq(index);
-                userAnswer.push($selectedOption.index());
+                var optionIndex = $selectedOption.index()-1;
+                item._options[optionIndex]._isSelected = true;
+                item._selected = item._options[optionIndex];
+                userAnswer[item._index] = item._options[optionIndex]._index
             }, this);
             
             this.model.set('_userAnswer', userAnswer);
@@ -89,9 +133,7 @@ define(function(require) {
 
             _.each(this.model.get('_items'), function(item, index) {
 
-                var $selectedOption = this.$('.matching-select option:selected').eq(index);
-                var correctSelection = item._options[$selectedOption.index()-1]._isCorrect;
-                if (correctSelection) {
+                if (item._selected && item._selected._isCorrect) {
                     numberOfCorrectAnswers ++;
                     item._isCorrect = true;
                     this.model.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
@@ -136,7 +178,7 @@ define(function(require) {
             _.each(this.model.get('_items'), function(item, i) {
 
                 var $item = this.$('.matching-item').eq(i);
-                $item.addClass(item._isCorrect ? 'correct' : 'incorrect');
+                $item.removeClass('correct incorrect').addClass(item._isCorrect ? 'correct' : 'incorrect');
 
             }, this);
 
@@ -164,6 +206,11 @@ define(function(require) {
             _.each(this.$('.matching-select'), function(item) {
                 this.selectOption($(item), 0);
             }, this);
+            _.each(this.model.get("_items"), function(item, index) {
+                _.each(item._options, function(option, index) {
+                    option._isSelected = false;
+                });
+            });
         },
 
         // Used by the question to display the correct answer to the user
@@ -193,8 +240,9 @@ define(function(require) {
         hideCorrectAnswer: function() {
             for(var i = 0, count = this.model.get('_items').length; i < count; i++) {
                 var $parent = this.$('.matching-select').eq(i);
-                $('option', $parent).eq(this.model.get('_userAnswer')[i]).prop('selected', true);
-                this.selectOption($parent, this.model.get('_userAnswer')[i]);
+                var index = this.model.get('_userAnswer')[i]+1;
+                $('option', $parent).eq(index).prop('selected', true);
+                this.selectOption($parent, index);
             }
         },
 
