@@ -25,10 +25,9 @@ If one or more answers are incorrect, the user may reset their submission, and t
 
 ##Settings overview
 
+For example JSON format, see [example.json](https://github.com/adaptlearning/adapt-contrib-textInput/blob/master/example.json). A description of the core settings can be found at: [Core model attributes](https://github.com/adaptlearning/adapt_framework/wiki/Core-model-attributes)
 
 Matching components are comprised of question ``text`` and one or more answer ``items``. Each answer item contains multiple ``options``, consisting of ``text`` and ``correct`` attributes.
-
-For example JSON format, see [example.json](https://github.com/adaptlearning/adapt-contrib-matching/blob/master/example.json)
 
 
 ####_classes
