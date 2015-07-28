@@ -152,26 +152,16 @@
 
 // REMOVE/FIX BROWSER DEFAULT STYLING
 
-// Chrome, Safari
-select {
-    -webkit-appearance: none;
-
-}
-
-// IE10+
-select::-ms-expand {
+.matching-select {
+  -webkit-appearance: none;
+  &::-ms-expand {
     display: none;
-} 
-
-// FIREFOX/IE8+9 SELECT OVERRIDE FIX
-
-.Firefox,
-.ie9,
-.Internet.Explorer {
-	select {
-		width: 115%!important;
-	}
-	.matching-component .matching-select {
-		width: 115%!important;
-	}
+  }
+  .Firefox & {
+    width: 105%;
+  }
+  .ie8 &,
+  .ie9 & {
+    width: 110%;
+  }
 }
