@@ -1,8 +1,3 @@
-/*
-* adapt-contrib-matching
-* License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Kevin Corry <kevinc@learningpool.com>, Daryl Hedley <darylhedley@gmail.com>, Himanshu Rajotia <himanshu.rajotia@credipoint.com>
-*/
 define(function(require) {
 
     var QuestionView = require('coreViews/questionView');
