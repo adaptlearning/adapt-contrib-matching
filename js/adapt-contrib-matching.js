@@ -21,12 +21,12 @@ define(function(require) {
         },
 
         setupQuestion: function() {
-            this.setupItemIndexes();
-            this.restoreUserAnswers();
-
             if (this.model.get('_isRandom') && this.model.get('_isEnabled')) {
                 this.randomiseOptions();
             }
+
+            this.setupItemIndexes();
+            this.restoreUserAnswers();
         },
 
         setupItemIndexes: function() {
