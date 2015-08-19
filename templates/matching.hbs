@@ -11,7 +11,7 @@
           <div class="matching-select-icon component-text-color matching-correct-icon icon icon-tick"></div>
           <div class="matching-select-icon component-text-color matching-incorrect-icon icon icon-cross"></div>
         </div>
-        <select class="matching-select component-text-color"{{#unless ../_isEnabled}} disabled{{/unless}}>
+        <select class="matching-select component-text-color"{{#unless ../_isEnabled}} disabled{{/unless}} data-itemindex="{{@index}}">
           <option>
             {{../placeholder}}
           </option>

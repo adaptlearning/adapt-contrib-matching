@@ -5,6 +5,10 @@ define(function(require) {
     
     var Matching = QuestionView.extend({
 
+        events: {
+            'change .matching-select': 'onChangeAnswer'
+        },
+
         // Used by question to disable the question during submit and complete stages
         disableQuestion: function() {
             this.$('.matching-select').prop('disabled', true);
@@ -21,12 +25,12 @@ define(function(require) {
         },
 
         setupQuestion: function() {
+            this.setupItemIndexes();
+            this.restoreUserAnswers();
+
             if (this.model.get('_isRandom') && this.model.get('_isEnabled')) {
                 this.randomiseOptions();
             }
-
-            this.setupItemIndexes();
-            this.restoreUserAnswers();
         },
 
         setupItemIndexes: function() {
@@ -78,6 +82,25 @@ define(function(require) {
             this.setReadyStatus();
         },
 
+        onChangeAnswer: function( e ) {
+            var jqoSelect = $( e.currentTarget ),
+                intItem = jqoSelect.attr( 'data-itemindex' ),
+                intOption = jqoSelect.children( ':selected' ).index()-1;
+
+            _.each(this.model.get("_items"), function(item, index) {
+                if( index == intItem ) {
+                    _.each(item._options, function(option, index) {
+                        if( index == intOption ) {
+                            option._isSelected = true;
+                            item._selected = option;
+                        } else {
+                            option._isSelected = false;
+                        }
+                    });
+                }
+            });
+        },
+
         // Use to check if the user is allowed to submit the question
         // Maybe the user has to select an item?
         // Should return a boolean
@@ -112,9 +135,7 @@ define(function(require) {
             _.each(this.model.get('_items'), function(item, index) {
                 var $selectedOption = this.$('.matching-select option:selected').eq(index);
                 var optionIndex = $selectedOption.index()-1;
-                item._options[optionIndex]._isSelected = true;
-                item._selected = item._options[optionIndex];
-                userAnswer[item._index] = item._options[optionIndex]._index
+                userAnswer[item._index] = optionIndex;
             }, this);
             
             this.model.set('_userAnswer', userAnswer);
@@ -131,7 +152,6 @@ define(function(require) {
                 if (item._selected && item._selected._isCorrect) {
                     numberOfCorrectAnswers ++;
                     item._isCorrect = true;
-                    this.model.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
                     this.model.set('_isAtLeastOneCorrectSelection', true);
                 } else {
                     item._isCorrect = false;
@@ -141,11 +161,7 @@ define(function(require) {
 
             this.model.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
 
-            if (numberOfCorrectAnswers === this.model.get('_items').length) {
-                return true;
-            } else {
-                return false;
-            }
+            return ( numberOfCorrectAnswers === this.model.get('_items').length );
 
         },
 
