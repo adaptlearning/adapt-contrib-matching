@@ -114,7 +114,7 @@ define(function(require) {
                 var optionIndex = $selectedOption.index()-1;
                 item._options[optionIndex]._isSelected = true;
                 item._selected = item._options[optionIndex];
-                userAnswer[item._index] = item._options[optionIndex]._index
+                userAnswer[item._index] = optionIndex;
             }, this);
             
             this.model.set('_userAnswer', userAnswer);
