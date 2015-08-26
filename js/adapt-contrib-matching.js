@@ -53,7 +53,7 @@ define(function(require) {
 
             _.each(this.model.get("_items"), function(item, index) {
                 _.each(item._options, function(option, index) {
-                    if (option._index == userAnswer[item._index]) {
+                    if (option._index == userAnswer[item.index]) {
                         option._isSelected = true;
                         item._selected = option;
                     }
