@@ -245,8 +245,6 @@ define(function(require) {
                 this.selectOption($parent, index);
             }
 
-           console.log("temp" +  this.model.get('_tempUserAnswer') );
-        console.log("User answer" +  this.model.get('_userAnswer') );
         },
 
         selectOption: function($parent, optionIndex) {
