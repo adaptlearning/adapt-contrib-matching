@@ -244,7 +244,6 @@ define(function(require) {
                 $('option', $parent).eq(index).prop('selected', true);
                 this.selectOption($parent, index);
             }
-
         },
 
         selectOption: function($parent, optionIndex) {
