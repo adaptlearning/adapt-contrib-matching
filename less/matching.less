@@ -13,7 +13,7 @@
 		overflow: hidden;
 		background-color: @item-color;
 
-		@media all and (max-width:760px) {
+		@media all and (max-width:@device-width-medium) {
 			width:100%;
 		}
 	}
@@ -52,11 +52,11 @@
 			padding: 15px 20px 15px 35px;
 		}
 
-		@media all and (max-width:760px) and (min-width:520px) {
+		@media all and (max-width:@device-width-medium) and (min-width:@device-width-small) {
 				width:105%;
 		}
 			
-		@media all and (max-width:519px) {
+		@media all and (max-width:@device-width-small) {
 			 width:110%;
 		}
 	}
