@@ -239,8 +239,9 @@ define(function(require) {
         hideCorrectAnswer: function() {
             for(var i = 0, count = this.model.get('_items').length; i < count; i++) {
                 var $parent = this.$('.matching-select').eq(i);
-                var index;
-                this.model.get('_tempUserAnswer') ? index = this.model.get('_tempUserAnswer')[i]+1 :  index = this.model.get('_userAnswer')[i]+1;
+                var index = this.model.has('_tempUserAnswer')
+                  ? this.model.get('_tempUserAnswer')[i] + 1
+                  : this.model.get('_userAnswer')[i] + 1;
                 $('option', $parent).eq(index).prop('selected', true);
                 this.selectOption($parent, index);
             }
