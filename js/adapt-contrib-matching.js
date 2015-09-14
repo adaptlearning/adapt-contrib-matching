@@ -108,16 +108,20 @@ define(function(require) {
         storeUserAnswer: function() {
 
             var userAnswer = new Array(this.model.get('_items').length);
+            var tempUserAnswer = new Array(this.model.get('_items').length);
 
             _.each(this.model.get('_items'), function(item, index) {
                 var $selectedOption = this.$('.matching-select option:selected').eq(index);
                 var optionIndex = $selectedOption.index()-1;
                 item._options[optionIndex]._isSelected = true;
                 item._selected = item._options[optionIndex];
-                userAnswer[item._index] = optionIndex;
+                tempUserAnswer[item._index] = optionIndex;
+                userAnswer[item._index] = item._options[optionIndex]._index;
             }, this);
             
             this.model.set('_userAnswer', userAnswer);
+            this.model.set('_tempUserAnswer', tempUserAnswer);
+
 
         },
 
@@ -235,7 +239,9 @@ define(function(require) {
         hideCorrectAnswer: function() {
             for(var i = 0, count = this.model.get('_items').length; i < count; i++) {
                 var $parent = this.$('.matching-select').eq(i);
-                var index = this.model.get('_userAnswer')[i]+1;
+                var index = this.model.has('_tempUserAnswer')
+                  ? this.model.get('_tempUserAnswer')[i] + 1
+                  : this.model.get('_userAnswer')[i] + 1;
                 $('option', $parent).eq(index).prop('selected', true);
                 this.selectOption($parent, index);
             }
