@@ -2,7 +2,7 @@ define(function(require) {
 
     var QuestionView = require('coreViews/questionView');
     var Adapt = require('coreJS/adapt');
-    
+
     var Matching = QuestionView.extend({
 
         // Used by question to disable the question during submit and complete stages
@@ -69,7 +69,7 @@ define(function(require) {
 
         randomiseOptions: function() {
             _.each(this.model.get('_items'), function(item) {
-                item._options =  _.shuffle(item._options);
+                item._options = _.shuffle(item._options);
             });
         },
 
@@ -85,11 +85,11 @@ define(function(require) {
 
             var canSubmit = true;
 
-            $('.matching-select option:selected',this.el).each(_.bind(function(index, element) {
+            $('.matching-select option:selected', this.el).each(_.bind(function(index, element) {
 
                 var $element = $(element);
 
-                if ($element.index()==0) {
+                if ($element.index() == 0) {
                     canSubmit = false;
                     $element.parent('.matching-select').addClass('error');
                 }
@@ -108,20 +108,19 @@ define(function(require) {
         storeUserAnswer: function() {
 
             var userAnswer = new Array(this.model.get('_items').length);
-+           var tempUserAnswer = new Array(this.model.get('_items').length);
+            var tempUserAnswer = new Array(this.model.get('_items').length);
 
             _.each(this.model.get('_items'), function(item, index) {
                 var $selectedOption = this.$('.matching-select option:selected').eq(index);
-                var optionIndex = $selectedOption.index()-1;
+                var optionIndex = $selectedOption.index() - 1;
                 item._options[optionIndex]._isSelected = true;
                 item._selected = item._options[optionIndex];
-+               tempUserAnswer[item._index] = optionIndex;
-+               userAnswer[item._index] = item._options[optionIndex]._index;
+                tempUserAnswer[item._index] = optionIndex;
+                userAnswer[item._index] = item._options[optionIndex]._index;
             }, this);
-            
-            this.model.set('_userAnswer', userAnswer);
-+           this.model.set('_tempUserAnswer', tempUserAnswer);
 
+            this.model.set('_userAnswer', userAnswer);
+            this.model.set('_tempUserAnswer', tempUserAnswer);
 
         },
 
@@ -133,7 +132,7 @@ define(function(require) {
             _.each(this.model.get('_items'), function(item, index) {
 
                 if (item._selected && item._selected._isCorrect) {
-                    numberOfCorrectAnswers ++;
+                    numberOfCorrectAnswers++;
                     item._isCorrect = true;
                     this.model.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
                     this.model.set('_isAtLeastOneCorrectSelection', true);
@@ -161,7 +160,7 @@ define(function(require) {
                 this.model.set('_score', questionWeight);
                 return;
             }
-            
+
             var numberOfCorrectAnswers = this.model.get('_numberOfCorrectAnswers');
             var itemLength = this.model.get('_items').length;
 
@@ -226,7 +225,7 @@ define(function(require) {
                 }, this);
 
                 var $parent = this.$('.matching-select').eq(index);
-                
+
                 this.selectOption($parent, correctOptionIndex);
 
             }, this);
@@ -237,7 +236,7 @@ define(function(require) {
         // hide the correct answer
         // Should use the values stored in storeUserAnswer
         hideCorrectAnswer: function() {
-            for(var i = 0, count = this.model.get('_items').length; i < count; i++) {
+            for (var i = 0, count = this.model.get('_items').length; i < count; i++) {
                 var $parent = this.$('.matching-select').eq(i);
                 var index = this.model.has('_tempUserAnswer')
                   ? this.model.get('_tempUserAnswer')[i] + 1
@@ -252,9 +251,9 @@ define(function(require) {
         }
 
     });
-    
+
     Adapt.register("matching", Matching);
 
     return Matching;
-    
+
 });
