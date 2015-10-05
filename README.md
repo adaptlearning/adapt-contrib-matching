@@ -53,6 +53,8 @@ guide the learner’s interaction with the component.
 
 **_questionWeight** (number): A number which reflects the significance of the question in relation to the other questions in the course. This number is used in calculations of the final score reported to the LMS.
 
+**_recordInteraction** (boolean) Determines whether or not the user's answers will be recorded to the LMS via cmi.interactions. Default is `true`. For further information, see the entry for `_shouldRecordInteractions` in the README for [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor).
+
 **placeholder** (string): This text is displayed as input before a learner interacts with the element.  
 
 **_items** (array): Multiple items may be created. Each *item* represents one question and its possible answers. It contains values for **text** and multiple **_options**.  

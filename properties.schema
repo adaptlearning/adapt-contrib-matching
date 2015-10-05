@@ -64,14 +64,23 @@
       "validators": ["number"],
       "help": "How much this question is worth"
     },
+    "_recordInteraction": {
+      "type":"boolean",
+      "required":false,
+      "default": true,
+      "title": "Record interaction",
+      "inputType": {"type": "Boolean", "options": [true, false]},
+      "validators": [],
+      "help": "If set to 'true', the user's answer(s) will be recorded to cmi.interactions on the LMS (where supported)."
+    },
     "placeholder": {
       "type":"string",
       "required":true,
-      "default":"Please enter your answer",
+      "default":"Please select an option",
       "title": "",
       "inputType": "Text",
       "validators": ["required"],
-      "help": "Enter answer here"
+      "help": "Text that will be displayed at the top of each list of options."
     },
     "_items": {
       "type":"array",
