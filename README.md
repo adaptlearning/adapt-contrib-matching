@@ -49,11 +49,13 @@ guide the learner’s interaction with the component.
 
 **_shouldDisplayAttempts** (boolean): Determines whether or not the text set in **remainingAttemptText** and **remainingAttemptsText** will be displayed. These two attributes are part of the [core buttons](https://github.com/adaptlearning/adapt_framework/wiki/Core-Buttons) attribute group. The default is `false`.  
 
-**_isRandom** (boolean): Setting this value to `true` will cause the `_items` to appear in a random order each time the component is loaded. The default is `true`.  
+**_isRandom** (boolean): Setting this value to `true` will cause the possible answers associated with each *item* to appear in a random order each time the component is loaded. The default is `true`.  
 
 **_questionWeight** (number): A number which reflects the significance of the question in relation to the other questions in the course. This number is used in calculations of the final score reported to the LMS.
 
-**placeholder** (string): This text is displayed as input before a learner interacts with the element.  
+**_recordInteraction** (boolean) Determines whether or not the user's answers will be recorded to the LMS via cmi.interactions. Default is `true`. For further information, see the entry for `_shouldRecordInteractions` in the README for [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor).
+
+**placeholder** (string): This is the text that is initially displayed on each drop-down. It is usually set to something like 'Please select an option'.  
 
 **_items** (array): Multiple items may be created. Each *item* represents one question and its possible answers. It contains values for **text** and multiple **_options**.  
 
@@ -70,7 +72,7 @@ contains values for three types of answers: **correct**, **_incorrect**, and **_
 
 >**correct** (string): Text that will be displayed when the submitted answer is correct.  
 
->**_incorrect** (object): Texts that will be displayed when the submitted answer is incorrect. It contains values that are displayed under differing conditions: **final** and **notFinal**. 
+>**_incorrect** (object): Texts that will be displayed when the submitted answer is incorrect. It contains values that are displayed under differing conditions: **final** and **notFinal**. Note that **notFinal** feedback is optional, if you do not supply it, the **final** feedback will be shown instead.
 
 >>**final** (string): Text that will be displayed when the submitted answer is incorrect and no more attempts are permitted. 
 
