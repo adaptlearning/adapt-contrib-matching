@@ -72,17 +72,17 @@ contains values for three types of answers: **correct**, **_incorrect**, and **_
 
 >**correct** (string): Text that will be displayed when the submitted answer is correct.  
 
->**_incorrect** (object): Texts that will be displayed when the submitted answer is incorrect. It contains values that are displayed under differing conditions: **final** and **notFinal**. Note that **notFinal** feedback is optional, if you do not supply it, the **final** feedback will be shown instead.
+>**_incorrect** (object): Texts that will be displayed when the submitted answer is incorrect. It contains values that are displayed under differing conditions: **final** and **notFinal**. 
 
 >>**final** (string): Text that will be displayed when the submitted answer is incorrect and no more attempts are permitted. 
 
->>**notFinal** (string): Text that will be displayed when the submitted answer is incorrect while more attempts are permitted.  
+>>**notFinal** (string): Text that will be displayed when the submitted answer is incorrect while more attempts are permitted. This is optional - if you do not supply it, the **final** feedback will be shown instead.
 
->**_partlyCorrect** (object): Texts that will be displayed when the submitted answer is partially correct. It contains values that are displayed under differing conditions: **final** and **notFinal**.  
+>**_partlyCorrect** (object): Texts that will be displayed when the submitted answer is partially correct. It contains values that are displayed under differing conditions: **final** and **notFinal**.
 
->>**final** (string): Text that will be displayed when the submitted answer is partly correct and no more attempts are permitted. 
+>>**final** (string): Text that will be displayed when the submitted answer is partly correct and no more attempts are permitted. This is optional - if you do not supply it, the **_incorrect.final** feedback will be shown instead.
 
->>**notFinal** (string): Text that will be displayed when the submitted answer is partly correct while more attempts are permitted.   
+>>**notFinal** (string): Text that will be displayed when the submitted answer is partly correct while more attempts are permitted. This is optional - if you do not supply it, the **_incorrect.notFinal** feedback will be shown instead.
 
 ### Accessibility
 **Matching** has been assigned a label using the [aria-label](https://github.com/adaptlearning/adapt_framework/wiki/Aria-Labels) attribute: **ariaRegion**. This label is not a visible element. It is utilized by assistive technology such as screen readers. Should the region's text need to be customised, it can be found within the **globals** object in [*properties.schema*](https://github.com/adaptlearning/adapt-contrib-matching/blob/master/properties.schema).   
