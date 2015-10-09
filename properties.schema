@@ -48,7 +48,7 @@
     },
     "_isRandom": {
       "type":"boolean",
-      "required":true,
+      "required":false,
       "default": true,
       "title": "Randomised Items",
       "inputType": {"type": "Boolean", "options": [true, false]},
@@ -119,10 +119,10 @@
                   "type":"boolean",
                   "required":true,
                   "default":false,
-                  "title": "Is correct option",
+                  "title": "Is correct option?",
                   "inputType": {"type": "Boolean", "options": [false, true]},
                   "validators": [],
-                  "help": "Set this option to 'true' if this is one of the correct answers"
+                  "help": "Set this to 'true' if this is one of the correct answers."
                 }
               }
             }
@@ -160,35 +160,35 @@
             },
             "notFinal": {
               "type":"string",
-              "required": true,
+              "required": false,
               "default": "",
               "title": "Incorrect Not Final",
               "inputType": "TextArea",
-              "validators": ["required"],
+              "validators": [],
               "help": "Incorrect feedback for any attempt apart from the last attempt"
             }
           }
         },
         "_partlyCorrect": {
           "type":"object",
-          "required":true,
+          "required":false,
           "properties":{
             "final": {
               "type":"string",
-              "required": true,
+              "required": false,
               "default": "",
               "title": "Partly Correct Final",
               "inputType": "TextArea",
-              "validators": ["required"],
+              "validators": [],
               "help": "Partly correct feedback for the final attempt"
             },
             "notFinal": {
               "type":"string",
-              "required": true,
+              "required": false,
               "default": "",
               "title": "Partly Correct Not Final",
               "inputType": "TextArea",
-              "validators": ["required"],
+              "validators": [],
               "help": "Partly correct feedback for any attempt apart from the last attempt"
             }
           }
