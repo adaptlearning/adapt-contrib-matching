@@ -36,18 +36,10 @@
 		.dir-rtl & {
 			padding: 15px 20px 15px 35px;
 		}
-
-		@media all and (max-width:@device-width-medium) and (min-width:@device-width-small) {
-				width:105%;
-		}
-			
-		@media all and (max-width:@device-width-small) {
-			 width:110%;
-		}
 	}
 
 	.matching-select:disabled {
-		color: @item-text-disabled-color;
+		// color: @item-text-disabled-color;
 	}
 
 	.matching-widget {
@@ -71,37 +63,37 @@
 	}
 }
 
-.ie8 {
-	.matching-select-container {
-		&.disabled {
-			background-color: @item-disabled-color;
-		}
-	}
-}
+// .ie8 {
+// 	.matching-select-container {
+// 		&.disabled {
+// 			background-color: @item-disabled-color;
+// 		}
+// 	}
+// }
 
 
 //*IE FIX FOR DISABLED ITEMS
-.matching-component {
-	select[disabled]::-ms-value{
-			color: @item-text-color;
-	}
-}
+// .matching-component {
+// 	select[disabled]::-ms-value{
+// 			color: @item-text-color;
+// 	}
+// }
 
 // REMOVE/FIX BROWSER DEFAULT STYLING
 
-.matching-select {
-	-webkit-appearance: none;
-	&::-ms-expand {
-		display: none;
-	}
-	.Firefox & {
-		width: 105%;
-	}
-	.ie8 &,
-	.ie9 & {
-		width: 110%;
-	}
-}
+// .matching-select {
+// 	-webkit-appearance: none;
+// 	&::-ms-expand {
+// 		display: none;
+// 	}
+// 	.Firefox & {
+// 		width: 105%;
+// 	}
+// 	.ie8 &,
+// 	.ie9 & {
+// 		width: 110%;
+// 	}
+// }
 
 // select2 styles
 .select2-container .select2-choice,
