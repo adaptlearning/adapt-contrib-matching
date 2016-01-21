@@ -204,8 +204,8 @@
 }
 
 .select2-drop {
-	background-color: @item-color;
-	color: @item-text-color;
+	background-color: @item-hover-color;
+	color: @item-text-hover-color;
 	border: solid 2px @item-hover-color;
 	border-top: none;
 	border-radius: 0;
@@ -221,15 +221,15 @@
 
 			&:hover {
 				.no-touch & {
-					background-color: @item-hover-color;
-					color: @item-text-hover-color;
+					background-color: @item-color;
+					color: @item-text-color;
 				}
 			}
 		}
 
 		.select2-highlighted {
-			background-color: @item-hover-color;
-			color: @item-text-hover-color;
+			background-color: @item-color;
+			color: @item-text-color;
 		}
 	}
 }
