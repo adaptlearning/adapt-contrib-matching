@@ -2,7 +2,7 @@ define(function(require) {
 
     var QuestionView = require('coreViews/questionView');
     var Adapt = require('coreJS/adapt');
-    var Select2 = require('components/adapt-contrib-matching/js/select2');
+    var Select2 = require('components/adapt-contrib-matching/js/select2.min');
 
     var Matching = QuestionView.extend({
 
@@ -29,7 +29,7 @@ define(function(require) {
 
         setupQuestion: function() {
             this.setupItemIndexes();
-            
+
             this.restoreUserAnswers();
 
             this.setupRandomisation();
@@ -189,15 +189,15 @@ define(function(require) {
         // Used by the question view to reset the look and feel of the component.
         resetQuestion: function() {
             this.$('.matching-select option').prop('selected', false);
-            
+
             this.$(".matching-item").removeClass("correct").removeClass("incorrect");
-            
+
             this.model.set('_isAtLeastOneCorrectSelection', false);
-            
+
             _.each(this.$('.matching-select'), function(item) {
                 this.selectOption($(item), 0);
             }, this);
-            
+
             _.each(this.model.get("_items"), function(item, index) {
                 _.each(item._options, function(option, index) {
                     option._isSelected = false;
@@ -253,7 +253,7 @@ define(function(require) {
             for(var i = 0, count = userAnswer.length; i < count; i++) {
                 responses.push((i + 1) + "." + (userAnswer[i] + 1));// convert from 0-based to 1-based counting
             }
-            
+
             return responses.join('#');
         },
 
