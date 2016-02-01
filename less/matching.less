@@ -10,7 +10,7 @@
 
 	.matching-select-container {
 		position: relative;
-		overflow: hidden;
+		// overflow: hidden;
 		background-color: @item-color;
 
 		@media all and (max-width:@device-width-medium) {
@@ -104,10 +104,17 @@
 .select2-dropdown-open.select2-drop-above .select2-choices,
 .select2-container-multi .select2-choices .select2-search-choice {
 	filter: none;
+	background-image: none;
 }
 
 
 .select2-container {
+	&.select2-container-active {
+		.accessibility & {
+			outline: 3px solid orange;
+		}
+	}
+
 	.select2-choice {
 		border-radius: 0;
 		border: none;
@@ -178,7 +185,7 @@
 				}
 			}
 		}
-		
+
 		.correct {
 			.select2-arrow {
 				&:before {
@@ -209,7 +216,7 @@
 	border: solid 2px @item-hover-color;
 	border-top: none;
 	border-radius: 0;
-	
+
 	.select2-results {
 		margin: 0;
 		padding: 0;
