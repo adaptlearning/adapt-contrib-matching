@@ -10,7 +10,6 @@
 
 	.matching-select-container {
 		position: relative;
-		// overflow: hidden;
 		background-color: @item-color;
 
 		@media all and (max-width:@device-width-medium) {
@@ -21,7 +20,6 @@
 	.matching-select {
 		position: relative;
 		width: 100%;
-		padding: 0!important; // overwrite theme, remove when theme updated
 		border: none;
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
@@ -32,14 +30,6 @@
 		&:focus {
 			background-color: @item-selected-color;
 		}
-
-		.dir-rtl & {
-			padding: 15px 20px 15px 35px;
-		}
-	}
-
-	.matching-select:disabled {
-		// color: @item-text-disabled-color;
 	}
 
 	.matching-widget {
@@ -63,38 +53,6 @@
 	}
 }
 
-// .ie8 {
-// 	.matching-select-container {
-// 		&.disabled {
-// 			background-color: @item-disabled-color;
-// 		}
-// 	}
-// }
-
-
-//*IE FIX FOR DISABLED ITEMS
-// .matching-component {
-// 	select[disabled]::-ms-value{
-// 			color: @item-text-color;
-// 	}
-// }
-
-// REMOVE/FIX BROWSER DEFAULT STYLING
-
-// .matching-select {
-// 	-webkit-appearance: none;
-// 	&::-ms-expand {
-// 		display: none;
-// 	}
-// 	.Firefox & {
-// 		width: 105%;
-// 	}
-// 	.ie8 &,
-// 	.ie9 & {
-// 		width: 110%;
-// 	}
-// }
-
 // select2 styles
 .select2-container .select2-choice,
 .select2-container.select2-drop-above .select2-choice,
@@ -116,6 +74,10 @@
 	}
 
 	.select2-choice {
+		&>.select2-chosen {
+			margin-left: 0;
+			margin-right: 0;
+		}
 		border-radius: 0;
 		border: none;
 		background: none;
