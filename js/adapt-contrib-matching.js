@@ -168,6 +168,7 @@ define(function(require) {
         // This is important and should give the user feedback on how they answered the question
         // Normally done through ticks and crosses by adding classes
         showMarking: function() {
+            if (!this.model.get('_canShowMarking')) return;
 
             _.each(this.model.get('_items'), function(item, i) {
 
