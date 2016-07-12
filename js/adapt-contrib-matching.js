@@ -2,17 +2,24 @@ define(function(require) {
 
     var QuestionView = require('coreViews/questionView');
     var Adapt = require('coreJS/adapt');
+    var Select2 = require('components/adapt-contrib-matching/js/select2.min');
 
     var Matching = QuestionView.extend({
 
+        setupSelect2: function() {
+            this.$('select').select2({
+                minimumResultsForSearch: -1
+            });
+        },
+
         // Used by questionView to disable the question during submit and complete stages
         disableQuestion: function() {
-            this.$('.matching-select').prop('disabled', true);
+            this.$('select.matching-select').select2("enable", false);
         },
 
         // Used by questionView to enable the question during interactions
         enableQuestion: function() {
-            this.$('.matching-select').prop('disabled', false);
+            this.$('.matching-select').select2("enable", true);
         },
 
         // Used by questionView to reset the question when revisiting the component
@@ -22,14 +29,13 @@ define(function(require) {
 
         setupQuestion: function() {
             this.setupItemIndexes();
-            
+
             this.restoreUserAnswers();
 
             this.setupRandomisation();
         },
 
         setupItemIndexes: function() {
-
             _.each(this.model.get("_items"), function(item, index) {
                 if (item._index == undefined) {
                     item._index = index;
@@ -42,7 +48,6 @@ define(function(require) {
                     }
                 });
             });
-
         },
 
         restoreUserAnswers: function() {
@@ -75,11 +80,11 @@ define(function(require) {
         },
 
         onQuestionRendered: function() {
+            this.setupSelect2();
             this.setReadyStatus();
         },
 
         canSubmit: function() {
-
             var canSubmit = true;
 
             $('.matching-select option:selected', this.el).each(_.bind(function(index, element) {
@@ -102,7 +107,6 @@ define(function(require) {
         },
 
         storeUserAnswer: function() {
-
             var userAnswer = new Array(this.model.get('_items').length);
             var tempUserAnswer = new Array(this.model.get('_items').length);
 
@@ -123,7 +127,6 @@ define(function(require) {
         },
 
         isCorrect: function() {
-
             var numberOfCorrectAnswers = 0;
 
             _.each(this.model.get('_items'), function(item, index) {
@@ -146,7 +149,6 @@ define(function(require) {
             } else {
                 return false;
             }
-
         },
 
         setScore: function() {
@@ -168,9 +170,7 @@ define(function(require) {
         // This is important and should give the user feedback on how they answered the question
         // Normally done through ticks and crosses by adding classes
         showMarking: function() {
-
             _.each(this.model.get('_items'), function(item, i) {
-
                 var $item = this.$('.matching-item').eq(i);
                 $item.removeClass('correct incorrect').addClass(item._isCorrect ? 'correct' : 'incorrect');
             }, this);
@@ -188,17 +188,16 @@ define(function(require) {
 
         // Used by the question view to reset the look and feel of the component.
         resetQuestion: function() {
-
             this.$('.matching-select option').prop('selected', false);
-            
+
             this.$(".matching-item").removeClass("correct").removeClass("incorrect");
-            
+
             this.model.set('_isAtLeastOneCorrectSelection', false);
-            
+
             _.each(this.$('.matching-select'), function(item) {
                 this.selectOption($(item), 0);
             }, this);
-            
+
             _.each(this.model.get("_items"), function(item, index) {
                 _.each(item._options, function(option, index) {
                     option._isSelected = false;
@@ -207,7 +206,6 @@ define(function(require) {
         },
 
         showCorrectAnswer: function() {
-
             _.each(this.model.get('_items'), function(item, index) {
 
                 var correctOptionIndex;
@@ -218,16 +216,15 @@ define(function(require) {
                     }
                 }, this);
 
-                var $parent = this.$('.matching-select').eq(index);
+                var $parent = this.$('select.matching-select').eq(index);
 
                 this.selectOption($parent, correctOptionIndex);
             }, this);
         },
 
         hideCorrectAnswer: function() {
-
             for (var i = 0, count = this.model.get('_items').length; i < count; i++) {
-                var $parent = this.$('.matching-select').eq(i);
+                var $parent = this.$('select.matching-select').eq(i);
 
                 var index = this.model.has('_tempUserAnswer')
                   ? this.model.get('_tempUserAnswer')[i] + 1
@@ -240,7 +237,8 @@ define(function(require) {
         },
 
         selectOption: function($parent, optionIndex) {
-            $("option", $parent).eq(optionIndex).prop('selected', true);
+            var value = $("option", $parent).eq(optionIndex).val();
+            $parent.select2('val', value);
         },
 
         /**
@@ -249,14 +247,13 @@ define(function(require) {
         * and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor, depending on which SCORM version is being used.
         */
         getResponse: function() {
-
             var userAnswer = this.model.get('_userAnswer');
             var responses = [];
 
             for(var i = 0, count = userAnswer.length; i < count; i++) {
                 responses.push((i + 1) + "." + (userAnswer[i] + 1));// convert from 0-based to 1-based counting
             }
-            
+
             return responses.join('#');
         },
 

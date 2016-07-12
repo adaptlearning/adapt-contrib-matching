@@ -6,17 +6,12 @@
     <div class="matching-item item {{#unless ../_isEnabled}} {{#if _isCorrect}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
       <div class="matching-item-title">{{{a11y_text text}}}</div>
       <div class="matching-select-container component-item-color">
-        <div class="matching-select-state">
-          <div class="matching-select-icon component-text-color matching-dropdown-icon icon icon-controls-small-down"></div>
-          <div class="matching-select-icon component-text-color matching-correct-icon icon icon-tick"></div>
-          <div class="matching-select-icon component-text-color matching-incorrect-icon icon icon-cross"></div>
-        </div>
-        <select class="matching-select component-text-color"{{#unless ../_isEnabled}} disabled{{/unless}}>
-          <option>
-            {{../placeholder}}
-          </option>
+        <select class="matching-select component-text-color"{{#unless ../_isEnabled}} disabled{{/unless}} style="width: 100%" data-placeholder="{{../placeholder}}">
+          {{!-- to use select2 data-placeholder, first option tag must be empty --}}
+          <option></option>
           {{#each _options}}
-          <option {{#if _isSelected}}selected{{/if}}>
+          {{!-- select2 needs a value attribute to set value correctly on ie9 --}}
+          <option {{#if _isSelected}}selected{{/if}} value="{{text}}">
             {{text}}
           </option>
           {{/each}}
