@@ -37,12 +37,12 @@ define([
 
         setupItemIndexes: function() {
             _.each(this.model.get("_items"), function(item, index) {
-                if (item._index == undefined) {
+                if (item._index === undefined) {
                     item._index = index;
                     item._selected = false;
                 }
                 _.each(item._options, function(option, index) {
-                    if (option._index == undefined) {
+                    if (option._index === undefined) {
                         option._index = index;
                         option._isSelected = false;
                     }
@@ -91,7 +91,7 @@ define([
 
                 var $element = $(element);
 
-                if ($element.index() == 0) {
+                if ($element.index() === 0) {
                     canSubmit = false;
                     $element.parent('.matching-select').addClass('error');
                 }
