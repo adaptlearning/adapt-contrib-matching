@@ -1,8 +1,8 @@
-define(function(require) {
-
-    var QuestionView = require('coreViews/questionView');
-    var Adapt = require('coreJS/adapt');
-    var Select2 = require('components/adapt-contrib-matching/js/select2.min');
+define([
+    'core/js/adapt',
+    'core/js/views/questionView',
+    'components/adapt-contrib-matching/js/select2.min'
+    ], function(Adapt, QuestionView, Select2) {
 
     var Matching = QuestionView.extend({
 
