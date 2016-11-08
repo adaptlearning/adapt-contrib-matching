@@ -6,12 +6,15 @@
     <div class="matching-item item {{#unless ../_isEnabled}} {{#if _isCorrect}}correct{{else}}incorrect{{/if}} {{/unless}} item-{{@index}}">
       <div class="matching-item-title">{{{a11y_text text}}}</div>
       <div class="matching-select-container component-item-color">
+        
         <div class="matching-select-state">
-          <div class="matching-select-icon component-text-color matching-dropdown-icon icon icon-controls-small-down"></div>
+          {{!-- <div class="matching-select-icon component-text-color matching-dropdown-icon icon icon-controls-small-down"></div> --}}
           <div class="matching-select-icon component-text-color matching-correct-icon icon icon-tick"></div>
           <div class="matching-select-icon component-text-color matching-incorrect-icon icon icon-cross"></div>
         </div>
-        <select class="matching-select component-text-color"{{#unless ../_isEnabled}} disabled{{/unless}}>
+
+        {{!-- setting width as inline styling is recommended by select2 --}}
+        <select class="matching-select component-text-color" style="width:100%">
           <option>
             {{../placeholder}}
           </option>
@@ -21,6 +24,7 @@
           </option>
           {{/each}}
         </select>
+
       </div>
     </div>
     {{/each}}
