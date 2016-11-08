@@ -7,7 +7,7 @@ define([
     var Matching = QuestionView.extend({
 
         setupSelect2: function() {
-            this.$('select').select2({
+            this.selectBoxes = this.$('select.matching-select').select2({
                 minimumResultsForSearch: -1
             });
         },
@@ -19,7 +19,7 @@ define([
 
         // Used by questionView to enable the question during interactions
         enableQuestion: function() {
-            this.$('.matching-select').select2("enable", true);
+            this.$('select.matching-select').select2("enable", true);
         },
 
         // Used by questionView to reset the question when revisiting the component
@@ -188,15 +188,16 @@ define([
 
         // Used by the question view to reset the look and feel of the component.
         resetQuestion: function() {
-            this.$('.matching-select option').prop('selected', false);
+            // this.$('.matching-select option').prop('selected', false);
+            this.$('select.matching-select').select2('val', '');
 
             this.$(".matching-item").removeClass("correct").removeClass("incorrect");
 
             this.model.set('_isAtLeastOneCorrectSelection', false);
 
-            _.each(this.$('.matching-select'), function(item) {
-                this.selectOption($(item), 0);
-            }, this);
+            // _.each(this.$('.matching-select'), function(item) {
+            //     this.selectOption($(item), 0);
+            // }, this);
 
             _.each(this.model.get("_items"), function(item, index) {
                 _.each(item._options, function(option, index) {
@@ -262,6 +263,12 @@ define([
         */
         getResponseType: function() {
             return "matching";
+        },
+
+        remove: function() {
+            this.selectBoxes.select2('destroy');            
+
+            QuestionView.prototype.remove.apply(this, arguments);
         }
 
     });
