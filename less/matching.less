@@ -44,9 +44,13 @@
 	}
 
 	.select2-container {
+
 		&.select2-container--focus {
-			outline: @focus-outline;
+			.accessibility.no-touch & {
+				outline: @focus-outline;
+			}
 		}
+		
 		.select2-selection--single {
 			height: auto;
 			padding: @item-padding-top 0 @item-padding-bottom 0;
