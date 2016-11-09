@@ -177,9 +177,9 @@
 	}
 }
 
-.select2-container--default {
-	ul, 
-	li {
+.select2-container--default,
+.dir-rtl .select2-container--default {
+	ul, li {
 		margin: 0;
 	}
 	
@@ -202,10 +202,12 @@
 	}
 
 	&.select2-container--disabled {
-		span.select2-selection--single {
+
+		span.select2-selection--single,
+		.no-touch & span.select2-selection--single:hover {
 			background-color: @item-color-disabled;
 			color: @item-text-disabled-color;
 		}
+	
 	}
-
 }
