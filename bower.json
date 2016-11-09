@@ -1,9 +1,9 @@
 {
   "name": "adapt-contrib-matching",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "framework": "^2.0.15",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-matching",
-  "issues": "https://adaptlearning.atlassian.net/secure/CreateIssueDetails!init.jspa?pid=10100&issuetype=1&priority=6&components=10510",
+  "issues": "https://github.com/adaptlearning/adapt_framework/issues/new?title=contrib-matching%3A%20please%20enter%20a%20brief%20summary%20of%20the%20issue%20here&body=please%20provide%20a%20full%20description%20of%20the%20problem,%20including%20steps%20on%20how%20to%20replicate,%20what%20browser(s)/device(s)%20the%20problem%20occurs%20on%20and,%20where%20helpful,%20screenshots.",
   "description": "A question component that allows the learner to match the options to question stems",
   "main": "/js/adapt-contrib-matching.js",
   "displayName" : "Matching Question",
