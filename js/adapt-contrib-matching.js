@@ -33,11 +33,17 @@ define([
         },
 
         setupQuestion: function() {
+            this.listenToOnce(Adapt, 'preRemove', this.onPreRemove);
+
             this.setupItemIndexes();
             
             this.restoreUserAnswers();
 
             this.setupRandomisation();
+        },
+
+        onPreRemove: function() {
+            this.$('select').select2('destroy');
         },
 
         setupItemIndexes: function() {
