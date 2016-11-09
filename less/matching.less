@@ -76,9 +76,14 @@
 				line-height: inherit;
 				padding-left: @item-padding-left;
 				padding-right: @item-padding-right;
+				color: @item-text-color;
 			}
 
 			.select2-selection__arrow {
+				b {
+					border-color: @item-text-color transparent transparent transparent;
+				}
+
 				width: @icon-size;
 				height: @icon-size;
 				top: 50%;
@@ -91,6 +96,21 @@
 				}
 			}
 		}
+
+		&.select2-container--open {
+			&.select2-container--default {
+				.select2-selection--single {
+					.select2-selection__arrow {
+						
+						b {
+							border-color: transparent transparent @item-text-color transparent;
+						}
+					
+					}
+				}
+			}
+		}
+
 	}
 
 	.matching-widget {
