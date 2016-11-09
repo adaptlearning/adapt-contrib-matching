@@ -10,59 +10,7 @@
 
 	.matching-select-container {
 		position: relative;
-		overflow: hidden;
 		background-color: @item-color;
-
-		@media all and (max-width:@device-width-medium) {
-			width:100%;
-		}
-	}
-
-	.matching-select-icon {
-		color: @item-text-color;
-	}
-
-	.matching-correct-icon {
-		color: @validation-success;
-		display: none;
-	}
-
-	.matching-incorrect-icon {
-		color: @validation-error;
-		display: none;
-	}
-
-
-	.matching-select {
-		position: relative;
-		width: 100%;
-		padding: 15px 35px 15px 20px;
-		border: none;
-		-webkit-border-radius: 0;
-		-moz-border-radius: 0;
-		border-radius: 0;
-		background: transparent;
-		color: @item-text-color;
-		cursor: pointer;
-		&:focus {
-			background-color: @item-color-selected;
-		}
-
-		.dir-rtl & {
-			padding: 15px 20px 15px 35px;
-		}
-
-		@media all and (max-width:@device-width-medium) and (min-width:@device-width-small) {
-				width:105%;
-		}
-			
-		@media all and (max-width:@device-width-small) {
-			 width:110%;
-		}
-	}
-
-	.matching-select:disabled {
-		color: @item-text-color-disabled;
 	}
 
 	.matching-select-state {
@@ -73,12 +21,96 @@
 		margin-top: -(@icon-size/2);
 		right: 10px;
 		background: none;
-		z-index: 0;
+		z-index: 1;
 
 		.dir-rtl & {
 			right: inherit;
 			left: 10px;
 		}
+
+		.matching-select-icon {
+			color: @item-text-color;
+		}
+
+		.matching-correct-icon {
+			color: @validation-success;
+			display: none;
+		}
+
+		.matching-incorrect-icon {
+			color: @validation-error;
+			display: none;
+		}
+	}
+
+	.select2-container {
+
+		&.select2-container--focus {
+			.accessibility.no-touch & {
+				outline: @focus-outline;
+			}
+		}
+		
+		.select2-selection--single {
+			height: auto;
+			padding: @item-padding-top 0 @item-padding-bottom 0;
+			-webkit-border-radius: 0;
+			-moz-border-radius: 0;
+			border-radius: 0;
+			background-color: @item-color;
+			color: @item-text-color;
+
+
+			&:hover {
+				.no-touch & {
+					background-color: @item-color-hover;
+					color: @item-text-color-hover;
+				}
+			}
+
+			.dir-rtl & {
+				direction: rtl;
+			}
+
+			.select2-selection__rendered {
+				line-height: inherit;
+				padding-left: @item-padding-left;
+				padding-right: @item-padding-right;
+				color: @item-text-color;
+			}
+
+			.select2-selection__arrow {
+				b {
+					border-color: @item-text-color transparent transparent transparent;
+				}
+
+				width: @icon-size;
+				height: @icon-size;
+				top: 50%;
+				margin-top: -(@icon-size/2);
+				right: 10px;
+				
+				.dir-rtl & {
+					right: inherit;
+					left: 10px;
+				}
+			}
+		}
+
+		&.select2-container--open {
+			&.select2-container--default {
+				.select2-selection--single {
+					.select2-selection__arrow {
+						
+						b {
+							border-color: transparent transparent @item-text-color transparent;
+						}
+					
+					}
+				}
+			}
+		}
+
 	}
 
 	.matching-widget {
@@ -93,6 +125,7 @@
 		}
 
 		&.show-user-answer {
+			.select2-selection__arrow,
 			.matching-select-icon {
 				display: none;
 			}
@@ -109,6 +142,7 @@
 		}
 
 		&.show-correct-answer {
+			.select2-selection__arrow,
 			.matching-select-icon {
 				display: none;
 			}
@@ -143,26 +177,37 @@
 	}
 }
 
-
-//*IE FIX FOR DISABLED ITEMS
-.matching-component {
-	select[disabled]::-ms-value{
-			color: @item-text-color;
+.select2-container--default,
+.dir-rtl .select2-container--default {
+	ul, li {
+		margin: 0;
 	}
-}
-
-// REMOVE/FIX BROWSER DEFAULT STYLING
-
-.matching-select {
-	-webkit-appearance: none;
-	&::-ms-expand {
-		display: none;
+	
+	span.select2-dropdown {
+		background-color: @item-color;
+		color: @item-text-color;
 	}
-	.Firefox & {
-		width: 105%;
+
+	.select2-results__option {
+		padding-top: (@item-padding-top / 2);
+		padding-bottom: (@item-padding-bottom / 2);
+		padding-left: @item-padding-left;
+		padding-right: @item-padding-right;
 	}
-	.ie8 &,
-	.ie9 & {
-		width: 110%;
+
+	li.select2-results__option--highlighted[aria-selected],
+	li.select2-results__option[aria-selected=true] {
+		background-color: @item-color-hover;
+		color: @item-text-hover-color;
+	}
+
+	&.select2-container--disabled {
+
+		span.select2-selection--single,
+		.no-touch & span.select2-selection--single:hover {
+			background-color: @item-color-disabled;
+			color: @item-text-disabled-color;
+		}
+	
 	}
 }
