@@ -1,18 +1,30 @@
-define(function(require) {
-
-    var QuestionView = require('coreViews/questionView');
-    var Adapt = require('coreJS/adapt');
+define([
+    'core/js/adapt',
+    'core/js/views/questionView',
+    '../libraries/select2.js'
+],function(Adapt, QuestionView) {
 
     var Matching = QuestionView.extend({
 
         // Used by questionView to disable the question during submit and complete stages
         disableQuestion: function() {
-            this.$('.matching-select').prop('disabled', true);
+            this.$('select').prop("disabled", true).select2();
+        },
+
+        setupSelect2: function() {
+            this.enableQuestion();
+            if (this.model.get('_isEnabled') !== true) {
+                // select2 ignores disabled property applied to <select> in the template 
+                this.disableQuestion();
+            }
         },
 
         // Used by questionView to enable the question during interactions
         enableQuestion: function() {
-            this.$('.matching-select').prop('disabled', false);
+            this.$('select').prop("disabled", false).select2({
+                minimumResultsForSearch: Infinity,
+                dir: Adapt.config.get('_defaultDirection')
+            });
         },
 
         // Used by questionView to reset the question when revisiting the component
@@ -21,6 +33,8 @@ define(function(require) {
         },
 
         setupQuestion: function() {
+            this.listenToOnce(Adapt, 'preRemove', this.onPreRemove);
+
             this.setupItemIndexes();
             
             this.restoreUserAnswers();
@@ -28,15 +42,19 @@ define(function(require) {
             this.setupRandomisation();
         },
 
+        onPreRemove: function() {
+            this.$('select').select2('destroy');
+        },
+
         setupItemIndexes: function() {
 
             _.each(this.model.get("_items"), function(item, index) {
-                if (item._index == undefined) {
+                if (item._index === undefined) {
                     item._index = index;
                     item._selected = false;
                 }
                 _.each(item._options, function(option, index) {
-                    if (option._index == undefined) {
+                    if (option._index === undefined) {
                         option._index = index;
                         option._isSelected = false;
                     }
@@ -76,6 +94,7 @@ define(function(require) {
 
         onQuestionRendered: function() {
             this.setReadyStatus();
+            this.setupSelect2();
         },
 
         canSubmit: function() {
@@ -86,7 +105,7 @@ define(function(require) {
 
                 var $element = $(element);
 
-                if ($element.index() == 0) {
+                if ($element.index() === 0) {
                     canSubmit = false;
                     $element.parent('.matching-select').addClass('error');
                 }
@@ -189,59 +208,48 @@ define(function(require) {
 
         // Used by the question view to reset the look and feel of the component.
         resetQuestion: function() {
-
             this.$('.matching-select option').prop('selected', false);
             
             this.$(".matching-item").removeClass("correct").removeClass("incorrect");
             
             this.model.set('_isAtLeastOneCorrectSelection', false);
             
-            _.each(this.$('.matching-select'), function(item) {
-                this.selectOption($(item), 0);
-            }, this);
+            var placeholder = this.model.get('placeholder');
             
             _.each(this.model.get("_items"), function(item, index) {
+                this.selectValue(index, placeholder);
                 _.each(item._options, function(option, index) {
                     option._isSelected = false;
                 });
-            });
-        },
-
-        showCorrectAnswer: function() {
-
-            _.each(this.model.get('_items'), function(item, index) {
-
-                var correctOptionIndex;
-
-                _.each(item._options, function(option, optionIndex) {
-                    if (option._isCorrect) {
-                        correctOptionIndex = optionIndex + 1;
-                    }
-                }, this);
-
-                var $parent = this.$('.matching-select').eq(index);
-
-                this.selectOption($parent, correctOptionIndex);
             }, this);
         },
 
-        hideCorrectAnswer: function() {
+        showCorrectAnswer: function() {
+            var items = this.model.get('_items');
 
-            for (var i = 0, count = this.model.get('_items').length; i < count; i++) {
-                var $parent = this.$('.matching-select').eq(i);
-
-                var index = this.model.has('_tempUserAnswer')
-                  ? this.model.get('_tempUserAnswer')[i] + 1
-                  : this.model.get('_userAnswer')[i] + 1;
-
-                $('option', $parent).eq(index).prop('selected', true);
-
-                this.selectOption($parent, index);
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var correctOption = _.findWhere(item._options, {_isCorrect: true});
+                this.selectValue(i, correctOption.text);
             }
         },
 
-        selectOption: function($parent, optionIndex) {
-            $("option", $parent).eq(optionIndex).prop('selected', true);
+        hideCorrectAnswer: function() {
+            var items = this.model.get('_items');
+            for (var i = 0, count = items.length; i < count; i++) {
+                var index = this.model.has('_tempUserAnswer')
+                  ? this.model.get('_tempUserAnswer')[i]
+                  : this.model.get('_userAnswer')[i];
+
+                var item = items[i];
+                var value = item._options[index].text;
+
+                this.selectValue(i, value);
+            }
+        },
+
+        selectValue: function(i, value) {
+            this.$('select').eq(i).val(value).trigger('change');
         },
 
         /**
