@@ -1,7 +1,7 @@
 define([
     'core/js/adapt',
     'core/js/views/questionView',
-    '../libraries/select2.js'
+    'libraries/select2'
 ],function(Adapt, QuestionView) {
 
     var Matching = QuestionView.extend({
