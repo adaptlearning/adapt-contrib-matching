@@ -5,7 +5,7 @@
 
 Possible answers to the question are presented within one or more drop-downs. Upon submission, feedback is provided via the [**Tutor** extension](https://github.com/adaptlearning/adapt-contrib-tutor), if installed. Feedback can be provided for correct, incorrect and partially correct answers. The number of attempts allowed may be configured.
 
-[Visit the **Matching** wiki](https://github.com/adaptlearning/adapt-contrib-matching/wiki) for more information about its functionality and for explanations of key properties. 
+[Visit the **Matching** wiki](https://github.com/adaptlearning/adapt-contrib-matching/wiki) for more information about its functionality and for explanations of key properties.
 
 
 
@@ -28,12 +28,12 @@ With the [Adapt CLI](https://github.com/adaptlearning/adapt-cli) installed, run 
 
 ## Settings Overview
 
-The attributes listed below are used in *components.json* to configure **Matching**, and are properly formatted as JSON in [*example.json*](https://github.com/adaptlearning/adapt-contrib-matching/blob/master/example.json). Visit the [**Matching** wiki](https://github.com/adaptlearning/adapt-contrib-matching/wiki) for more information about how they appear in the [authoring tool](https://github.com/adaptlearning/adapt_authoring/wiki). 
+The attributes listed below are used in *components.json* to configure **Matching**, and are properly formatted as JSON in [*example.json*](https://github.com/adaptlearning/adapt-contrib-matching/blob/master/example.json). Visit the [**Matching** wiki](https://github.com/adaptlearning/adapt-contrib-matching/wiki) for more information about how they appear in the [authoring tool](https://github.com/adaptlearning/adapt_authoring/wiki).
 
 ### Attributes
 
 In addition to the attributes specifically listed below, [*question components*](https://github.com/adaptlearning/adapt_framework/wiki/Core-Plug-ins-in-the-Adapt-Learning-Framework#question-components) can implement the following sets of attributes:   
-+ [**core model attributes**](https://github.com/adaptlearning/adapt_framework/wiki/Core-model-attributes): These are inherited by every Adapt component. They have no default values. Like the attributes below, their values are assigned in *components.json*. 
++ [**core model attributes**](https://github.com/adaptlearning/adapt_framework/wiki/Core-model-attributes): These are inherited by every Adapt component. They have no default values. Like the attributes below, their values are assigned in *components.json*.
 + [**core buttons**](https://github.com/adaptlearning/adapt_framework/wiki/Core-Buttons): Default values are found in *course.json*, but may be overridden by **Matching's** model in *components.json*.
 
 **_component** (string): This value must be: `matching`.  
@@ -72,13 +72,13 @@ guide the learner’s interaction with the component.
 >>**_isCorrect** (boolean): This value determines whether the dropdown must be selected for a correct answer. Set to `true` if this *option* is a correct answer. The default is `false`.  
 
 **_feedback** (object): If the [**Tutor** extension](https://github.com/adaptlearning/adapt-contrib-tutor) is enabled, these various texts will be displayed depending on the submitted answer. **_feedback**
-contains values for three types of answers: **correct**, **_incorrect**, and **_partlyCorrect**. Some attributes are optional. If they are not supplied, the default that is noted below will be used. 
+contains values for three types of answers: **correct**, **_incorrect**, and **_partlyCorrect**. Some attributes are optional. If they are not supplied, the default that is noted below will be used.
 
 >**correct** (string): Text that will be displayed when the submitted answer is correct.  
 
->**_incorrect** (object): Texts that will be displayed when the submitted answer is incorrect. It contains values that are displayed under differing conditions: **final** and **notFinal**. 
+>**_incorrect** (object): Texts that will be displayed when the submitted answer is incorrect. It contains values that are displayed under differing conditions: **final** and **notFinal**.
 
->>**final** (string): Text that will be displayed when the submitted answer is incorrect and no more attempts are permitted. 
+>>**final** (string): Text that will be displayed when the submitted answer is incorrect and no more attempts are permitted.
 
 >>**notFinal** (string): Text that will be displayed when the submitted answer is incorrect while more attempts are permitted. This is optional&mdash;if you do not supply it, the **_incorrect.final** feedback will be shown instead.
 
@@ -97,7 +97,7 @@ contains values for three types of answers: **correct**, **_incorrect**, and **_
 No known limitations.
 
 ----------------------------
-**Version number:**  2.0.5   <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a> 
+**Version number:**  2.1.0   <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a> 
 **Framework versions:** 2.0.15  
 **Author / maintainer:** Adapt Core Team with [contributors](https://github.com/adaptlearning/adapt-contrib-matching/graphs/contributors)  
 **Accessibility support:** WAI AA   
