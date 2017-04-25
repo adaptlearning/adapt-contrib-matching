@@ -98,26 +98,33 @@ define([
         },
 
         canSubmit: function() {
-
             var canSubmit = true;
 
-            $('.matching-select option:selected', this.el).each(_.bind(function(index, element) {
-
-                var $element = $(element);
-
-                if ($element.index() === 0) {
+            $('.matching-select option:selected', this.el).each(function(index, element) {
+                if ($(element).index() === 0) {
                     canSubmit = false;
-                    $element.parent('.matching-select').addClass('error');
                 }
-            }, this));
+            });
 
             return canSubmit;
         },
 
-        // Blank method for question to fill out when the question cannot be submitted
         onCannotSubmit: function() {
-            //TODO have this highlight all the drop-downs the user has yet to select.
-            //Currently it just highlights the first one, even if that one has been selected
+            $('.matching-select option:selected', this.el).each(function(index, element) {
+                var $element = $(element);
+                if ($element.index() === 0) {// 'placeholder' option was selected, so add an error class to the container element
+                    var $container = $element.parents('.matching-select-container');
+                    $container.addClass('error');
+                    // remove the error class if the user selects a valid option
+                    var $select = $element.parent('.matching-select');
+                    $select.on('select2:select', function(e) {
+                        if(e.params.data.element.index !== 0) {
+                            $container.removeClass('error');
+                            $select.off('select2:select');
+                        }
+                    });
+                }
+            });
         },
 
         storeUserAnswer: function() {
