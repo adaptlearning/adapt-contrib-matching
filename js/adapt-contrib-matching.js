@@ -4,6 +4,9 @@ define([
     'libraries/select2'
 ],function(Adapt, QuestionView) {
     
+    /*
+     * issue/1543: fix from https://github.com/select2/select2/issues/4063
+     */
     var dropdownAdapter;
     jQuery.fn.select2.amd.require([    
         "select2/utils",
