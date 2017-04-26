@@ -103,6 +103,7 @@ define([
             this.$('option').filter(':selected').each(function(index, element) {
                 if ($(element).index() === 0) {
                     canSubmit = false;
+                    return false;
                 }
             });
 
@@ -116,7 +117,7 @@ define([
                     var $container = $element.parents('.matching-select-container');
                     $container.addClass('error');
                     // remove the error class if the user selects a valid option
-                    var $select = $element.parent('.matching-select');
+                    var $select = $element.parent();
                     $select.on('select2:select', function(e) {
                         if(e.params.data.element.index !== 0) {
                             $container.removeClass('error');
