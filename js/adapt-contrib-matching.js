@@ -249,6 +249,7 @@ define([
         },
 
         selectValue: function(i, value) {
+            value = $.trim(value);// select2 strips leading/trailing spaces so we need to as well - fixes https://github.com/adaptlearning/adapt_framework/issues/1503
             this.$('select').eq(i).val(value).trigger('change');
         },
 
