@@ -99,8 +99,8 @@ define([
 
         canSubmit: function() {
             var canSubmit = true;
-
-            $('.matching-select option:selected', this.el).each(function(index, element) {
+            
+            this.$('option').filter(':selected').each(function(index, element) {
                 if ($(element).index() === 0) {
                     canSubmit = false;
                 }
@@ -110,7 +110,7 @@ define([
         },
 
         onCannotSubmit: function() {
-            $('.matching-select option:selected', this.el).each(function(index, element) {
+            this.$('option').filter(':selected').each(function(index, element) {
                 var $element = $(element);
                 if ($element.index() === 0) {// 'placeholder' option was selected, so add an error class to the container element
                     var $container = $element.parents('.matching-select-container');
