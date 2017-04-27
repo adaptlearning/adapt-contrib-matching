@@ -11,6 +11,10 @@
 	.matching-select-container {
 		position: relative;
 		background-color: @item-color;
+
+		&.error {
+			outline: 1px solid @validation-error;
+		}
 	}
 
 	.matching-select-state {
