@@ -25,7 +25,6 @@
 		margin-top: -(@icon-size/2);
 		right: 10px;
 		background: none;
-		z-index: 1;
 
 		.dir-rtl & {
 			right: inherit;
@@ -125,6 +124,10 @@
 			}
 			.matching-select-container {
 				background-color: @item-color-disabled;
+			}
+
+			.matching-select-state {
+				z-index: 1;
 			}
 		}
 
