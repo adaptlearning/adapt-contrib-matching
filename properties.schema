@@ -44,44 +44,44 @@
       "required":true,
       "default": true,
       "title": "Display Model Answer",
-      "inputType": {"type": "Boolean", "options": [true, false]},
+      "inputType": "Checkbox",
       "validators": [],
-      "help": "Select 'true' to allow the user to view the 'model answer' should they answer the question incorrectly"
+      "help": "If enabled, allows the user to view the 'model answer' if they answer the question incorrectly"
     },
     "_canShowFeedback": {
       "type":"boolean",
       "required":true,
       "default": true,
       "title": "Display Feedback",
-      "inputType": {"type": "Boolean", "options": [true, false]},
+      "inputType": "Checkbox",
       "validators": [],
-      "help": "Select 'true' to allow the user to view feedback on their answer"
+      "help": "If enabled, allows the user to view feedback on their answer"
     },
     "_canShowMarking": {
       "type": "boolean",
       "default": true,
       "title": "Display Marking",
-      "inputType": { "type": "Boolean", "options": [ true, false ] },
+      "inputType": "Checkbox",
       "validators": [],
-      "help": "Select 'true' to display ticks and crosses on question completion"
+      "help": "If enabled, the component will display ticks and crosses on question completion"
     },
     "_shouldDisplayAttempts": {
       "type":"boolean",
       "required":false,
       "default": false,
       "title": "Display Attempts",
-      "inputType": {"type": "Boolean", "options": [true, false]},
+      "inputType": "Checkbox",
       "validators": [],
-      "help": "Select 'true' to display the numbers of attempts left"
+      "help": "If enabled, the component will display the numbers of attempts the user has remanining"
     },
     "_isRandom": {
       "type":"boolean",
       "required":false,
       "default": true,
       "title": "Randomised Items",
-      "inputType": {"type": "Boolean", "options": [true, false]},
+      "inputType": "Checkbox",
       "validators": [],
-      "help": "If set to 'true', all items will be randomised"
+      "help": "If enabled, all items will be randomised"
     },
     "_questionWeight": {
       "type":"number",
@@ -97,9 +97,9 @@
       "required":false,
       "default": true,
       "title": "Record interaction",
-      "inputType": {"type": "Boolean", "options": [true, false]},
+      "inputType": "Checkbox",
       "validators": [],
-      "help": "If set to 'true', the user's answer(s) will be recorded to cmi.interactions on the LMS (where supported)."
+      "help": "If disabled, recording the user's answer(s) to this question to cmi.interactions on the LMS will be disabled for this component only."
     },
     "placeholder": {
       "type":"string",
@@ -151,9 +151,9 @@
                   "required":true,
                   "default":false,
                   "title": "Is correct option?",
-                  "inputType": {"type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Set this to 'true' if this is one of the correct answers."
+                  "help": "If enabled, this will be set as the correct option for this matching option"
                 }
               }
             }
