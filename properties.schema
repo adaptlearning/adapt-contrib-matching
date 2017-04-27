@@ -48,6 +48,15 @@
       "validators": [],
       "help": "Select 'true' to allow the user to view the 'model answer' should they answer the question incorrectly"
     },
+    "_canShowFeedback": {
+      "type":"boolean",
+      "required":true,
+      "default": true,
+      "title": "Display Feedback",
+      "inputType": {"type": "Boolean", "options": [true, false]},
+      "validators": [],
+      "help": "Select 'true' to allow the user to view feedback on their answer"
+    },
     "_canShowMarking": {
       "type": "boolean",
       "default": true,
