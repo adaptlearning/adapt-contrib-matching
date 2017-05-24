@@ -3,6 +3,27 @@ define([
     'core/js/views/questionView',
     'libraries/select2'
 ],function(Adapt, QuestionView) {
+    
+    /*
+     * issue/1543: fix from https://github.com/select2/select2/issues/4063
+     */
+    var dropdownAdapter;
+    jQuery.fn.select2.amd.require([    
+        "select2/utils",
+        "select2/dropdown",
+        "select2/dropdown/attachContainer",
+        "select2/dropdown/closeOnSelect"
+    ], function(Utils, DropdownAdapter, AttachContainer, CloseOnSelect) {
+
+        dropdownAdapter = Utils.Decorate(
+            Utils.Decorate(
+                DropdownAdapter,
+                AttachContainer
+            ),
+            CloseOnSelect
+        );
+
+    });
 
     var Matching = QuestionView.extend({
 
@@ -23,7 +44,8 @@ define([
         enableQuestion: function() {
             this.$('select').prop("disabled", false).select2({
                 minimumResultsForSearch: Infinity,
-                dir: Adapt.config.get('_defaultDirection')
+                dir: Adapt.config.get('_defaultDirection'),
+                dropdownAdapter: dropdownAdapter
             });
         },
 
