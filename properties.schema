@@ -46,7 +46,7 @@
       "title": "Display Model Answer",
       "inputType": "Checkbox",
       "validators": [],
-      "help": "If enabled, allows the user to view the 'model answer' if they answer the question incorrectly"
+      "help": "Allow the user to view the 'model answer' if they answer the question incorrectly?"
     },
     "_canShowFeedback": {
       "type": "boolean",
@@ -54,16 +54,14 @@
       "default": true,
       "title": "Display Feedback",
       "inputType": "Checkbox",
-      "validators": [],
-      "help": "If enabled, allows the user to view feedback on their answer"
+      "validators": []
     },
     "_canShowMarking": {
       "type": "boolean",
       "default": true,
       "title": "Display Marking",
       "inputType": "Checkbox",
-      "validators": [],
-      "help": "If enabled, the component will display ticks and crosses on question completion"
+      "validators": []
     },
     "_shouldDisplayAttempts": {
       "type": "boolean",
@@ -72,16 +70,15 @@
       "title": "Display Attempts",
       "inputType": "Checkbox",
       "validators": [],
-      "help": "If enabled, the component will display the numbers of attempts the user has remanining"
+      "help": "Display the number of attempts remaining?"
     },
     "_isRandom": {
       "type": "boolean",
       "required": false,
       "default": true,
-      "title": "Randomised Items",
+      "title": "Randomise answers",
       "inputType": "Checkbox",
-      "validators": [],
-      "help": "If enabled, all items will be randomised"
+      "validators": []
     },
     "_questionWeight": {
       "type": "number",
@@ -153,7 +150,7 @@
                   "title": "Is correct option?",
                   "inputType": "Checkbox",
                   "validators": [],
-                  "help": "If enabled, this will be set as the correct option for this matching option"
+                  "help": "Defines whether this option is correct or not"
                 }
               }
             }
@@ -173,7 +170,7 @@
           "title": "Correct",
           "inputType": "TextArea",
           "validators": [],
-          "help": "Correct feedback for this question",
+          "help": "Correct answer feedback for this question",
           "translatable": true
         },
         "_incorrect": {
@@ -188,7 +185,7 @@
               "title": "Incorrect Final",
               "inputType": "TextArea",
               "validators": [],
-              "help": "Incorrect feedback for the final attempt",
+              "help": "Incorrect answer feedback for the final attempt",
               "translatable": true
             },
             "notFinal": {
@@ -198,7 +195,7 @@
               "title": "Incorrect Not Final",
               "inputType": "TextArea",
               "validators": [],
-              "help": "Incorrect feedback for any attempt apart from the last attempt",
+              "help": "Incorrect answer feedback for any attempt apart from the last attempt. If you leave this blank, the 'Incorrect Final' feedback will be used instead.",
               "translatable": true
             }
           }
@@ -214,7 +211,7 @@
               "title": "Partly Correct Final",
               "inputType": "TextArea",
               "validators": [],
-              "help": "Partly correct feedback for the final attempt",
+              "help": "Partly correct answer feedback for the final attempt. If you leave this blank, the 'Incorrect Final' feedback will be used instead.",
               "translatable": true
             },
             "notFinal": {
@@ -224,7 +221,7 @@
               "title": "Partly Correct Not Final",
               "inputType": "TextArea",
               "validators": [],
-              "help": "Partly correct feedback for any attempt apart from the last attempt",
+              "help": "Partly correct answer feedback for any attempt apart from the last attempt. If you leave this blank, the 'Partly Correct Final' feedback will be used instead.",
               "translatable": true
             }
           }
