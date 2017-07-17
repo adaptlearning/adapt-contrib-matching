@@ -9,6 +9,7 @@
     "_shouldDisplayAttempts": false,
     "_isRandom": true,
     "_canShowModelAnswer": true,
+    "_canShowFeedback": true,
     "_canShowMarking": true,
     "_recordInteraction": true,
     "_questionWeight": 10,
