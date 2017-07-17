@@ -106,5 +106,8 @@
         },
         "remainingAttemptsText": "attempts remaining",
         "remainingAttemptText": "final attempt"
+    },
+    "_pageLevelProgress": {
+        "_isEnabled": true
     }
 }
