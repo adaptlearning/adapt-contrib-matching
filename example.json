@@ -5,53 +5,18 @@
     "_layout": "left",
     "_type": "component",
     "_component": "matching",
-    "_attempts": 2,
+    "_attempts": 1,
     "_shouldDisplayAttempts": false,
     "_isRandom": true,
     "_canShowModelAnswer": true,
     "_canShowFeedback": true,
     "_canShowMarking": true,
     "_recordInteraction": true,
-    "_questionWeight": 10,
+    "_questionWeight": 1,
     "title": "Matching",
     "displayTitle": "Matching",
     "body": "Basically what you need to do is match the questions below with the drop down box option.",
     "instruction":"",
-    "_buttons": {
-      "_submit": {
-        "buttonText": "Submit",
-        "ariaLabel": "Select here to submit your answer."
-      },
-      "_reset": {
-        "buttonText": "Reset",
-        "ariaLabel": ""
-      },
-      "_showCorrectAnswer": {
-        "buttonText": "Correct Answer",
-        "ariaLabel": ""
-      },
-      "_hideCorrectAnswer": {
-        "buttonText": "My Answer",
-        "ariaLabel": ""
-      },
-      "_showFeedback": {
-        "buttonText": "Show feedback",
-        "ariaLabel": ""
-      },
-      "remainingAttemptsText": "attempts remaining",
-      "remainingAttemptText": "final attempt"
-    },
-    "_feedback": {
-        "correct": "This feedback will appear if you answered the question correctly.",
-        "_incorrect": {
-            "notFinal": "",
-            "final": "This feedback will appear if you answered the question incorrectly."
-        },
-        "_partlyCorrect": {
-            "notFinal": "",
-            "final": "This feedback will appear if you answered part of the question correctly."
-        }
-    },
     "placeholder": "select an option",
     "_items": [
         {
@@ -105,5 +70,41 @@
                 }
             ]
         }
-    ]
+    ],
+    "_feedback": {
+        "correct": "This feedback will appear if you answered the question correctly.",
+        "_incorrect": {
+            "notFinal": "",
+            "final": "This feedback will appear if you answered the question incorrectly."
+        },
+        "_partlyCorrect": {
+            "notFinal": "",
+            "final": "This feedback will appear if you answered part of the question correctly."
+        }
+    },
+    "_comment": "You only need to include _buttons if you want to override the button labels that are set in course.json",
+    "_buttons": {
+      "_submit": {
+        "buttonText": "Submit",
+        "ariaLabel": "Select here to submit your answer."
+      },
+      "_reset": {
+        "buttonText": "Reset",
+        "ariaLabel": ""
+      },
+      "_showCorrectAnswer": {
+        "buttonText": "Correct Answer",
+        "ariaLabel": ""
+      },
+      "_hideCorrectAnswer": {
+        "buttonText": "My Answer",
+        "ariaLabel": ""
+      },
+      "_showFeedback": {
+        "buttonText": "Show feedback",
+        "ariaLabel": ""
+      },
+      "remainingAttemptsText": "attempts remaining",
+      "remainingAttemptText": "final attempt"
+    },
 }
