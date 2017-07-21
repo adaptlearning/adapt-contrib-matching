@@ -13,7 +13,12 @@
 		background-color: @item-color;
 
 		&.error {
-			outline: 1px solid @validation-error;
+			/* outline doesn't work for this in Firefox (see #1682) */
+			box-shadow: 0 0 0 1px @validation-error;
+			/* and because box-shadow isn't supported in IE8 */
+			.ie8 & {
+				outline: 1px solid @validation-error;
+			}
 		}
 	}
 
