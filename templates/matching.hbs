@@ -11,9 +11,8 @@
         </div>
         {{!-- setting width as inline styling is recommended by select2 --}}
         <select class="matching-select component-text-color" style="width:100%">
-          <option>
-            {{../placeholder}}
-          </option>
+          {{!-- an empty <option> element is needed by select2 to allow it to do its 'placeholder' functionality --}}
+          <option></option>
           {{#each _options}}
           <option {{#if _isSelected}}selected{{/if}}>
             {{text}}

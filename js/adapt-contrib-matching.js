@@ -43,7 +43,8 @@ define([
         // Used by questionView to enable the question during interactions
         enableQuestion: function() {
             this.$('select').prop("disabled", false).select2({
-                minimumResultsForSearch: Infinity,
+                placeholder: this.model.get('placeholder'),
+                minimumResultsForSearch: Infinity, // hides the search box from the Select2 dropdown
                 dir: Adapt.config.get('_defaultDirection'),
                 dropdownAdapter: dropdownAdapter
             });
@@ -121,9 +122,9 @@ define([
 
         canSubmit: function() {
             var canSubmit = true;
-            
-            this.$('option').filter(':selected').each(function(index, element) {
-                if ($(element).index() === 0) {
+
+            this.$('select').each(function isOptionSelected(index, element) {
+                if(element.selectedIndex < 1) {// the placeholder has an index of 0 in Firefox and -1 in other browsers
                     canSubmit = false;
                     return false;
                 }
@@ -133,17 +134,19 @@ define([
         },
 
         onCannotSubmit: function() {
-            this.$('option').filter(':selected').each(function(index, element) {
-                var $element = $(element);
-                if ($element.index() === 0) {// 'placeholder' option was selected, so add an error class to the container element
+            this.$('select').each(function addErrorClass(index, element) {
+                if(element.selectedIndex < 1) {
+                    var $element = $(element);
                     var $container = $element.parents('.matching-select-container');
                     $container.addClass('error');
-                    // remove the error class if the user selects a valid option
+                    // ensure the error class gets removed when the user selects a valid option
+                    var evt = "select2:select.errorclear";
                     var $select = $element.parent();
-                    $select.on('select2:select', function(e) {
-                        if(e.params.data.element.index !== 0) {
+                    $select.off(evt);// prevent multiple event bindings if the user repeatedly clicks submit without first making a selection
+                    $select.on(evt, function(e) {
+                        if(e.params.data.element.index > 0) {
                             $container.removeClass('error');
-                            $select.off('select2:select');
+                            $select.off(evt);
                         }
                     });
                 }
