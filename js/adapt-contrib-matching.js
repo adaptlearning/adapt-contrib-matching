@@ -2,7 +2,7 @@ define([
     'core/js/adapt',
     'core/js/views/questionView',
     'libraries/select2'
-],function(Adapt, QuestionView) {
+], function(Adapt, QuestionView) {
     
     /*
      * issue/1543: fix from https://github.com/select2/select2/issues/4063
@@ -27,7 +27,6 @@ define([
 
     var Matching = QuestionView.extend({
 
-        // Used by questionView to disable the question during submit and complete stages
         disableQuestion: function() {
             this.$('select').prop("disabled", true).select2();
         },
@@ -40,7 +39,6 @@ define([
             }
         },
 
-        // Used by questionView to enable the question during interactions
         enableQuestion: function() {
             this.$('select').prop("disabled", false).select2({
                 placeholder: this.model.get('placeholder'),
@@ -50,7 +48,6 @@ define([
             });
         },
 
-        // Used by questionView to reset the question when revisiting the component
         resetQuestionOnRevisit: function() {
             this.resetQuestion();
         },
@@ -217,8 +214,6 @@ define([
             this.model.set('_score', score);
         },
 
-        // This is important and should give the user feedback on how they answered the question
-        // Normally done through ticks and crosses by adding classes
         showMarking: function() {
             if (!this.model.get('_canShowMarking')) return;
 
@@ -229,8 +224,6 @@ define([
             }, this);
         },
 
-        // Used by the question to determine if the question is incorrect or partly correct
-        // Should return a boolean
         isPartlyCorrect: function() {
             return this.model.get('_isAtLeastOneCorrectSelection');
         },
@@ -239,7 +232,6 @@ define([
             this.model.set({_userAnswer: []});
         },
 
-        // Used by the question view to reset the look and feel of the component.
         resetQuestion: function() {
             this.$('.matching-select option').prop('selected', false);
             
@@ -270,9 +262,9 @@ define([
         hideCorrectAnswer: function() {
             var items = this.model.get('_items');
             for (var i = 0, count = items.length; i < count; i++) {
-                var index = this.model.has('_tempUserAnswer')
-                  ? this.model.get('_tempUserAnswer')[i]
-                  : this.model.get('_userAnswer')[i];
+                var index = this.model.has('_tempUserAnswer') ? 
+                    this.model.get('_tempUserAnswer')[i] :
+                    this.model.get('_userAnswer')[i];
 
                 var item = items[i];
                 var value = item._options[index].text;
