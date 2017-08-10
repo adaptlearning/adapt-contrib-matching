@@ -2,7 +2,7 @@ define([
     'core/js/adapt',
     'core/js/views/questionView',
     'libraries/select2'
-],function(Adapt, QuestionView) {
+], function(Adapt, QuestionView) {
     
     /*
      * issue/1543: fix from https://github.com/select2/select2/issues/4063
@@ -27,7 +27,6 @@ define([
 
     var Matching = QuestionView.extend({
 
-        // Used by questionView to disable the question during submit and complete stages
         disableQuestion: function() {
             this.$('select').prop("disabled", true).select2();
         },
@@ -40,16 +39,15 @@ define([
             }
         },
 
-        // Used by questionView to enable the question during interactions
         enableQuestion: function() {
             this.$('select').prop("disabled", false).select2({
-                minimumResultsForSearch: Infinity,
+                placeholder: this.model.get('placeholder'),
+                minimumResultsForSearch: Infinity, // hides the search box from the Select2 dropdown
                 dir: Adapt.config.get('_defaultDirection'),
                 dropdownAdapter: dropdownAdapter
             });
         },
 
-        // Used by questionView to reset the question when revisiting the component
         resetQuestionOnRevisit: function() {
             this.resetQuestion();
         },
@@ -121,9 +119,9 @@ define([
 
         canSubmit: function() {
             var canSubmit = true;
-            
-            this.$('option').filter(':selected').each(function(index, element) {
-                if ($(element).index() === 0) {
+
+            this.$('select').each(function isOptionSelected(index, element) {
+                if(element.selectedIndex < 1) {// the placeholder has an index of 0 in Firefox and -1 in other browsers
                     canSubmit = false;
                     return false;
                 }
@@ -133,17 +131,19 @@ define([
         },
 
         onCannotSubmit: function() {
-            this.$('option').filter(':selected').each(function(index, element) {
-                var $element = $(element);
-                if ($element.index() === 0) {// 'placeholder' option was selected, so add an error class to the container element
+            this.$('select').each(function addErrorClass(index, element) {
+                if(element.selectedIndex < 1) {
+                    var $element = $(element);
                     var $container = $element.parents('.matching-select-container');
                     $container.addClass('error');
-                    // remove the error class if the user selects a valid option
+                    // ensure the error class gets removed when the user selects a valid option
+                    var evt = "select2:select.errorclear";
                     var $select = $element.parent();
-                    $select.on('select2:select', function(e) {
-                        if(e.params.data.element.index !== 0) {
+                    $select.off(evt);// prevent multiple event bindings if the user repeatedly clicks submit without first making a selection
+                    $select.on(evt, function(e) {
+                        if(e.params.data.element.index > 0) {
                             $container.removeClass('error');
-                            $select.off('select2:select');
+                            $select.off(evt);
                         }
                     });
                 }
@@ -214,8 +214,6 @@ define([
             this.model.set('_score', score);
         },
 
-        // This is important and should give the user feedback on how they answered the question
-        // Normally done through ticks and crosses by adding classes
         showMarking: function() {
             if (!this.model.get('_canShowMarking')) return;
 
@@ -226,8 +224,6 @@ define([
             }, this);
         },
 
-        // Used by the question to determine if the question is incorrect or partly correct
-        // Should return a boolean
         isPartlyCorrect: function() {
             return this.model.get('_isAtLeastOneCorrectSelection');
         },
@@ -236,7 +232,6 @@ define([
             this.model.set({_userAnswer: []});
         },
 
-        // Used by the question view to reset the look and feel of the component.
         resetQuestion: function() {
             this.$('.matching-select option').prop('selected', false);
             
@@ -267,9 +262,9 @@ define([
         hideCorrectAnswer: function() {
             var items = this.model.get('_items');
             for (var i = 0, count = items.length; i < count; i++) {
-                var index = this.model.has('_tempUserAnswer')
-                  ? this.model.get('_tempUserAnswer')[i]
-                  : this.model.get('_userAnswer')[i];
+                var index = this.model.has('_tempUserAnswer') ? 
+                    this.model.get('_tempUserAnswer')[i] :
+                    this.model.get('_userAnswer')[i];
 
                 var item = items[i];
                 var value = item._options[index].text;
