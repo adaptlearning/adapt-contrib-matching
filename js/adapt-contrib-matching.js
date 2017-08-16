@@ -279,6 +279,53 @@ define([
         },
 
         /**
+        * Used by tracking extensions to return an object containing the component's specific interactions.
+        */
+        getInteractionObject: function() {
+            var interactions = {
+                correctResponsesPattern: null,
+                source: null,
+                target: null 
+            };
+
+            interactions.correctResponsesPattern = [ 
+                this.model.get('_items').map(function(item, questionIndex) {
+                    questionIndex = questionIndex + 1;
+
+                    return [ 
+                        questionIndex,
+                        item._options.filter(function(item) {
+                            return item._isCorrect;
+                        }).map(function(item) {
+                            return questionIndex + '_' + (item._index + 1).toString()
+                        })
+                    ].join('[.]');
+
+                }).join('[,]') 
+            ];
+
+            interactions.source = _.flatten(this.model.get('_items').map(function(item) {
+                return {
+                    id: (item._index + 1).toString(),
+                    description: item.text
+                }
+            }));
+
+            interactions.target = _.flatten(this.model.get('_items').map(function(item, index) {
+                // Offset by 1, as these values are not zero-indexed.
+                index = index + 1;
+                return item._options.map(function(option) {
+                    return {
+                        id: index + '_' + (option._index + 1),
+                        description: option.text
+                    }
+                });
+            }));
+
+            return interactions;
+        },
+
+        /**
         * Used by adapt-contrib-spoor to get the user's answers in the format required by the cmi.interactions.n.student_response data field
         * Returns the user's answers as a string in the format "1.1#2.3#3.2" assuming user selected option 1 in drop-down 1, option 3 in drop-down 2
         * and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor, depending on which SCORM version is being used.
