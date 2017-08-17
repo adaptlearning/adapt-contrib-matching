@@ -288,15 +288,21 @@ define([
                 target: null 
             };
 
+            // This contains an array with a single string value, matching the source 'id' with the correct 
+            // matching target 'id' value. An example is as follows:
+            // [ "1[.]1_2[,]2[.]2_3" ]
             interactions.correctResponsesPattern = [ 
                 this.model.get('_items').map(function(item, questionIndex) {
+                    // Offset the item index and use it as a group identifier.
                     questionIndex = questionIndex + 1;
 
                     return [ 
                         questionIndex,
                         item._options.filter(function(item) {
+                            // Get the correct item(s).
                             return item._isCorrect;
                         }).map(function(item) {
+                            // Prefix the option's index and offset by 1.
                             return questionIndex + '_' + (item._index + 1).toString()
                         })
                     ].join('[.]');
@@ -304,13 +310,21 @@ define([
                 }).join('[,]') 
             ];
 
+            // The 'source' property contains an array of all the stems/questions, e.g.
+            // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
             interactions.source = _.flatten(this.model.get('_items').map(function(item) {
                 return {
+                    // Offset by 1.
                     id: (item._index + 1).toString(),
                     description: item.text
                 }
             }));
 
+            // The 'target' property contains an array of all the option responses, with the 'id' 
+            // prefixed to indicate the grouping, e.g.
+            // [  {id: "1_1": description: "First option, group 1"},
+            //    {id: "1_2": description: "Second option, group 1"}
+            //    {id: "2_1": description: "First option, group 2"}  ]
             interactions.target = _.flatten(this.model.get('_items').map(function(item, index) {
                 // Offset by 1, as these values are not zero-indexed.
                 index = index + 1;
