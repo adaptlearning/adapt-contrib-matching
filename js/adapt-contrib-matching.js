@@ -31,9 +31,6 @@ define([
 
         AttachContainer.prototype.position = function(decorated, $dropdown, $container) {
 
-            var $dropdownContainer = $container.find('.dropdown-wrapper');
-            $dropdownContainer.append($dropdown);
-
             var $window = $(window);
 
             var viewport = {
