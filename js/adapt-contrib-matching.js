@@ -21,18 +21,28 @@ define([
             var self = this;
             decorated.call(this, $container, $container);
 
+            container.on('opening', function () {
+                // hide so that popup doesn't jump when repositioned
+                self.$dropdown.css("visibility", "hidden");
+            });
+
             container.on('open', function () {
+                // add dropdown at this point so that the browser focus works correctly
+                var $dropdownContainer = $container.find('.dropdown-wrapper');
+                $dropdownContainer.append(self.$dropdown);
+
+                // defer to allow dom to settle before repositioning
                 setTimeout(function() {
                     self.position(self.$dropdown, $container);
+                    self.$dropdown.css("visibility", "");
                 }, 0);
+                
             });
 
         };
 
         AttachContainer.prototype.position = function(decorated, $dropdown, $container) {
-            var $dropdownContainer = $container.find('.dropdown-wrapper');
-            $dropdownContainer.append($dropdown);
-            
+
             var $window = $(window);
 
             var viewport = {
@@ -77,6 +87,7 @@ define([
             }
 
         };
+
 
         // override default AttachBody
         dropdownAdapter = Utils.Decorate(
