@@ -15,7 +15,10 @@ define([
         "select2/dropdown/closeOnSelect"
     ], function(Utils, DropdownAdapter, AttachContainer, CloseOnSelect) {
 
-        // code added to make dropdown sit above body bottom where appropriate
+        /*
+         * issues/1889: fix from https://github.com/adaptlearning/adapt_framework/issues/1889
+         * code added to make dropdown sit above body bottom where appropriate
+         */ 
         AttachContainer.prototype.bind = function(decorated, container, $container) {
 
             var self = this;
