@@ -72,7 +72,7 @@
         }
     ],
     "_feedback": {
-        "title": "Feedback title",
+        "title": "Feedback",
         "correct": "This feedback will appear if you answered the question correctly.",
         "_incorrect": {
             "notFinal": "",
