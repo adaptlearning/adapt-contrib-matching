@@ -16,7 +16,7 @@
     "title": "Matching",
     "displayTitle": "Matching",
     "body": "Basically what you need to do is match the questions below with the drop down box option.",
-    "instruction":"",
+    "instruction": "",
     "placeholder": "select an option",
     "_items": [
         {
@@ -72,6 +72,7 @@
         }
     ],
     "_feedback": {
+        "title": "Feedback",
         "correct": "This feedback will appear if you answered the question correctly.",
         "_incorrect": {
             "notFinal": "",
