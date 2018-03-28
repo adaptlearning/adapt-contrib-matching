@@ -1,5 +1,5 @@
 /*!
- * Select2 4.0.3
+ * Select2 4.0.5
  * https://select2.github.io
  *
  * Released under the MIT license
@@ -44,13 +44,11 @@
 var S2;(function () { if (!S2 || !S2.requirejs) {
 if (!S2) { S2 = {}; } else { require = S2; }
 /**
- * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: http://github.com/jrburke/almond for details
+ * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.
+ * Released under MIT license, http://github.com/requirejs/almond/LICENSE
  */
 //Going sloppy to avoid 'use strict' string cost, but strict practices should
 //be followed.
-/*jslint sloppy: true */
 /*global setTimeout: false */
 
 var requirejs, require, define;
@@ -78,60 +76,58 @@ var requirejs, require, define;
      */
     function normalize(name, baseName) {
         var nameParts, nameSegment, mapValue, foundMap, lastIndex,
-            foundI, foundStarMap, starI, i, j, part,
+            foundI, foundStarMap, starI, i, j, part, normalizedBaseParts,
             baseParts = baseName && baseName.split("/"),
             map = config.map,
             starMap = (map && map['*']) || {};
 
         //Adjust any relative paths.
-        if (name && name.charAt(0) === ".") {
-            //If have a base name, try to normalize against it,
-            //otherwise, assume it is a top-level require that will
-            //be relative to baseUrl in the end.
-            if (baseName) {
-                name = name.split('/');
-                lastIndex = name.length - 1;
+        if (name) {
+            name = name.split('/');
+            lastIndex = name.length - 1;
 
-                // Node .js allowance:
-                if (config.nodeIdCompat && jsSuffixRegExp.test(name[lastIndex])) {
-                    name[lastIndex] = name[lastIndex].replace(jsSuffixRegExp, '');
-                }
+            // If wanting node ID compatibility, strip .js from end
+            // of IDs. Have to do this here, and not in nameToUrl
+            // because node allows either .js or non .js to map
+            // to same file.
+            if (config.nodeIdCompat && jsSuffixRegExp.test(name[lastIndex])) {
+                name[lastIndex] = name[lastIndex].replace(jsSuffixRegExp, '');
+            }
 
-                //Lop off the last part of baseParts, so that . matches the
-                //"directory" and not name of the baseName's module. For instance,
-                //baseName of "one/two/three", maps to "one/two/three.js", but we
-                //want the directory, "one/two" for this normalization.
-                name = baseParts.slice(0, baseParts.length - 1).concat(name);
+            // Starts with a '.' so need the baseName
+            if (name[0].charAt(0) === '.' && baseParts) {
+                //Convert baseName to array, and lop off the last part,
+                //so that . matches that 'directory' and not name of the baseName's
+                //module. For instance, baseName of 'one/two/three', maps to
+                //'one/two/three.js', but we want the directory, 'one/two' for
+                //this normalization.
+                normalizedBaseParts = baseParts.slice(0, baseParts.length - 1);
+                name = normalizedBaseParts.concat(name);
+            }
 
-                //start trimDots
-                for (i = 0; i < name.length; i += 1) {
-                    part = name[i];
-                    if (part === ".") {
-                        name.splice(i, 1);
-                        i -= 1;
-                    } else if (part === "..") {
-                        if (i === 1 && (name[2] === '..' || name[0] === '..')) {
-                            //End of the line. Keep at least one non-dot
-                            //path segment at the front so it can be mapped
-                            //correctly to disk. Otherwise, there is likely
-                            //no path mapping for a path starting with '..'.
-                            //This can still fail, but catches the most reasonable
-                            //uses of ..
-                            break;
-                        } else if (i > 0) {
-                            name.splice(i - 1, 2);
-                            i -= 2;
-                        }
+            //start trimDots
+            for (i = 0; i < name.length; i++) {
+                part = name[i];
+                if (part === '.') {
+                    name.splice(i, 1);
+                    i -= 1;
+                } else if (part === '..') {
+                    // If at the start, or previous value is still ..,
+                    // keep them so that when converted to a path it may
+                    // still work when converted to a path, even though
+                    // as an ID it is less than ideal. In larger point
+                    // releases, may be better to just kick out an error.
+                    if (i === 0 || (i === 1 && name[2] === '..') || name[i - 1] === '..') {
+                        continue;
+                    } else if (i > 0) {
+                        name.splice(i - 1, 2);
+                        i -= 2;
                     }
                 }
-                //end trimDots
-
-                name = name.join("/");
-            } else if (name.indexOf('./') === 0) {
-                // No baseName, so this is ID is resolved relative
-                // to baseUrl, pull off the leading dot.
-                name = name.substring(2);
             }
+            //end trimDots
+
+            name = name.join('/');
         }
 
         //Apply map config if available.
@@ -244,32 +240,39 @@ var requirejs, require, define;
         return [prefix, name];
     }
 
+    //Creates a parts array for a relName where first part is plugin ID,
+    //second part is resource ID. Assumes relName has already been normalized.
+    function makeRelParts(relName) {
+        return relName ? splitPrefix(relName) : [];
+    }
+
     /**
      * Makes a name map, normalizing the name, and using a plugin
      * for normalization if necessary. Grabs a ref to plugin
      * too, as an optimization.
      */
-    makeMap = function (name, relName) {
+    makeMap = function (name, relParts) {
         var plugin,
             parts = splitPrefix(name),
-            prefix = parts[0];
+            prefix = parts[0],
+            relResourceName = relParts[1];
 
         name = parts[1];
 
         if (prefix) {
-            prefix = normalize(prefix, relName);
+            prefix = normalize(prefix, relResourceName);
             plugin = callDep(prefix);
         }
 
         //Normalize according
         if (prefix) {
             if (plugin && plugin.normalize) {
-                name = plugin.normalize(name, makeNormalize(relName));
+                name = plugin.normalize(name, makeNormalize(relResourceName));
             } else {
-                name = normalize(name, relName);
+                name = normalize(name, relResourceName);
             }
         } else {
-            name = normalize(name, relName);
+            name = normalize(name, relResourceName);
             parts = splitPrefix(name);
             prefix = parts[0];
             name = parts[1];
@@ -316,13 +319,14 @@ var requirejs, require, define;
     };
 
     main = function (name, deps, callback, relName) {
-        var cjsModule, depName, ret, map, i,
+        var cjsModule, depName, ret, map, i, relParts,
             args = [],
             callbackType = typeof callback,
             usingExports;
 
         //Use name if no relName
         relName = relName || name;
+        relParts = makeRelParts(relName);
 
         //Call the callback to define the module, if necessary.
         if (callbackType === 'undefined' || callbackType === 'function') {
@@ -331,7 +335,7 @@ var requirejs, require, define;
             //Default to [require, exports, module] if no deps
             deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
             for (i = 0; i < deps.length; i += 1) {
-                map = makeMap(deps[i], relName);
+                map = makeMap(deps[i], relParts);
                 depName = map.f;
 
                 //Fast path CommonJS standard dependencies.
@@ -387,7 +391,7 @@ var requirejs, require, define;
             //deps arg is the module name, and second arg (if passed)
             //is just the relName.
             //Normalize module name, if it contains . or ..
-            return callDep(makeMap(deps, callback).f);
+            return callDep(makeMap(deps, makeRelParts(callback)).f);
         } else if (!deps.splice) {
             //deps is a config object, not an array.
             config = deps;
@@ -1851,7 +1855,7 @@ S2.define('select2/selection/search',[
     var $search = $(
       '<li class="select2-search select2-search--inline">' +
         '<input class="select2-search__field" type="search" tabindex="-1"' +
-        ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
+        ' autocomplete="off" autocorrect="off" autocapitalize="none"' +
         ' spellcheck="false" role="textbox" aria-autocomplete="list" />' +
       '</li>'
     );
@@ -3905,7 +3909,7 @@ S2.define('select2/dropdown/search',[
     var $search = $(
       '<span class="select2-search select2-search--dropdown">' +
         '<input class="select2-search__field" type="search" tabindex="-1"' +
-        ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
+        ' autocomplete="off" autocorrect="off" autocapitalize="none"' +
         ' spellcheck="false" role="textbox" />' +
       '</span>'
     );
@@ -3958,7 +3962,7 @@ S2.define('select2/dropdown/search',[
     });
 
     container.on('focus', function () {
-      if (container.isOpen()) {
+      if (!container.isOpen()) {
         self.$search.focus();
       }
     });
@@ -5656,723 +5660,12 @@ S2.define('select2/core',[
   return Select2;
 });
 
-S2.define('select2/compat/utils',[
+S2.define('jquery-mousewheel',[
   'jquery'
 ], function ($) {
-  function syncCssClasses ($dest, $src, adapter) {
-    var classes, replacements = [], adapted;
-
-    classes = $.trim($dest.attr('class'));
-
-    if (classes) {
-      classes = '' + classes; // for IE which returns object
-
-      $(classes.split(/\s+/)).each(function () {
-        // Save all Select2 classes
-        if (this.indexOf('select2-') === 0) {
-          replacements.push(this);
-        }
-      });
-    }
-
-    classes = $.trim($src.attr('class'));
-
-    if (classes) {
-      classes = '' + classes; // for IE which returns object
-
-      $(classes.split(/\s+/)).each(function () {
-        // Only adapt non-Select2 classes
-        if (this.indexOf('select2-') !== 0) {
-          adapted = adapter(this);
-
-          if (adapted != null) {
-            replacements.push(adapted);
-          }
-        }
-      });
-    }
-
-    $dest.attr('class', replacements.join(' '));
-  }
-
-  return {
-    syncCssClasses: syncCssClasses
-  };
+  // Used to shim jQuery.mousewheel for non-full builds.
+  return $;
 });
-
-S2.define('select2/compat/containerCss',[
-  'jquery',
-  './utils'
-], function ($, CompatUtils) {
-  // No-op CSS adapter that discards all classes by default
-  function _containerAdapter (clazz) {
-    return null;
-  }
-
-  function ContainerCSS () { }
-
-  ContainerCSS.prototype.render = function (decorated) {
-    var $container = decorated.call(this);
-
-    var containerCssClass = this.options.get('containerCssClass') || '';
-
-    if ($.isFunction(containerCssClass)) {
-      containerCssClass = containerCssClass(this.$element);
-    }
-
-    var containerCssAdapter = this.options.get('adaptContainerCssClass');
-    containerCssAdapter = containerCssAdapter || _containerAdapter;
-
-    if (containerCssClass.indexOf(':all:') !== -1) {
-      containerCssClass = containerCssClass.replace(':all:', '');
-
-      var _cssAdapter = containerCssAdapter;
-
-      containerCssAdapter = function (clazz) {
-        var adapted = _cssAdapter(clazz);
-
-        if (adapted != null) {
-          // Append the old one along with the adapted one
-          return adapted + ' ' + clazz;
-        }
-
-        return clazz;
-      };
-    }
-
-    var containerCss = this.options.get('containerCss') || {};
-
-    if ($.isFunction(containerCss)) {
-      containerCss = containerCss(this.$element);
-    }
-
-    CompatUtils.syncCssClasses($container, this.$element, containerCssAdapter);
-
-    $container.css(containerCss);
-    $container.addClass(containerCssClass);
-
-    return $container;
-  };
-
-  return ContainerCSS;
-});
-
-S2.define('select2/compat/dropdownCss',[
-  'jquery',
-  './utils'
-], function ($, CompatUtils) {
-  // No-op CSS adapter that discards all classes by default
-  function _dropdownAdapter (clazz) {
-    return null;
-  }
-
-  function DropdownCSS () { }
-
-  DropdownCSS.prototype.render = function (decorated) {
-    var $dropdown = decorated.call(this);
-
-    var dropdownCssClass = this.options.get('dropdownCssClass') || '';
-
-    if ($.isFunction(dropdownCssClass)) {
-      dropdownCssClass = dropdownCssClass(this.$element);
-    }
-
-    var dropdownCssAdapter = this.options.get('adaptDropdownCssClass');
-    dropdownCssAdapter = dropdownCssAdapter || _dropdownAdapter;
-
-    if (dropdownCssClass.indexOf(':all:') !== -1) {
-      dropdownCssClass = dropdownCssClass.replace(':all:', '');
-
-      var _cssAdapter = dropdownCssAdapter;
-
-      dropdownCssAdapter = function (clazz) {
-        var adapted = _cssAdapter(clazz);
-
-        if (adapted != null) {
-          // Append the old one along with the adapted one
-          return adapted + ' ' + clazz;
-        }
-
-        return clazz;
-      };
-    }
-
-    var dropdownCss = this.options.get('dropdownCss') || {};
-
-    if ($.isFunction(dropdownCss)) {
-      dropdownCss = dropdownCss(this.$element);
-    }
-
-    CompatUtils.syncCssClasses($dropdown, this.$element, dropdownCssAdapter);
-
-    $dropdown.css(dropdownCss);
-    $dropdown.addClass(dropdownCssClass);
-
-    return $dropdown;
-  };
-
-  return DropdownCSS;
-});
-
-S2.define('select2/compat/initSelection',[
-  'jquery'
-], function ($) {
-  function InitSelection (decorated, $element, options) {
-    if (options.get('debug') && window.console && console.warn) {
-      console.warn(
-        'Select2: The `initSelection` option has been deprecated in favor' +
-        ' of a custom data adapter that overrides the `current` method. ' +
-        'This method is now called multiple times instead of a single ' +
-        'time when the instance is initialized. Support will be removed ' +
-        'for the `initSelection` option in future versions of Select2'
-      );
-    }
-
-    this.initSelection = options.get('initSelection');
-    this._isInitialized = false;
-
-    decorated.call(this, $element, options);
-  }
-
-  InitSelection.prototype.current = function (decorated, callback) {
-    var self = this;
-
-    if (this._isInitialized) {
-      decorated.call(this, callback);
-
-      return;
-    }
-
-    this.initSelection.call(null, this.$element, function (data) {
-      self._isInitialized = true;
-
-      if (!$.isArray(data)) {
-        data = [data];
-      }
-
-      callback(data);
-    });
-  };
-
-  return InitSelection;
-});
-
-S2.define('select2/compat/inputData',[
-  'jquery'
-], function ($) {
-  function InputData (decorated, $element, options) {
-    this._currentData = [];
-    this._valueSeparator = options.get('valueSeparator') || ',';
-
-    if ($element.prop('type') === 'hidden') {
-      if (options.get('debug') && console && console.warn) {
-        console.warn(
-          'Select2: Using a hidden input with Select2 is no longer ' +
-          'supported and may stop working in the future. It is recommended ' +
-          'to use a `<select>` element instead.'
-        );
-      }
-    }
-
-    decorated.call(this, $element, options);
-  }
-
-  InputData.prototype.current = function (_, callback) {
-    function getSelected (data, selectedIds) {
-      var selected = [];
-
-      if (data.selected || $.inArray(data.id, selectedIds) !== -1) {
-        data.selected = true;
-        selected.push(data);
-      } else {
-        data.selected = false;
-      }
-
-      if (data.children) {
-        selected.push.apply(selected, getSelected(data.children, selectedIds));
-      }
-
-      return selected;
-    }
-
-    var selected = [];
-
-    for (var d = 0; d < this._currentData.length; d++) {
-      var data = this._currentData[d];
-
-      selected.push.apply(
-        selected,
-        getSelected(
-          data,
-          this.$element.val().split(
-            this._valueSeparator
-          )
-        )
-      );
-    }
-
-    callback(selected);
-  };
-
-  InputData.prototype.select = function (_, data) {
-    if (!this.options.get('multiple')) {
-      this.current(function (allData) {
-        $.map(allData, function (data) {
-          data.selected = false;
-        });
-      });
-
-      this.$element.val(data.id);
-      this.$element.trigger('change');
-    } else {
-      var value = this.$element.val();
-      value += this._valueSeparator + data.id;
-
-      this.$element.val(value);
-      this.$element.trigger('change');
-    }
-  };
-
-  InputData.prototype.unselect = function (_, data) {
-    var self = this;
-
-    data.selected = false;
-
-    this.current(function (allData) {
-      var values = [];
-
-      for (var d = 0; d < allData.length; d++) {
-        var item = allData[d];
-
-        if (data.id == item.id) {
-          continue;
-        }
-
-        values.push(item.id);
-      }
-
-      self.$element.val(values.join(self._valueSeparator));
-      self.$element.trigger('change');
-    });
-  };
-
-  InputData.prototype.query = function (_, params, callback) {
-    var results = [];
-
-    for (var d = 0; d < this._currentData.length; d++) {
-      var data = this._currentData[d];
-
-      var matches = this.matches(params, data);
-
-      if (matches !== null) {
-        results.push(matches);
-      }
-    }
-
-    callback({
-      results: results
-    });
-  };
-
-  InputData.prototype.addOptions = function (_, $options) {
-    var options = $.map($options, function ($option) {
-      return $.data($option[0], 'data');
-    });
-
-    this._currentData.push.apply(this._currentData, options);
-  };
-
-  return InputData;
-});
-
-S2.define('select2/compat/matcher',[
-  'jquery'
-], function ($) {
-  function oldMatcher (matcher) {
-    function wrappedMatcher (params, data) {
-      var match = $.extend(true, {}, data);
-
-      if (params.term == null || $.trim(params.term) === '') {
-        return match;
-      }
-
-      if (data.children) {
-        for (var c = data.children.length - 1; c >= 0; c--) {
-          var child = data.children[c];
-
-          // Check if the child object matches
-          // The old matcher returned a boolean true or false
-          var doesMatch = matcher(params.term, child.text, child);
-
-          // If the child didn't match, pop it off
-          if (!doesMatch) {
-            match.children.splice(c, 1);
-          }
-        }
-
-        if (match.children.length > 0) {
-          return match;
-        }
-      }
-
-      if (matcher(params.term, data.text, data)) {
-        return match;
-      }
-
-      return null;
-    }
-
-    return wrappedMatcher;
-  }
-
-  return oldMatcher;
-});
-
-S2.define('select2/compat/query',[
-
-], function () {
-  function Query (decorated, $element, options) {
-    if (options.get('debug') && window.console && console.warn) {
-      console.warn(
-        'Select2: The `query` option has been deprecated in favor of a ' +
-        'custom data adapter that overrides the `query` method. Support ' +
-        'will be removed for the `query` option in future versions of ' +
-        'Select2.'
-      );
-    }
-
-    decorated.call(this, $element, options);
-  }
-
-  Query.prototype.query = function (_, params, callback) {
-    params.callback = callback;
-
-    var query = this.options.get('query');
-
-    query.call(null, params);
-  };
-
-  return Query;
-});
-
-S2.define('select2/dropdown/attachContainer',[
-
-], function () {
-  function AttachContainer (decorated, $element, options) {
-    decorated.call(this, $element, options);
-  }
-
-  AttachContainer.prototype.position =
-    function (decorated, $dropdown, $container) {
-    var $dropdownContainer = $container.find('.dropdown-wrapper');
-    $dropdownContainer.append($dropdown);
-
-    $dropdown.addClass('select2-dropdown--below');
-    $container.addClass('select2-container--below');
-  };
-
-  return AttachContainer;
-});
-
-S2.define('select2/dropdown/stopPropagation',[
-
-], function () {
-  function StopPropagation () { }
-
-  StopPropagation.prototype.bind = function (decorated, container, $container) {
-    decorated.call(this, container, $container);
-
-    var stoppedEvents = [
-    'blur',
-    'change',
-    'click',
-    'dblclick',
-    'focus',
-    'focusin',
-    'focusout',
-    'input',
-    'keydown',
-    'keyup',
-    'keypress',
-    'mousedown',
-    'mouseenter',
-    'mouseleave',
-    'mousemove',
-    'mouseover',
-    'mouseup',
-    'search',
-    'touchend',
-    'touchstart'
-    ];
-
-    this.$dropdown.on(stoppedEvents.join(' '), function (evt) {
-      evt.stopPropagation();
-    });
-  };
-
-  return StopPropagation;
-});
-
-S2.define('select2/selection/stopPropagation',[
-
-], function () {
-  function StopPropagation () { }
-
-  StopPropagation.prototype.bind = function (decorated, container, $container) {
-    decorated.call(this, container, $container);
-
-    var stoppedEvents = [
-      'blur',
-      'change',
-      'click',
-      'dblclick',
-      'focus',
-      'focusin',
-      'focusout',
-      'input',
-      'keydown',
-      'keyup',
-      'keypress',
-      'mousedown',
-      'mouseenter',
-      'mouseleave',
-      'mousemove',
-      'mouseover',
-      'mouseup',
-      'search',
-      'touchend',
-      'touchstart'
-    ];
-
-    this.$selection.on(stoppedEvents.join(' '), function (evt) {
-      evt.stopPropagation();
-    });
-  };
-
-  return StopPropagation;
-});
-
-/*!
- * jQuery Mousewheel 3.1.13
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license
- * http://jquery.org/license
- */
-
-(function (factory) {
-    if ( typeof S2.define === 'function' && S2.define.amd ) {
-        // AMD. Register as an anonymous module.
-        S2.define('jquery-mousewheel',['jquery'], factory);
-    } else if (typeof exports === 'object') {
-        // Node/CommonJS style for Browserify
-        module.exports = factory;
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-
-    var toFix  = ['wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll'],
-        toBind = ( 'onwheel' in document || document.documentMode >= 9 ) ?
-                    ['wheel'] : ['mousewheel', 'DomMouseScroll', 'MozMousePixelScroll'],
-        slice  = Array.prototype.slice,
-        nullLowestDeltaTimeout, lowestDelta;
-
-    if ( $.event.fixHooks ) {
-        for ( var i = toFix.length; i; ) {
-            $.event.fixHooks[ toFix[--i] ] = $.event.mouseHooks;
-        }
-    }
-
-    var special = $.event.special.mousewheel = {
-        version: '3.1.12',
-
-        setup: function() {
-            if ( this.addEventListener ) {
-                for ( var i = toBind.length; i; ) {
-                    this.addEventListener( toBind[--i], handler, false );
-                }
-            } else {
-                this.onmousewheel = handler;
-            }
-            // Store the line height and page height for this particular element
-            $.data(this, 'mousewheel-line-height', special.getLineHeight(this));
-            $.data(this, 'mousewheel-page-height', special.getPageHeight(this));
-        },
-
-        teardown: function() {
-            if ( this.removeEventListener ) {
-                for ( var i = toBind.length; i; ) {
-                    this.removeEventListener( toBind[--i], handler, false );
-                }
-            } else {
-                this.onmousewheel = null;
-            }
-            // Clean up the data we added to the element
-            $.removeData(this, 'mousewheel-line-height');
-            $.removeData(this, 'mousewheel-page-height');
-        },
-
-        getLineHeight: function(elem) {
-            var $elem = $(elem),
-                $parent = $elem['offsetParent' in $.fn ? 'offsetParent' : 'parent']();
-            if (!$parent.length) {
-                $parent = $('body');
-            }
-            return parseInt($parent.css('fontSize'), 10) || parseInt($elem.css('fontSize'), 10) || 16;
-        },
-
-        getPageHeight: function(elem) {
-            return $(elem).height();
-        },
-
-        settings: {
-            adjustOldDeltas: true, // see shouldAdjustOldDeltas() below
-            normalizeOffset: true  // calls getBoundingClientRect for each event
-        }
-    };
-
-    $.fn.extend({
-        mousewheel: function(fn) {
-            return fn ? this.bind('mousewheel', fn) : this.trigger('mousewheel');
-        },
-
-        unmousewheel: function(fn) {
-            return this.unbind('mousewheel', fn);
-        }
-    });
-
-
-    function handler(event) {
-        var orgEvent   = event || window.event,
-            args       = slice.call(arguments, 1),
-            delta      = 0,
-            deltaX     = 0,
-            deltaY     = 0,
-            absDelta   = 0,
-            offsetX    = 0,
-            offsetY    = 0;
-        event = $.event.fix(orgEvent);
-        event.type = 'mousewheel';
-
-        // Old school scrollwheel delta
-        if ( 'detail'      in orgEvent ) { deltaY = orgEvent.detail * -1;      }
-        if ( 'wheelDelta'  in orgEvent ) { deltaY = orgEvent.wheelDelta;       }
-        if ( 'wheelDeltaY' in orgEvent ) { deltaY = orgEvent.wheelDeltaY;      }
-        if ( 'wheelDeltaX' in orgEvent ) { deltaX = orgEvent.wheelDeltaX * -1; }
-
-        // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
-        if ( 'axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
-            deltaX = deltaY * -1;
-            deltaY = 0;
-        }
-
-        // Set delta to be deltaY or deltaX if deltaY is 0 for backwards compatabilitiy
-        delta = deltaY === 0 ? deltaX : deltaY;
-
-        // New school wheel delta (wheel event)
-        if ( 'deltaY' in orgEvent ) {
-            deltaY = orgEvent.deltaY * -1;
-            delta  = deltaY;
-        }
-        if ( 'deltaX' in orgEvent ) {
-            deltaX = orgEvent.deltaX;
-            if ( deltaY === 0 ) { delta  = deltaX * -1; }
-        }
-
-        // No change actually happened, no reason to go any further
-        if ( deltaY === 0 && deltaX === 0 ) { return; }
-
-        // Need to convert lines and pages to pixels if we aren't already in pixels
-        // There are three delta modes:
-        //   * deltaMode 0 is by pixels, nothing to do
-        //   * deltaMode 1 is by lines
-        //   * deltaMode 2 is by pages
-        if ( orgEvent.deltaMode === 1 ) {
-            var lineHeight = $.data(this, 'mousewheel-line-height');
-            delta  *= lineHeight;
-            deltaY *= lineHeight;
-            deltaX *= lineHeight;
-        } else if ( orgEvent.deltaMode === 2 ) {
-            var pageHeight = $.data(this, 'mousewheel-page-height');
-            delta  *= pageHeight;
-            deltaY *= pageHeight;
-            deltaX *= pageHeight;
-        }
-
-        // Store lowest absolute delta to normalize the delta values
-        absDelta = Math.max( Math.abs(deltaY), Math.abs(deltaX) );
-
-        if ( !lowestDelta || absDelta < lowestDelta ) {
-            lowestDelta = absDelta;
-
-            // Adjust older deltas if necessary
-            if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
-                lowestDelta /= 40;
-            }
-        }
-
-        // Adjust older deltas if necessary
-        if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
-            // Divide all the things by 40!
-            delta  /= 40;
-            deltaX /= 40;
-            deltaY /= 40;
-        }
-
-        // Get a whole, normalized value for the deltas
-        delta  = Math[ delta  >= 1 ? 'floor' : 'ceil' ](delta  / lowestDelta);
-        deltaX = Math[ deltaX >= 1 ? 'floor' : 'ceil' ](deltaX / lowestDelta);
-        deltaY = Math[ deltaY >= 1 ? 'floor' : 'ceil' ](deltaY / lowestDelta);
-
-        // Normalise offsetX and offsetY properties
-        if ( special.settings.normalizeOffset && this.getBoundingClientRect ) {
-            var boundingRect = this.getBoundingClientRect();
-            offsetX = event.clientX - boundingRect.left;
-            offsetY = event.clientY - boundingRect.top;
-        }
-
-        // Add information to the event object
-        event.deltaX = deltaX;
-        event.deltaY = deltaY;
-        event.deltaFactor = lowestDelta;
-        event.offsetX = offsetX;
-        event.offsetY = offsetY;
-        // Go ahead and set deltaMode to 0 since we converted to pixels
-        // Although this is a little odd since we overwrite the deltaX/Y
-        // properties with normalized deltas.
-        event.deltaMode = 0;
-
-        // Add event and delta to the front of the arguments
-        args.unshift(event, delta, deltaX, deltaY);
-
-        // Clearout lowestDelta after sometime to better
-        // handle multiple device types that give different
-        // a different lowestDelta
-        // Ex: trackpad = 3 and mouse wheel = 120
-        if (nullLowestDeltaTimeout) { clearTimeout(nullLowestDeltaTimeout); }
-        nullLowestDeltaTimeout = setTimeout(nullLowestDelta, 200);
-
-        return ($.event.dispatch || $.event.handle).apply(this, args);
-    }
-
-    function nullLowestDelta() {
-        lowestDelta = null;
-    }
-
-    function shouldAdjustOldDeltas(orgEvent, absDelta) {
-        // If this is an older event and the delta is divisable by 120,
-        // then we are assuming that the browser is treating this as an
-        // older mouse wheel event and that we should divide the deltas
-        // by 40 to try and get a more usable deltaFactor.
-        // Side note, this actually impacts the reported scroll distance
-        // in older browsers and can cause scrolling to be slower than native.
-        // Turn this off by setting $.event.special.mousewheel.settings.adjustOldDeltas to false.
-        return special.settings.adjustOldDeltas && orgEvent.type === 'mousewheel' && absDelta % 120 === 0;
-    }
-
-}));
 
 S2.define('jquery.select2',[
   'jquery',
