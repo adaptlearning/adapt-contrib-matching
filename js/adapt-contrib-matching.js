@@ -233,16 +233,18 @@ define([
         },
 
         resetQuestion: function() {
-            this.$('.matching-select option').prop('selected', false);
-            
-            this.$(".matching-item").removeClass("correct").removeClass("incorrect");
-            
+            this.$('.matching-item').removeClass("correct").removeClass("incorrect");
+
             this.model.set('_isAtLeastOneCorrectSelection', false);
-            
+
             var placeholder = this.model.get('placeholder');
-            
-            _.each(this.model.get("_items"), function(item, index) {
+            var resetAll = this.model.get('_shouldResetAllAnswers');
+
+            _.each(this.model.get('_items'), function(item, index) {
+                if(item._isCorrect && resetAll === false) return ;
+
                 this.selectValue(index, placeholder);
+
                 _.each(item._options, function(option, index) {
                     option._isSelected = false;
                 });

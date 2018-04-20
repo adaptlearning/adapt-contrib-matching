@@ -49,6 +49,8 @@ guide the learner’s interaction with the component.
 
 **_shouldDisplayAttempts** (boolean): Determines whether or not the text set in **remainingAttemptText** and **remainingAttemptsText** will be displayed. These two attributes are part of the [core buttons](https://github.com/adaptlearning/adapt_framework/wiki/Core-Buttons) attribute group. The default is `false`.  
 
+**_shouldResetAllAnswers** (boolean): Setting this value to `false` will stop correct answers from being reset when the question is reset - this can be better experience for the learner in instances when there are many items for them to answer. The default is `true`.  
+
 **_isRandom** (boolean): Setting this value to `true` will cause the possible answers associated with each *item* to appear in a random order each time the component is loaded. The default is `false`.   
 
 **_questionWeight** (number): A number which reflects the significance of the question in relation to the other questions in the course. This number is used in calculations of the final score reported to the LMS.  
@@ -101,7 +103,7 @@ contains values for three types of answers: **correct**, **_incorrect**, and **_
 No known limitations.
 
 ----------------------------
-**Version number:**  2.1.4   <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a> 
+**Version number:**  2.2.0   <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a> 
 **Framework versions:** 2.0.15+  
 **Author / maintainer:** Adapt Core Team with [contributors](https://github.com/adaptlearning/adapt-contrib-matching/graphs/contributors)  
 **Accessibility support:** WAI AA   
