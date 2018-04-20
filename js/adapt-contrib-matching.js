@@ -66,6 +66,9 @@ define([
             this.$('select').select2('destroy');
         },
 
+        /**
+         * Assigns indexes to all the options so that they can safely be randomised
+         */
         setupItemIndexes: function() {
 
             _.each(this.model.get("_items"), function(item, index) {
@@ -117,6 +120,10 @@ define([
             this.setupSelect2();
         },
 
+        /**
+         * Checks whether the user has selected a value in all the dropdowns or not
+         * return {boolean}
+         */
         canSubmit: function() {
             var canSubmit = true;
 
@@ -274,6 +281,14 @@ define([
             }
         },
 
+        /**
+         * sets the selected item of a dropdown
+         * @param index {number} The index (0-based) of the dropdown
+         * @param value {string} The dropdown item you want to be selected
+         * @example
+         * // sets the third dropdown to "Hebrew"
+         * this.selectValue(2, "Hebrew");
+         */
         selectValue: function(i, value) {
             value = $.trim(value);// select2 strips leading/trailing spaces so we need to as well - fixes https://github.com/adaptlearning/adapt_framework/issues/1503
             this.$('select').eq(i).val(value).trigger('change');
@@ -281,8 +296,7 @@ define([
 
         /**
         * Used by adapt-contrib-spoor to get the user's answers in the format required by the cmi.interactions.n.student_response data field
-        * Returns the user's answers as a string in the format "1.1#2.3#3.2" assuming user selected option 1 in drop-down 1, option 3 in drop-down 2
-        * and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor, depending on which SCORM version is being used.
+        * @return {string} the user's answers as a string in the format "1.1#2.3#3.2" assuming user selected option 1 in drop-down 1, option 3 in drop-down 2 and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor, depending on which SCORM version is being used.
         */
         getResponse: function() {
 
@@ -292,12 +306,13 @@ define([
             for(var i = 0, count = userAnswer.length; i < count; i++) {
                 responses.push((i + 1) + "." + (userAnswer[i] + 1));// convert from 0-based to 1-based counting
             }
-            
+
             return responses.join('#');
         },
 
         /**
         * Used by adapt-contrib-spoor to get the type of this question in the format required by the cmi.interactions.n.type data field
+        * @return {string}
         */
         getResponseType: function() {
             return "matching";
