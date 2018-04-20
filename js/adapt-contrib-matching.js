@@ -234,7 +234,7 @@ define([
         },
 
         resetUserAnswer: function() {
-            this.model.set({_userAnswer: []});
+            this.model.set('_userAnswer', []);
         },
 
         resetQuestion: function() {
