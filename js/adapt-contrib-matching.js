@@ -174,8 +174,10 @@ define([
                 userAnswer[item._index] = item._options[optionIndex]._index;
             }, this);
 
-            this.model.set('_userAnswer', userAnswer);
-            this.model.set('_tempUserAnswer', tempUserAnswer);
+            this.model.set({
+                '_userAnswer': userAnswer,
+                '_tempUserAnswer': tempUserAnswer
+            });
         },
 
         isCorrect: function() {
@@ -258,27 +260,22 @@ define([
         },
 
         showCorrectAnswer: function() {
-            var items = this.model.get('_items');
-
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
-                var correctOption = _.findWhere(item._options, {_isCorrect: true});
-                this.selectValue(i, correctOption.text);
-            }
+            _.each(this.model.get('_items'), function(item, index) {
+                var correctOption = _.findWhere(item._options, { _isCorrect: true });
+                this.selectValue(index, correctOption.text);
+            }, this);
         },
 
         hideCorrectAnswer: function() {
-            var items = this.model.get('_items');
-            for (var i = 0, count = items.length; i < count; i++) {
-                var index = this.model.has('_tempUserAnswer') ? 
-                    this.model.get('_tempUserAnswer')[i] :
-                    this.model.get('_userAnswer')[i];
+            var answerArray = this.model.has('_tempUserAnswer') ?
+                this.model.get('_tempUserAnswer') :
+                this.model.get('_userAnswer');
 
-                var item = items[i];
-                var value = item._options[index].text;
-
-                this.selectValue(i, value);
-            }
+            _.each(this.model.get('_items'), function (item, index) {
+                var key = answerArray[index];
+                var value = item._options[key].text;
+                this.selectValue(index, value);
+            }, this);
         },
 
         /**
