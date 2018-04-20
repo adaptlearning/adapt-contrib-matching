@@ -320,8 +320,6 @@ define([
 
     });
 
-    Adapt.register("matching", Matching);
-
-    return Matching;
+    return Adapt.register("matching", Matching);
 
 });
