@@ -3,12 +3,12 @@ define([
     'core/js/views/questionView',
     'libraries/select2'
 ], function(Adapt, QuestionView) {
-    
+
     /*
      * issue/1543: fix from https://github.com/select2/select2/issues/4063
      */
     var dropdownAdapter;
-    jQuery.fn.select2.amd.require([    
+    jQuery.fn.select2.amd.require([
         "select2/utils",
         "select2/dropdown",
         "select2/dropdown/attachContainer",
@@ -34,7 +34,7 @@ define([
         setupSelect2: function() {
             this.enableQuestion();
             if (this.model.get('_isEnabled') !== true) {
-                // select2 ignores disabled property applied to <select> in the template 
+                // select2 ignores disabled property applied to <select> in the template
                 this.disableQuestion();
             }
         },
@@ -56,7 +56,7 @@ define([
             this.listenToOnce(Adapt, 'preRemove', this.onPreRemove);
 
             this.setupItemIndexes();
-            
+
             this.restoreUserAnswers();
 
             this.setupRandomisation();
@@ -172,7 +172,6 @@ define([
         },
 
         isCorrect: function() {
-
             var numberOfCorrectAnswers = 0;
 
             _.each(this.model.get('_items'), function(item, index) {
