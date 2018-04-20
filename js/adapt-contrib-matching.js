@@ -298,13 +298,11 @@ define([
         * depending on which SCORM version is being used.
         */
         getResponse: function() {
-
-            var userAnswer = this.model.get('_userAnswer');
             var responses = [];
 
-            for(var i = 0, count = userAnswer.length; i < count; i++) {
-                responses.push((i + 1) + "." + (userAnswer[i] + 1));// convert from 0-based to 1-based counting
-            }
+            _.each(this.model.get('_userAnswer'), function(userAnswer, index) {
+                responses.push((index + 1) + "." + (userAnswer + 1));// convert from 0-based to 1-based counting
+            });
 
             return responses.join('#');
         },
