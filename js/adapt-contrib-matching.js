@@ -293,7 +293,9 @@ define([
 
         /**
         * Used by adapt-contrib-spoor to get the user's answers in the format required by the cmi.interactions.n.student_response data field
-        * @return {string} the user's answers as a string in the format "1.1#2.3#3.2" assuming user selected option 1 in drop-down 1, option 3 in drop-down 2 and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor, depending on which SCORM version is being used.
+        * @return {string} the user's answers as a string in the format "1.1#2.3#3.2" assuming user selected option 1 in drop-down 1,
+        * option 3 in drop-down 2 and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor,
+        * depending on which SCORM version is being used.
         */
         getResponse: function() {
 
