@@ -108,7 +108,7 @@ define([
         },
 
         setupRandomisation: function() {
-            if (!this.model.get('_isRandom')) return;
+            if (!this.model.get('_isRandom') || !this.model.get('_isEnabled')) return;
 
             _.each(this.model.get('_items'), function(item) {
                 item._options = _.shuffle(item._options);
