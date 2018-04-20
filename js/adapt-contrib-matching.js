@@ -28,7 +28,7 @@ define([
     var Matching = QuestionView.extend({
 
         disableQuestion: function() {
-            this.$('select').prop("disabled", true).select2();
+            this.$('select').prop('disabled', true).select2();
         },
 
         setupSelect2: function() {
@@ -40,7 +40,7 @@ define([
         },
 
         enableQuestion: function() {
-            this.$('select').prop("disabled", false).select2({
+            this.$('select').prop('disabled', false).select2({
                 placeholder: this.model.get('placeholder'),
                 minimumResultsForSearch: Infinity, // hides the search box from the Select2 dropdown
                 dir: Adapt.config.get('_defaultDirection'),
@@ -71,7 +71,7 @@ define([
          */
         setupItemIndexes: function() {
 
-            _.each(this.model.get("_items"), function(item, index) {
+            _.each(this.model.get('_items'), function(item, index) {
                 if (item._index === undefined) {
                     item._index = index;
                     item._selected = false;
@@ -87,11 +87,11 @@ define([
         },
 
         restoreUserAnswers: function() {
-            if (!this.model.get("_isSubmitted")) return;
+            if (!this.model.get('_isSubmitted')) return;
 
-            var userAnswer = this.model.get("_userAnswer");
+            var userAnswer = this.model.get('_userAnswer');
 
-            _.each(this.model.get("_items"), function(item, index) {
+            _.each(this.model.get('_items'), function(item, index) {
                 _.each(item._options, function(option, index) {
                     if (option._index == userAnswer[item._index]) {
                         option._isSelected = true;
@@ -108,11 +108,11 @@ define([
         },
 
         setupRandomisation: function() {
-            if (this.model.get('_isRandom') && this.model.get('_isEnabled')) {
-                _.each(this.model.get('_items'), function(item) {
-                    item._options = _.shuffle(item._options);
-                });
-            }
+            if (!this.model.get('_isRandom')) return;
+
+            _.each(this.model.get('_items'), function(item) {
+                item._options = _.shuffle(item._options);
+            });
         },
 
         onQuestionRendered: function() {
@@ -198,14 +198,13 @@ define([
 
             if (numberOfCorrectAnswers === this.model.get('_items').length) {
                 return true;
-            } else {
-                return false;
             }
 
+            return false;
         },
 
         setScore: function() {
-            var questionWeight = this.model.get("_questionWeight");
+            var questionWeight = this.model.get('_questionWeight');
 
             if (this.model.get('_isCorrect')) {
                 this.model.set('_score', questionWeight);
@@ -239,7 +238,8 @@ define([
         },
 
         resetQuestion: function() {
-            this.$('.matching-item').removeClass("correct").removeClass("incorrect");
+
+            this.$('.matching-item').removeClass('correct').removeClass('incorrect');
 
             this.model.set('_isAtLeastOneCorrectSelection', false);
 
