@@ -249,7 +249,7 @@ define([
             var resetAll = this.model.get('_shouldResetAllAnswers');
 
             _.each(this.model.get('_items'), function(item, index) {
-                if(item._isCorrect && resetAll === false) return ;
+                if(item._isCorrect && resetAll === false) return;
 
                 this.selectValue(index, placeholder);
 
