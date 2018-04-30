@@ -128,7 +128,7 @@ define([
             var canSubmit = true;
 
             this.$('select').each(function isOptionSelected(index, element) {
-                if(element.selectedIndex < 1) {// the placeholder has an index of 0 in Firefox and -1 in other browsers
+                if (element.selectedIndex < 1) {// the placeholder has an index of 0 in Firefox and -1 in other browsers
                     canSubmit = false;
                     return false;
                 }
@@ -139,7 +139,7 @@ define([
 
         onCannotSubmit: function() {
             this.$('select').each(function addErrorClass(index, element) {
-                if(element.selectedIndex < 1) {
+                if (element.selectedIndex < 1) {
                     var $element = $(element);
                     var $container = $element.parents('.matching-select-container');
                     $container.addClass('error');
@@ -148,7 +148,7 @@ define([
                     var $select = $element.parent();
                     $select.off(evt);// prevent multiple event bindings if the user repeatedly clicks submit without first making a selection
                     $select.on(evt, function(e) {
-                        if(e.params.data.element.index > 0) {
+                        if (e.params.data.element.index > 0) {
                             $container.removeClass('error');
                             $select.off(evt);
                         }
@@ -249,7 +249,7 @@ define([
             var resetAll = this.model.get('_shouldResetAllAnswers');
 
             _.each(this.model.get('_items'), function(item, index) {
-                if(item._isCorrect && resetAll === false) return;
+                if (item._isCorrect && resetAll === false) return;
 
                 this.selectValue(index, placeholder);
 
