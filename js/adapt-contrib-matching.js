@@ -188,8 +188,10 @@ define([
                 if (item._selected && item._selected._isCorrect) {
                     numberOfCorrectAnswers++;
                     item._isCorrect = true;
-                    this.model.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
-                    this.model.set('_isAtLeastOneCorrectSelection', true);
+                    this.model.set({
+                        '_numberOfCorrectAnswers': numberOfCorrectAnswers,
+                        '_isAtLeastOneCorrectSelection': true
+                    });
                 } else {
                     item._isCorrect = false;
                 }
