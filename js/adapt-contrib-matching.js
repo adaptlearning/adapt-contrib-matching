@@ -241,7 +241,7 @@ define([
 
         resetQuestion: function() {
 
-            this.$('.matching-item').removeClass('correct').removeClass('incorrect');
+            this.$('.matching-item').removeClass('correct incorrect');
 
             this.model.set('_isAtLeastOneCorrectSelection', false);
 
