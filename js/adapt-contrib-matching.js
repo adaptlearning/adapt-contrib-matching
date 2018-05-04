@@ -122,7 +122,7 @@ define([
 
         /**
          * Checks whether the user has selected a value in all the dropdowns or not
-         * return {boolean}
+         * @return {boolean}
          */
         canSubmit: function() {
             var canSubmit = true;
@@ -282,8 +282,8 @@ define([
 
         /**
          * sets the selected item of a dropdown
-         * @param index {number} The index (0-based) of the dropdown
-         * @param value {string} The dropdown item you want to be selected
+         * @param {number} index The index (0-based) of the dropdown
+         * @param {string} value The dropdown item you want to be selected
          * @example
          * // sets the third dropdown to "Hebrew"
          * this.selectValue(2, "Hebrew");
