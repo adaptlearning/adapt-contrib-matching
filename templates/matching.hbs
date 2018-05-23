@@ -1,4 +1,4 @@
-<div class="matching-inner component-inner" role="region" aria-label="{{_globals._components._matching.ariaRegion}}" {{#if _globals._components._matching.ariaRegion}}tabindex="0"{{/if}}>
+<div class="matching-inner component-inner">
   {{> component this}}
   <div class="matching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isInteractionComplete}} complete submitted show-user-answer {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
     {{#each _items}}
