@@ -63,6 +63,15 @@
       "inputType": "Checkbox",
       "validators": []
     },
+    "_shouldResetAllAnswers": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "title": "Reset all answers?",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "Controls whether all - or just incorrect - answers should be reset when the question is reset."
+    },
     "_shouldDisplayAttempts": {
       "type": "boolean",
       "required": false,
