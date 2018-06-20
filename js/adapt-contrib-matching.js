@@ -49,8 +49,8 @@ define([
             var $window = $(window);
 
             var viewport = {
-              top: $window.scrollTop(),
-              bottom: $window.scrollTop() + $window.height()
+                top: $window.scrollTop(),
+                bottom: $window.scrollTop() + $window.height()
             };
 
             var container = $container.offset();
@@ -58,12 +58,12 @@ define([
             container.bottom = container.top + container.height;
 
             var dropdown = {
-              height: $dropdown.outerHeight(false)
+                height: $dropdown.outerHeight(false)
             };
 
             var viewport = {
-              top: $window.scrollTop(),
-              bottom: $window.scrollTop() + $window.height()
+                top: $window.scrollTop(),
+                bottom: $window.scrollTop() + $window.height()
             };
 
             var enoughRoomBelow = !dropdown.height || viewport.bottom > (container.bottom + dropdown.height);
