@@ -61,11 +61,6 @@ define([
                 height: $dropdown.outerHeight(false)
             };
 
-            var viewport = {
-                top: $window.scrollTop(),
-                bottom: $window.scrollTop() + $window.height()
-            };
-
             var enoughRoomBelow = !dropdown.height || viewport.bottom > (container.bottom + dropdown.height);
 
             var oldDirection = $dropdown.hasClass('select2-dropdown--above') ? "above" : $dropdown.hasClass('select2-dropdown--below') ? "below" : "none";
