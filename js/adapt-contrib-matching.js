@@ -18,7 +18,7 @@ define([
         /*
          * issues/1889: fix from https://github.com/adaptlearning/adapt_framework/issues/1889
          * code added to make dropdown sit above body bottom where appropriate
-         */ 
+         */
         AttachContainer.prototype.bind = function(decorated, container, $container) {
 
             var self = this;
@@ -39,7 +39,7 @@ define([
                     self.position(self.$dropdown, $container);
                     self.$dropdown.css("visibility", "");
                 }, 0);
-                
+
             });
 
         };
