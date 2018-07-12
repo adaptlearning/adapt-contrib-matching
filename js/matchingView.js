@@ -69,7 +69,7 @@ define([
             });
         },
 
-        onOptionSelected(e) {
+        onOptionSelected: function(e) {
         	var itemIndex = $(e.target).parents('.matching-item').index();
         	var optionIndex = $(e.params.data.element).index() - 1;
         	this.model.setOptionSelected(itemIndex, optionIndex, true);
