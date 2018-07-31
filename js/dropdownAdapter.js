@@ -18,26 +18,25 @@ define([
          */
         AttachContainer.prototype.bind = function(decorated, container, $container) {
 
-            var self = this;
             decorated.call(this, $container, $container);
 
             container.on('opening', function () {
                 // hide so that popup doesn't jump when repositioned
-                self.$dropdown.css("visibility", "hidden");
-            });
+                this.$dropdown.css("visibility", "hidden");
+            }.bind(this));
 
             container.on('open', function () {
                 // add dropdown at this point so that the browser focus works correctly
                 var $dropdownContainer = $container.find('.dropdown-wrapper');
-                $dropdownContainer.append(self.$dropdown);
+                $dropdownContainer.append(this.$dropdown);
 
                 // defer to allow dom to settle before repositioning
                 setTimeout(function() {
-                    self.position(self.$dropdown, $container);
-                    self.$dropdown.css("visibility", "");
+                    this.position(this.$dropdown, $container);
+                    this.$dropdown.css("visibility", "");
                 }, 0);
 
-            });
+            }.bind(this));
 
         };
 

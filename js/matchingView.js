@@ -1,12 +1,12 @@
 define([
-	'core/js/adapt',
+    'core/js/adapt',
     'core/js/views/questionView',
     './dropdownAdapter'
 ], function(Adapt, QuestionView, dropdownAdapter) {
     
     var MatchingView = QuestionView.extend({
 
-    	disableQuestion: function() {
+        disableQuestion: function() {
             this.$('select').prop('disabled', true).select2();
         },
 
@@ -40,7 +40,7 @@ define([
         },
 
         onPreRemove: function() {
-        	this.$('select').off('select2:select', this.onOptionSelected);
+            this.$('select').off('select2:select', this.onOptionSelected);
             this.$('select').select2('destroy');
         },
 
@@ -51,34 +51,34 @@ define([
 
         onCannotSubmit: function() {
             this.$('select').each(function addErrorClass(index, element) {
-                if (element.selectedIndex < 1) {
-                    var $element = $(element);
-                    var $container = $element.parents('.matching-select-container');
-                    $container.addClass('error');
-                    // ensure the error class gets removed when the user selects a valid option
-                    var evt = "select2:select.errorclear";
-                    var $select = $element.parent();
-                    $select.off(evt);// prevent multiple event bindings if the user repeatedly clicks submit without first making a selection
-                    $select.on(evt, function(e) {
-                        if (e.params.data.element.index > 0) {
-                            $container.removeClass('error');
-                            $select.off(evt);
-                        }
-                    });
-                }
+                if (element.selectedIndex > 0) return;
+                
+                var $element = $(element);
+                var $container = $element.parents('.matching-select-container');
+                $container.addClass('error');
+                // ensure the error class gets removed when the user selects a valid option
+                var evt = "select2:select.errorclear";
+                var $select = $element.parent();
+                $select.off(evt);// prevent multiple event bindings if the user repeatedly clicks submit without first making a selection
+                $select.on(evt, function(e) {
+                    if (e.params.data.element.index > 0) {
+                        $container.removeClass('error');
+                        $select.off(evt);
+                    }
+                });
             });
         },
 
         onOptionSelected: function(e) {
-        	var itemIndex = $(e.target).parents('.matching-item').index();
-        	var optionIndex = $(e.params.data.element).index() - 1;
-        	this.model.setOptionSelected(itemIndex, optionIndex, true);
+            var itemIndex = $(e.target).parents('.matching-item').index();
+            var optionIndex = $(e.params.data.element).index() - 1;
+            this.model.setOptionSelected(itemIndex, optionIndex, true);
         },
 
         showMarking: function() {
             if (!this.model.get('_canShowMarking')) return;
 
-            _.each(this.model.get('_items'), function(item, i) {
+            this.model.get('_items').forEach(function(item, i) {
 
                 var $item = this.$('.matching-item').eq(i);
                 $item.removeClass('correct incorrect').addClass(item._isCorrect ? 'correct' : 'incorrect');
@@ -94,12 +94,12 @@ define([
             var placeholder = this.model.get('placeholder');
             var resetAll = this.model.get('_shouldResetAllAnswers');
 
-            _.each(this.model.get('_items'), function(item, index) {
+            this.model.get('_items').forEach(function(item, index) {
                 if (item._isCorrect && resetAll === false) return;
 
                 this.selectValue(index, placeholder);
 
-                _.each(item._options, function(option, index) {
+                item._options.forEach(function(option, index) {
                     option._isSelected = false;
                 });
 
@@ -108,7 +108,7 @@ define([
         },
 
         showCorrectAnswer: function() {
-            _.each(this.model.get('_items'), function(item, index) {
+            this.model.get('_items').forEach(function(item, index) {
                 var correctOption = _.findWhere(item._options, { _isCorrect: true });
                 this.selectValue(index, correctOption.text);
             }, this);
@@ -119,7 +119,7 @@ define([
                 this.model.get('_tempUserAnswer') :
                 this.model.get('_userAnswer');
 
-            _.each(this.model.get('_items'), function (item, index) {
+            this.model.get('_items').forEach(function (item, index) {
                 var key = answerArray[index];
                 var value = item._options[key].text;
                 this.selectValue(index, value);
