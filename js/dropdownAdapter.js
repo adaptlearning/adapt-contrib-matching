@@ -34,7 +34,7 @@ define([
                 setTimeout(function() {
                     this.position(this.$dropdown, $container);
                     this.$dropdown.css("visibility", "");
-                }, 0);
+                }.bind(this), 0);
 
             }.bind(this));
 
