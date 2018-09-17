@@ -3,7 +3,7 @@ define([
     'core/js/views/questionView',
     './dropdownAdapter'
 ], function(Adapt, QuestionView, dropdownAdapter) {
-    
+
     var MatchingView = QuestionView.extend({
 
         disableQuestion: function() {
@@ -52,7 +52,7 @@ define([
         onCannotSubmit: function() {
             this.$('select').each(function addErrorClass(index, element) {
                 if (element.selectedIndex > 0) return;
-                
+
                 var $element = $(element);
                 var $container = $element.parents('.matching-select-container');
                 $container.addClass('error');

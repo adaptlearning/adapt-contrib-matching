@@ -1,7 +1,7 @@
 define([
     'core/js/models/questionModel'
 ], function(QuestionModel) {
-    
+
     var MatchingModel = QuestionModel.extend({
 
         init: function() {
@@ -76,8 +76,8 @@ define([
             var userAnswer = new Array(this.get('_items').length);
             var tempUserAnswer = new Array(this.get('_items').length);
 
-            this.get('_items').forEach(function(item, index) {                
-                var optionIndex = _.findIndex(item._options, function(o) {return o._isSelected});
+            this.get('_items').forEach(function(item, index) {
+                var optionIndex = _.findIndex(item._options, function(o) {return o._isSelected;});
 
                 tempUserAnswer[item._index] = optionIndex;
                 userAnswer[item._index] = item._options[optionIndex]._index;
@@ -150,26 +150,26 @@ define([
             var interactions = {
                 correctResponsesPattern: null,
                 source: null,
-                target: null 
+                target: null
             };
-            // This contains an array with a single string value, matching the source 'id' with the correct 
+            // This contains an array with a single string value, matching the source 'id' with the correct
             // matching target 'id' value. An example is as follows:
             // [ "1[.]1_2[,]2[.]2_3" ]
-            interactions.correctResponsesPattern = [ 
+            interactions.correctResponsesPattern = [
                 this.model.get('_items').map(function(item, questionIndex) {
                     // Offset the item index and use it as a group identifier.
                     questionIndex = questionIndex + 1;
-                    return [ 
+                    return [
                         questionIndex,
                         item._options.filter(function(item) {
                             // Get the correct item(s).
                             return item._isCorrect;
                         }).map(function(item) {
                             // Prefix the option's index and offset by 1.
-                            return questionIndex + '_' + (item._index + 1).toString()
+                            return questionIndex + '_' + (item._index + 1).toString();
                         })
                     ].join('[.]');
-                }).join('[,]') 
+                }).join('[,]')
             ];
             // The 'source' property contains an array of all the stems/questions, e.g.
             // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
@@ -178,9 +178,9 @@ define([
                     // Offset by 1.
                     id: (item._index + 1).toString(),
                     description: item.text
-                }
+                };
             }));
-            // The 'target' property contains an array of all the option responses, with the 'id' 
+            // The 'target' property contains an array of all the option responses, with the 'id'
             // prefixed to indicate the grouping, e.g.
             // [  {id: "1_1": description: "First option, group 1"},
             //    {id: "1_2": description: "Second option, group 1"}
@@ -192,7 +192,7 @@ define([
                     return {
                         id: index + '_' + (option._index + 1),
                         description: option.text
-                    }
+                    };
                 });
             }));
             return interactions;
