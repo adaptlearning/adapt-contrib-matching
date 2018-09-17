@@ -41,7 +41,7 @@ define([
 
             this.get('_items').forEach(function(item, index) {
                 item._options.forEach(function(option, index) {
-                    if (option._index == userAnswer[item._index]) {
+                    if (option._index === userAnswer[item._index]) {
                         option._isSelected = true;
                         item._selected = option;
                     }
