@@ -152,11 +152,12 @@ define([
                 source: null,
                 target: null
             };
+            var items = this.get('_items');
             // This contains an array with a single string value, matching the source 'id' with the correct
             // matching target 'id' value. An example is as follows:
             // [ "1[.]1_2[,]2[.]2_3" ]
             interactions.correctResponsesPattern = [
-                this.model.get('_items').map(function(item, questionIndex) {
+                items.map(function(item, questionIndex) {
                     // Offset the item index and use it as a group identifier.
                     questionIndex = questionIndex + 1;
                     return [
@@ -173,7 +174,7 @@ define([
             ];
             // The 'source' property contains an array of all the stems/questions, e.g.
             // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
-            interactions.source = _.flatten(this.model.get('_items').map(function(item) {
+            interactions.source = _.flatten(items.map(function(item) {
                 return {
                     // Offset by 1.
                     id: (item._index + 1).toString(),
@@ -185,7 +186,7 @@ define([
             // [  {id: "1_1": description: "First option, group 1"},
             //    {id: "1_2": description: "Second option, group 1"}
             //    {id: "2_1": description: "First option, group 2"}  ]
-            interactions.target = _.flatten(this.model.get('_items').map(function(item, index) {
+            interactions.target = _.flatten(items.map(function(item, index) {
                 // Offset by 1, as these values are not zero-indexed.
                 index = index + 1;
                 return item._options.map(function(option) {
