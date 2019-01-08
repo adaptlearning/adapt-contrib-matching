@@ -7,7 +7,10 @@ define([
     var MatchingView = QuestionView.extend({
 
         disableQuestion: function() {
-            this.$('select').prop('disabled', true).select2();
+            this.$('select').prop('disabled', true).select2({
+                templateResult: this.wrapInJQuery,
+                templateSelection: this.wrapInJQuery
+            });
         },
 
         setupSelect2: function() {
@@ -25,8 +28,14 @@ define([
                 placeholder: this.model.get('placeholder'),
                 minimumResultsForSearch: Infinity, // hides the search box from the Select2 dropdown
                 dir: Adapt.config.get('_defaultDirection'),
-                dropdownAdapter: dropdownAdapter
+                dropdownAdapter: dropdownAdapter,
+                templateResult: this.wrapInJQuery,
+                templateSelection: this.wrapInJQuery
             });
+        },
+
+        wrapInJQuery: function(state) {
+            return $('<span>').html(state.text);
         },
 
         resetQuestionOnRevisit: function() {
