@@ -28,12 +28,7 @@ define(function() {
             return this.settings.parent;
         },
 
-        isNativeSelect: function() {
-            return this.parent().isNativeSelect();
-        },
-
         setUpEventListeners: function() {
-            if (this.isNativeSelect()) return;
             this.$el.on("click", this.onClick);
         },
 
@@ -54,10 +49,6 @@ define(function() {
             parent.setActiveDescendentId(this.$el[0].id);
             this.$el.attr('selected', '');
             parent.$input.val(this.getValue());
-            if (this.isNativeSelect()) {
-                parent.trigger('change', parent);
-                return this;
-            }
             this.$el.attr('aria-selected', 'true');
             parent.$inner.html(this.$el.attr('text'));
             parent.$input
@@ -70,7 +61,6 @@ define(function() {
         deselect: function() {
             var parent = this.parent();
             this.$el.removeAttr('selected');
-            if (this.isNativeSelect()) return this;
             this.$el.attr('aria-selected', 'false');
             return this;
         },

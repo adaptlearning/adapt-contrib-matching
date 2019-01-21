@@ -6,7 +6,7 @@ define([
     var DropDown = Backbone.View.extend({
 
         initialize: function(settings) {
-            _.bindAll(this, "onStartInteraction", "onNativeSelectChange", "onButtonClick", "onListBlur", "onKeyDown");
+            _.bindAll(this, 'onStartInteraction', 'onNativeSelectChange', 'onButtonClick', 'onListBlur', 'onKeyDown');
             this.settings = _.defaults(settings, this.getDefaults());
             this.placeholder = null;
             this.options = [];
@@ -16,12 +16,11 @@ define([
             this.addEventListeners();
             this.toggleOpen(false);
             this.settings.load.call(this, this);
-            this.trigger("load", this);
+            this.trigger('load', this);
         },
 
         getDefaults: function() {
             return {
-                useNative: false,
                 load: DropDown.defaults.load,
                 openList: DropDown.defaults.openList,
                 closeList: DropDown.defaults.closeList,
@@ -30,25 +29,14 @@ define([
         },
 
         setUpElements: function() {
-            if (this.$el.is(".is-native")) {
-                this.settings.useNative = true;
-                this.$button = this.$el;
-                this.$input = this.$list = this.$("select");
-                return;
-            }
-            this.$list = this.$(this.getTagName());
-            this.$button = this.$("button");
-            this.$inner = this.$("button .dropdown__inner");
-            this.$input = this.$("input");
-        },
-
-        getTagName: function() {
-            if (this.isNativeSelect()) return 'select';
-            return 'ul';
+            this.$list = this.$('ul');
+            this.$button = this.$('button');
+            this.$inner = this.$('button .dropdown__inner');
+            this.$input = this.$('input');
         },
 
         setUpItems: function() {
-            var $options = this.$(this.getItemTagName());
+            var $options = this.$('li');
             $options.each(function(index, el) {
                 new DropDownOption({
                     parent: this,
@@ -57,24 +45,7 @@ define([
             }.bind(this));
         },
 
-        getItemTagName: function() {
-            if (this.isNativeSelect()) return 'option';
-            return 'li';
-        },
-
-        isNativeSelect: function() {
-            return this.settings.useNative;
-        },
-
         addEventListeners: function() {
-            if (this.isNativeSelect()) {
-                this.$list.on({
-                    'mousedown touchstart': this.onStartInteraction,
-                    change: this.onNativeSelectChange
-                });
-                return;
-            }
-
             this.$button.on({
                 'mousedown touchstart': this.onStartInteraction,
                 click: this.onButtonClick
@@ -126,7 +97,6 @@ define([
         },
 
         toggleOpen: function(open) {
-            if (this.isNativeSelect()) return;
             if (open === undefined) open = !this.isOpen();
             this.$button.attr('aria-expanded', open ? 'true' : 'false');
             var name = open ? 'openList' : 'closeList';
@@ -174,7 +144,6 @@ define([
         },
 
         setActiveDescendentId: function(id) {
-            if (this.isNativeSelect()) return;
             this.$list.attr('aria-activedescendant', id);
         },
 
@@ -194,16 +163,16 @@ define([
         },
 
         toggleDisabled: function(value) {
-            if (value === undefined) value != this.$input.attr("disabled");
+            if (value === undefined) value != this.$input.attr('disabled');
             if (value === false) {
-                this.$input.removeAttr("disabled");
-                this.$button.removeAttr("disabled");
-                this.$el.removeAttr("disabled");
+                this.$input.removeAttr('disabled');
+                this.$button.removeAttr('disabled');
+                this.$el.removeAttr('disabled');
                 return;
             }
-            this.$input.attr("disabled", "");
-            this.$button.attr("disabled", "");
-            this.$el.attr("disabled", "");
+            this.$input.attr('disabled', '');
+            this.$button.attr('disabled', '');
+            this.$el.attr('disabled', '');
         },
 
         isEmpty: function() {
@@ -226,13 +195,6 @@ define([
         },
 
         removeEventListeners: function() {
-            if (this.isNativeSelect()) {
-                this.$list.off({
-                    'mousedown touchstart': this.onStartInteraction,
-                    change: this.onNativeSelectChange
-                });
-                return;
-            }
             this.$button.off({
                 'mousedown touchstart': this.onStartInteraction,
                 click: this.onButtonClick
