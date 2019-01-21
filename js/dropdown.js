@@ -267,11 +267,8 @@ define([
           .css({
             top: isOffscreen ? -height : ''
           })
-          .removeClass('sizing');
-
-        _.delay(function() {
-          this.$list.focus();
-        }.bind(this), 250);
+          .removeClass('sizing')
+          .focus();
 
       },
 
