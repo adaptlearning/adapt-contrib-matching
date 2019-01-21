@@ -127,7 +127,7 @@ define([
         },
 
         /**
-         * sSets the selected item of a dropdown
+         * Sets the selected item of a dropdown
          * @param {number} index The index (0-based) of the dropdown
          * @param {string} value The option _index
          * @example
