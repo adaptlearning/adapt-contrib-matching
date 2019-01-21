@@ -9,16 +9,7 @@
           <div class="matching-select-icon component-text-color matching-correct-icon icon icon-tick"></div>
           <div class="matching-select-icon component-text-color matching-incorrect-icon icon icon-cross"></div>
         </div>
-        {{!-- setting width as inline styling is recommended by select2 --}}
-        <select class="matching-select component-text-color" style="width:100%">
-          {{!-- an empty <option> element is needed by select2 to allow it to do its 'placeholder' functionality --}}
-          <option></option>
-          {{#each _options}}
-          <option {{#if _isSelected}}selected{{/if}}>
-            {{text}}
-          </option>
-          {{/each}}
-        </select>
+        {{> dropdown this placeholder=../placeholder _id=../_id _dropdownIndex=@index _useNativeSelect=../_useNativeSelect}}
       </div>
     </div>
     {{/each}}

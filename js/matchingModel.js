@@ -65,7 +65,9 @@ define([
 
         setOptionSelected: function(itemIndex, optionIndex, isSelected) {
             var item = this.get('_items')[itemIndex];
-            var option = item._options[optionIndex];
+            var option = _.find(item._options, function(option) {
+                return option._index === optionIndex;
+            });
 
             option._isSelected = isSelected;
             item._selected = option;

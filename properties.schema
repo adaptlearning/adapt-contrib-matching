@@ -117,6 +117,14 @@
       "help": "Text that will be displayed at the top of each list of options.",
       "translatable": true
     },
+    "_useNativeSelect": {
+      "type": "boolean",
+      "required": true,
+      "default": true,
+      "title": "Use native select element when rendering.",
+      "inputType": "Checkbox",
+      "validators": []
+    },
     "_items": {
       "type": "array",
       "required": true,
