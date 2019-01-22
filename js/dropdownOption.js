@@ -29,7 +29,7 @@ define(function() {
         },
 
         setUpEventListeners: function() {
-            this.$el.on("click", this.onClick);
+            this.$el.on('click', this.onClick);
         },
 
         onClick: function(event) {
@@ -64,6 +64,9 @@ define(function() {
             parent.removeActiveDescendantId();
             this.$el.removeAttr('selected');
             this.$el.attr('aria-selected', 'false');
+            parent.$inner.html('');
+            parent.$input.val('').trigger('change');
+            parent.trigger('change', parent);
             return this;
         },
 
