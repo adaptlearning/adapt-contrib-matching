@@ -6,7 +6,7 @@ define([
     var DropDown = Backbone.View.extend({
 
         initialize: function(settings) {
-            _.bindAll(this, 'onStartInteraction', 'onNativeSelectChange', 'onButtonClick', 'onListBlur', 'onKeyDown');
+            _.bindAll(this, 'onStartInteraction', 'onButtonClick', 'onListBlur', 'onKeyDown');
             this.settings = _.defaults(settings, this.getDefaults());
             this.placeholder = null;
             this.options = [];
@@ -31,7 +31,7 @@ define([
         setUpElements: function() {
             this.$list = this.$('ul');
             this.$button = this.$('button');
-            this.$inner = this.$('button .dropdown__inner');
+            this.$inner = this.$button.find('.dropdown__inner');
             this.$input = this.$('input');
         },
 
@@ -56,16 +56,6 @@ define([
 
         onStartInteraction: function() {
             this.wasOpen = this.isOpen();
-        },
-
-        onNativeSelectChange: function() {
-            this.deselectAll();
-            var controlValue = String(this.$list.val());
-            _.find(this.options, function(option) {
-                if (controlValue !== option.getValue()) return;
-                option.select();
-                return true;
-            });
         },
 
         deselectAll: function() {
@@ -106,7 +96,7 @@ define([
 
         onListBlur: function() {
             this.toggleOpen(false);
-            this.removeActiveDescendentId();
+            this.removeActiveDescendantId();
         },
 
         onKeyDown: function(event) {
@@ -133,37 +123,39 @@ define([
                 default:
                     return;
             }
-            this.deselectAll();
             option.select().scrollTo();
         },
 
         getFirstSelectedItem: function() {
             return _.find(this.options, function(option) {
-                if (option.isSelected()) return option;
+                return option.isSelected();
             });
         },
 
-        setActiveDescendentId: function(id) {
+        setActiveDescendantId: function(id) {
             this.$list.attr('aria-activedescendant', id);
         },
 
-        removeActiveDescendentId: function() {
+        removeActiveDescendantId: function() {
             this.$list.removeAttr('aria-activedescendant');
         },
 
         select: function(value) {
             value = String(value);
             var option = _.find(this.options, function(option) {
-                if (option.getValue() !== value) return false
-                option.select();
-                return true
+                return option.getValue() === value;
             });
-            if (option) return;
+            if (option) {
+                option.select();
+                return;
+            }
             this.placeholder.select();
         },
 
         toggleDisabled: function(value) {
-            if (value === undefined) value != this.$input.attr('disabled');
+            if (value === undefined) {
+                value = !this.$input.attr('disabled');
+            }
             if (value === false) {
                 this.$input.removeAttr('disabled');
                 this.$button.removeAttr('disabled');
@@ -200,9 +192,7 @@ define([
                 click: this.onButtonClick
             });
             this.$list.off('blur', this.onListBlur);
-            $(document).off({
-                keydown: this.onKeyDown
-            });
+            $(document).off('keydown', this.onKeyDown);
         }
 
     }, {
@@ -237,7 +227,7 @@ define([
             closeList: function() {
                 this.$list
                     .removeClass('sizing')
-                    .addClass('hidden', true);
+                    .addClass('hidden');
             },
 
             scrollToItem: function(option) {

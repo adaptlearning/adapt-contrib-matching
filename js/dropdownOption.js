@@ -5,7 +5,7 @@ define(function() {
         initialize: function(settings) {
             _.bindAll(this, 'onClick');
             this.settings = settings;
-            this.$inner = this.$el.find('span');
+            this.$inner = this.$('span');
             this.addToParent();
             this.setUpEventListeners();
         },
@@ -35,7 +35,6 @@ define(function() {
         onClick: function(event) {
             var parent = this.parent();
             event.preventDefault();
-            parent.deselectAll();
             this.select().scrollTo();
             parent.$button.focus();
         },
@@ -46,20 +45,23 @@ define(function() {
 
         select: function() {
             var parent = this.parent();
-            parent.setActiveDescendentId(this.$el[0].id);
-            this.$el.attr('selected', '');
-            parent.$input.val(this.getValue());
-            this.$el.attr('aria-selected', 'true');
+            parent.deselectAll();
+            parent.setActiveDescendantId(this.$el[0].id);
+            this.$el.attr({
+                selected: '',
+                'aria-selected': 'true'
+            });
             parent.$inner.html(this.$el.attr('text'));
-            parent.$input
-                .attr('value', this.$el.attr('value'))
-                .trigger('change');
+            var value = this.isPlaceholder() ? '' : this.getValue();
+            parent.$input.val(value).trigger('change');
             parent.trigger('change', parent);
             return this;
         },
 
         deselect: function() {
+            if (!this.isSelected()) return this;
             var parent = this.parent();
+            parent.removeActiveDescendantId();
             this.$el.removeAttr('selected');
             this.$el.attr('aria-selected', 'false');
             return this;
@@ -67,9 +69,8 @@ define(function() {
 
         reselect: function() {
             var parent = this.parent();
-            parent.setActiveDescendentId(this.$el[0].id);
+            parent.setActiveDescendantId(this.$el[0].id);
             if (this.isSelected()) return this;
-            parent.deselectAll();
             this.select();
             return this;
         },
