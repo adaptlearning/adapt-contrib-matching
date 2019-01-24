@@ -7,7 +7,7 @@
     "ariaRegion": {
       "type": "string",
       "required": true,
-      "default": "Matching. Select from lists and then submit.",
+      "default": "This question component requires you to select the matching answer from a drop down list below. When you have selected your answers select the submit button.",
       "inputType": "Text",
       "validators": [],
       "translatable": true
