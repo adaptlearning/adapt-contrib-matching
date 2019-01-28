@@ -113,9 +113,6 @@ define([
                     break;
                 case 13: // ENTER
                 case 32: // SPACE
-                    event.preventDefault();
-                    this.$button.focus();
-                    return;
                 case 27: // ESCAPE
                     event.preventDefault();
                     this.$button.focus();
