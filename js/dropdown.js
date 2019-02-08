@@ -1,7 +1,6 @@
 define([
-    './dropdownOption',
-    'handlebars'
-], function(DropDownOption, Handlebars) {
+    './dropdownOption'
+], function(DropDownOption) {
 
     var DropDown = Backbone.View.extend({
 
@@ -38,10 +37,15 @@ define([
         setUpItems: function() {
             var $options = this.$('li');
             $options.each(function(index, el) {
-                new DropDownOption({
+                var option = new DropDownOption({
                     parent: this,
                     el: el
                 });
+                if (option.isPlaceholder()) {
+                    this.placeholder = option;
+                    return;
+                }
+                this.options.push(option);
             }.bind(this));
         },
 
@@ -202,7 +206,7 @@ define([
                 this.$list
                     .css({
                         left: this.$button[0].offsetLeft,
-                        width: this.$button[0].offsetWidth
+                        width: this.$button.width()
                     })
                     .addClass('sizing')
                     .removeClass('hidden');
@@ -213,9 +217,7 @@ define([
                 var isOffscreen = (offset.top + height > windowHeight);
 
                 this.$list
-                    .css({
-                        top: isOffscreen ? -height : ''
-                    })
+                    .css("top", isOffscreen ? -height : '')
                     .removeClass('sizing')
                     .focus();
 

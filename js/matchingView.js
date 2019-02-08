@@ -33,7 +33,7 @@ define([
             this.dropdowns.forEach(function(dropdown) {
                 dropdown.off('change', this.onOptionSelected);
                 dropdown.destroy();
-            });
+            }, this);
         },
 
         onQuestionRendered: function() {
@@ -69,7 +69,6 @@ define([
             this.dropdowns.forEach(function(dropdown) {
                 if (!dropdown.isEmpty()) return;
                 dropdown.$el.parents('.matching-select-container').addClass('error');
-                return true;
             });
         },
 

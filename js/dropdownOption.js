@@ -2,22 +2,13 @@ define(function() {
 
     var DropDownItem = Backbone.View.extend({
 
-        initialize: function(settings) {
-            _.bindAll(this, 'onClick');
-            this.settings = settings;
-            this.$inner = this.$('span');
-            this.addToParent();
-            this.setUpEventListeners();
+        events: {
+            'click': 'onClick'
         },
 
-        addToParent: function() {
-            var parent = this.parent();
-            if (this.isPlaceholder()) {
-                parent.placeholder = this;
-            } else {
-                parent.options.push(this);
-            }
-            parent.$list.append(this.$el);
+        initialize: function(settings) {
+            this.settings = settings;
+            this.$inner = this.$('span');
         },
 
         isPlaceholder: function() {
@@ -26,10 +17,6 @@ define(function() {
 
         parent: function() {
             return this.settings.parent;
-        },
-
-        setUpEventListeners: function() {
-            this.$el.on('click', this.onClick);
         },
 
         onClick: function(event) {
@@ -46,7 +33,7 @@ define(function() {
         select: function() {
             var parent = this.parent();
             parent.deselectAll();
-            parent.setActiveDescendantId(this.$el[0].id);
+            parent.setActiveDescendantId(this.el.id);
             this.$el.attr({
                 selected: '',
                 'aria-selected': 'true'
@@ -82,24 +69,21 @@ define(function() {
             return Boolean(this.$el.attr('selected'));
         },
 
+        getIndex: function() {
+            var parent = this.parent();
+            return _.findIndex(parent.options, function(option) {
+                return (option === this);
+            }.bind(this));
+        },
+
         getNext: function() {
             var parent = this.parent();
-            var found = null;
-            _.find(parent.options, function(option, index) {
-                if (option !== this) return;
-                return found = parent.options[index+1];
-            }.bind(this));
-            return found;
+            return parent.options[this.getIndex()+1];
         },
 
         getPrevious: function() {
             var parent = this.parent();
-            var found = null;
-             _.find(parent.options, function(option, index) {
-                if (option !== this) return;
-                return found = parent.options[index-1];
-            }.bind(this));
-            return found;
+            return parent.options[this.getIndex()-1];
         },
 
         getFirst: function() {
@@ -119,7 +103,7 @@ define(function() {
 
         destroy: function() {
             var parent = this.parent();
-            this.$el.remove();
+            this.remove();
             if (this.isPlaceholder()) {
                 parent.placeholder = null;
             } else {
@@ -130,7 +114,6 @@ define(function() {
                     break;
                 }
             }
-            delete this.$el;
             delete this.settings;
         }
 
