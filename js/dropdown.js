@@ -55,7 +55,6 @@ define([
                 click: this.onButtonClick
             });
             this.$list.on('blur', this.onListBlur);
-            this.$list.on('focusin', this.onListFocus)
             $(document).on('keydown', this.onKeyDown);
         },
 
