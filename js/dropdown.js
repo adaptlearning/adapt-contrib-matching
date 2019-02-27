@@ -234,7 +234,7 @@ define([
                 this.$list
                     .removeClass('sizing')
                     .addClass('hidden')
-                    .css('top', "");
+                    .css('top', '');
             },
 
             scrollToItem: function(option) {
