@@ -3,7 +3,8 @@ define(function() {
     var DropDownItem = Backbone.View.extend({
 
         events: {
-            'click': 'onClick'
+            'click': 'onClick',
+            'click *': 'onClick'
         },
 
         initialize: function(settings) {

@@ -5,7 +5,7 @@ define([
     var DropDown = Backbone.View.extend({
 
         initialize: function(settings) {
-            _.bindAll(this, 'onStartInteraction', 'onButtonClick', 'onListBlur', 'onKeyDown');
+            _.bindAll(this, 'onStartInteraction', 'onButtonClick', 'onListBlur', 'onListFocus', 'onKeyDown');
             this.settings = _.defaults(settings, this.getDefaults());
             this.placeholder = null;
             this.options = [];
@@ -55,6 +55,7 @@ define([
                 click: this.onButtonClick
             });
             this.$list.on('blur', this.onListBlur);
+            this.$list.on('focusin', this.onListFocus)
             $(document).on('keydown', this.onKeyDown);
         },
 
@@ -92,15 +93,25 @@ define([
 
         toggleOpen: function(open) {
             if (open === undefined) open = !this.isOpen();
+            if (open) clearTimeout(this.blurTimeout);
             this.$button.attr('aria-expanded', open ? 'true' : 'false');
             var name = open ? 'openList' : 'closeList';
             this.settings[name].call(this, this);
             this.trigger(name, this);
         },
 
-        onListBlur: function() {
-            this.toggleOpen(false);
-            this.removeActiveDescendantId();
+        onListFocus: function(event) {
+            console.log("focus", event.currentTarget, document.activeElement);
+        },
+
+        onListBlur: function(event) {
+            // IE11: Allow option click handler to execute before blur and close list
+            var handleBlur = function() {
+                console.log("blur", event.currentTarget, document.activeElement);
+                this.toggleOpen(false);
+                this.removeActiveDescendantId();
+            }.bind(this);
+            this.blurTimeout = setTimeout(handleBlur, 100);
         },
 
         onKeyDown: function(event) {
@@ -205,6 +216,7 @@ define([
             openList: function() {
                 this.$list
                     .css({
+                        top: '',
                         left: this.$button[0].offsetLeft,
                         width: this.$button.width()
                     })
@@ -217,7 +229,7 @@ define([
                 var isOffscreen = (offset.top + height > windowHeight);
 
                 this.$list
-                    .css("top", isOffscreen ? -height : '')
+                    .css('top', isOffscreen ? -height : '')
                     .removeClass('sizing')
                     .focus();
 
@@ -226,7 +238,8 @@ define([
             closeList: function() {
                 this.$list
                     .removeClass('sizing')
-                    .addClass('hidden');
+                    .addClass('hidden')
+                    .css('top', "");
             },
 
             scrollToItem: function(option) {
