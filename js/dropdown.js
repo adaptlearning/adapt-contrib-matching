@@ -5,7 +5,7 @@ define([
     var DropDown = Backbone.View.extend({
 
         initialize: function(settings) {
-            _.bindAll(this, 'onStartInteraction', 'onButtonClick', 'onListBlur', 'onListFocus', 'onKeyDown');
+            _.bindAll(this, 'onStartInteraction', 'onButtonClick', 'onListBlur', 'onKeyDown');
             this.settings = _.defaults(settings, this.getDefaults());
             this.placeholder = null;
             this.options = [];
@@ -100,14 +100,9 @@ define([
             this.trigger(name, this);
         },
 
-        onListFocus: function(event) {
-            console.log("focus", event.currentTarget, document.activeElement);
-        },
-
         onListBlur: function(event) {
             // IE11: Allow option click handler to execute before blur and close list
             var handleBlur = function() {
-                console.log("blur", event.currentTarget, document.activeElement);
                 this.toggleOpen(false);
                 this.removeActiveDescendantId();
             }.bind(this);
