@@ -76,7 +76,8 @@ define([
                 // the blur event will fire first closing the list.
                 // this code is to prevent the list from reopening
                 // in that situation
-                return (this.wasOpen = false);
+                this.wasOpen = false;
+                return;
             }
             this.toggleOpen();
             var option = this.getFirstSelectedItem() || this.placeholder;
