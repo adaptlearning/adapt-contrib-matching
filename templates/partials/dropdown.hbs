@@ -1,0 +1,15 @@
+<div class="dropdown">
+    <button aria-haspopup="listbox">
+        <span class="dropdown__inner"></span>
+        <span class="dropdown__arrow">
+            <div class="icon"></div>
+        </span>
+    </button>
+    <input class="js-data-output" type="hidden" />
+    <ul role="listbox" tabindex="-1">
+        <li role="option" id="dropdown__item__{{_id}}__{{_dropdownIndex}}__0" class="dropdown__placeholder dropdown__item" disabled="true" hidden="true" default="true" text="{{placeholder}}" value="{{placeholder}}"><span>{{{placeholder}}}</span></li>
+        {{#each _options}}
+        <li role="option" id="dropdown__item__{{../_id}}__{{../_dropdownIndex}}__{{inc @index}}" class="dropdown__item" text="{{text}}" value="{{_index}}"><span>{{#if displayText}}{{{displayText}}}{{else}}{{{text}}}{{/if}}</span></li>
+        {{/each}}
+    </ul>
+</div>

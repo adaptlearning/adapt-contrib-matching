@@ -1,28 +1,19 @@
-<div class="matching-inner component-inner" role="region" aria-label="{{_globals._components._matching.ariaRegion}}" {{#if _globals._components._matching.ariaRegion}}tabindex="0"{{/if}}>
-  {{> component this}}
-  <div class="matching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isInteractionComplete}} complete submitted show-user-answer {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
-    {{#each _items}}
-    <div class="matching-item item {{#unless ../_isEnabled}}{{#if ../_canShowMarking}}{{#if _isCorrect}}correct{{else}}incorrect{{/if}}{{/if}}{{/unless}} item-{{@index}}">
-      <div class="matching-item-title">{{{a11y_text text}}}</div>
-      <div class="matching-select-container component-item-color">
-        <div class="matching-select-state">
-          <div class="matching-select-icon component-text-color matching-correct-icon icon icon-tick"></div>
-          <div class="matching-select-icon component-text-color matching-incorrect-icon icon icon-cross"></div>
+<div class="matching-inner component-inner">
+    {{> component this}}
+    <div class="matching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isInteractionComplete}} complete submitted show-user-answer {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
+        {{#each _items}}
+        <div class="matching-item item {{#unless ../_isEnabled}}{{#if ../_canShowMarking}}{{#if _isCorrect}}correct{{else}}incorrect{{/if}}{{/if}}{{/unless}} item-{{@index}}">
+            <div class="matching-item-title">{{{text}}}</div>
+            <div class="matching-select-container component-item-color">
+                <div class="matching-select-state">
+                    <div class="matching-select-icon component-text-color matching-correct-icon icon icon-tick"></div>
+                    <div class="matching-select-icon component-text-color matching-incorrect-icon icon icon-cross"></div>
+                </div>
+                {{> dropdown this placeholder=../placeholder _id=../_id _dropdownIndex=@index}}
+            </div>
         </div>
-        {{!-- setting width as inline styling is recommended by select2 --}}
-        <select class="matching-select component-text-color" style="width:100%">
-          {{!-- an empty <option> element is needed by select2 to allow it to do its 'placeholder' functionality --}}
-          <option></option>
-          {{#each _options}}
-          <option {{#if _isSelected}}selected{{/if}}>
-            {{text}}
-          </option>
-          {{/each}}
-        </select>
-      </div>
+        {{/each}}
     </div>
-    {{/each}}
-  </div>
-  <div class="buttons">
-  </div>
+    <div class="buttons">
+    </div>
 </div>

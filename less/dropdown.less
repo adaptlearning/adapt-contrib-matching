@@ -1,0 +1,125 @@
+.dropdown {
+
+    button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        border-radius: 0;
+        text-align: inherit;
+        width: 100%;
+        position: relative;
+        background-color: @item-color;
+        color: @item-text-color;
+        border: 0;
+        outline: 0;
+        padding: @item-padding-top 0 @item-padding-bottom 0;
+
+        &:disabled,
+        &[disabled] {
+            background-color: @button-color-disabled;
+            border-color: @button-border-color-disabled;
+            color: @button-text-color-disabled;
+            cursor: default;
+
+            .no-touch &:hover {
+                    border-color: @button-border-color-disabled;
+            }
+
+        }
+
+    }
+
+    .dropdown__arrow .icon {
+        content: " ";
+        border-style: solid;
+        height: 0;
+        right: 16px;
+        margin-left: -4px;
+        margin-top: -2px;
+        position: absolute;
+        top: 50%;
+        width: 0;
+        border-width: 5px 4px 0 4px;
+        border-color: @item-text-color transparent transparent transparent;
+
+        .dir-rtl & {
+            right: inherit;
+            left: 16px;
+            margin-left: inherit;
+            margin-right: -4px;
+        }
+
+    }
+
+    &:disabled .dropdown__arrow,
+    &[disabled] .dropdown__arrow {
+        display: none;
+    }
+
+    button[aria-expanded="true"] .dropdown__arrow .icon {
+        border-width: 0 4px 5px 4px;
+        border-color: transparent transparent @item-text-color transparent;
+    }
+
+    .dropdown__inner {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0 @item-padding-right*2 0 @item-padding-left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        .dir-rtl & {
+            padding: 0 @item-padding-right 0 @item-padding-left*2;
+        }
+
+    }
+
+    ul {
+        color: black;
+        position: absolute;
+        box-sizing: border-box;
+        overflow-y: auto;
+        max-height: 50vh;
+        width: 100%;
+        z-index: 5000;
+
+        &.hidden {
+            display: none;
+        }
+
+        &.sizing {
+            visibility: hidden;
+        }
+
+    }
+
+    li {
+        cursor: pointer;
+        margin: 0;
+        list-style: none;
+        padding: 10px 0;
+        background-color: @item-color;
+        color: @item-text-color;
+
+        span {
+            display: inline-block;
+            padding: 0 20px;
+        }
+
+        &:hover,
+        &:focus,
+        &[aria-selected=true] {
+            // This code can be used to style a non-native dropdown as closely
+            // as possible to the default browser settings
+            // background-color: Highlight;
+            // background-color: -webkit-focus-ring-color;
+            // color: white;
+            background-color: @item-color-hover;
+            color: @item-text-color-hover;
+        }
+
+    }
+
+}
