@@ -45,7 +45,7 @@ define([
       _.bindAll(this, 'onOptionSelected');
       this.dropdowns = [];
       var items = this.model.get('_items');
-      this.$('.matching-item').each(function(i, el) {
+      this.$('.matching__item').each(function(i, el) {
         var item = items[i];
         var selectedOption = _.find(item._options, function(option) {
           return option._isSelected;
@@ -68,15 +68,15 @@ define([
     onCannotSubmit: function() {
       this.dropdowns.forEach(function(dropdown) {
         if (!dropdown.isEmpty()) return;
-        dropdown.$el.parents('.matching-select-container').addClass('error');
+        dropdown.$el.parents('.matching__select-container').addClass('has-error');
       });
     },
 
     onOptionSelected: function(dropdown) {
       if (this.model.get('_isInteractionComplete')) return;
-      var $container = dropdown.$el.parents('.matching-select-container');
+      var $container = dropdown.$el.parents('.matching__select-container');
       $container.removeClass('error');
-      var itemIndex = dropdown.$el.parents('.matching-item').index();
+      var itemIndex = dropdown.$el.parents('.matching__item').index();
       if (dropdown.isEmpty()) return;
       var optionIndex = parseInt(dropdown.val());
       this.model.setOptionSelected(itemIndex, optionIndex, true);
@@ -86,13 +86,13 @@ define([
       if (!this.model.get('_canShowMarking')) return;
 
       this.model.get('_items').forEach(function(item, i) {
-        var $item = this.$('.matching-item').eq(i);
-        $item.removeClass('correct incorrect').addClass(item._isCorrect ? 'correct' : 'incorrect');
+        var $item = this.$('.matching__item').eq(i);
+        $item.removeClass('is-correct is-incorrect').addClass(item._isCorrect ? 'is-correct' : 'is-incorrect');
       }, this);
     },
 
     resetQuestion: function() {
-      this.$('.matching-item').removeClass('correct incorrect');
+      this.$('.matching__item').removeClass('is-correct is-incorrect');
       this.model.set('_isAtLeastOneCorrectSelection', false);
       var resetAll = this.model.get('_shouldResetAllAnswers');
 

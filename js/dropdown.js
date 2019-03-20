@@ -28,14 +28,14 @@ define([
     },
 
     setUpElements: function() {
-      this.$list = this.$('ul');
-      this.$button = this.$('button');
-      this.$inner = this.$button.find('.dropdown__inner');
-      this.$input = this.$('input');
+      this.$list = this.$('.js-dropdown-list');
+      this.$button = this.$('.js-dropdown-btn');
+      this.$inner = this.$button.find('.js-dropdown-inner');
+      this.$input = this.$('.js-data-output');
     },
 
     setUpItems: function() {
-      var $options = this.$('li');
+      var $options = this.$('.js-dropdown-list-item');
       $options.each(function(index, el) {
         var option = new DropDownOption({
           parent: this,
@@ -88,7 +88,7 @@ define([
     },
 
     isOpen: function() {
-      return !this.$list.hasClass('hidden');
+      return !this.$list.hasClass('u-display-none');
     },
 
     toggleOpen: function(open) {
@@ -165,12 +165,16 @@ define([
       }
       if (value === false) {
         this.$input.removeAttr('disabled');
-        this.$button.removeAttr('disabled');
+        this.$button
+          .removeAttr('disabled')
+          .removeClass('is-disabled');
         this.$el.removeAttr('disabled');
         return;
       }
       this.$input.attr('disabled', '');
-      this.$button.attr('disabled', '');
+      this.$button
+        .attr('disabled', '')
+        .addClass('is-disabled');
       this.$el.attr('disabled', '');
     },
 
@@ -215,8 +219,8 @@ define([
             left: this.$button[0].offsetLeft,
             width: this.$button.width()
           })
-          .addClass('sizing')
-          .removeClass('hidden');
+          .addClass('u-visibility-hidden')
+          .removeClass('u-display-none');
 
         var offset = this.$list[0].getBoundingClientRect();
         var height = this.$list.height();
@@ -225,15 +229,15 @@ define([
 
         this.$list
           .css('top', isOffscreen ? -height : '')
-          .removeClass('sizing')
+          .removeClass('u-visibility-hidden')
           .focus();
 
       },
 
       closeList: function() {
         this.$list
-          .removeClass('sizing')
-          .addClass('hidden')
+          .removeClass('u-visibility-hidden')
+          .addClass('u-display-none')
           .css('top', '');
       },
 

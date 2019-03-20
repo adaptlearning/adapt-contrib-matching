@@ -1,19 +1,38 @@
-<div class="matching-inner component-inner">
+<div class="component__inner matching__inner">
+
   {{> component this}}
-  <div class="matching-widget component-widget {{#unless _isEnabled}} disabled {{#if _isInteractionComplete}} complete submitted show-user-answer {{#if _isCorrect}}correct{{/if}} {{/if}} {{/unless}}">
+
+  <div class="component__widget matching__widget{{#unless _isEnabled}} is-disabled{{#if _isInteractionComplete}} is-complete is-submitted show-user-answer{{#if _isCorrect}} is-correct{{/if}}{{/if}}{{/unless}}">
+
     {{#each _items}}
-    <div class="matching-item item {{#unless ../_isEnabled}}{{#if ../_canShowMarking}}{{#if _isCorrect}}correct{{else}}incorrect{{/if}}{{/if}}{{/unless}} item-{{@index}}">
-      <div class="matching-item-title">{{{text}}}</div>
-      <div class="matching-select-container component-item-color">
-        <div class="matching-select-state">
-          <div class="matching-select-icon component-text-color matching-correct-icon icon icon-tick"></div>
-          <div class="matching-select-icon component-text-color matching-incorrect-icon icon icon-cross"></div>
+    <div class="matching__item item item-{{@index}}{{#unless ../_isEnabled}}{{#if ../_canShowMarking}}{{#if _isCorrect}} is-correct{{else}} is-incorrect{{/if}}{{/if}}{{/unless}}">
+
+      <div class="matching__item-title">
+        <div class="matching__item-title_inner">
+          {{{text}}}
         </div>
-        {{> dropdown this placeholder=../placeholder _id=../_id _dropdownIndex=@index}}
       </div>
+
+      <div class="matching__select-container">
+
+        {{> dropdown this placeholder=../placeholder _id=../_id _dropdownIndex=@index}}
+
+        <div class="matching__select-state">
+          <div class="matching__select-icon matching__select-correct-icon">
+            <div class="icon"></div>
+          </div>
+          <div class="matching__select-icon matching__select-incorrect-icon">
+            <div class="icon"></div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
     {{/each}}
+
   </div>
-  <div class="buttons">
-  </div>
+
+  <div class="btn__container"></div>
+
 </div>

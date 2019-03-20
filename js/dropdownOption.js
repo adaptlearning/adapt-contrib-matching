@@ -9,7 +9,7 @@ define(function() {
 
     initialize: function(settings) {
       this.settings = settings;
-      this.$inner = this.$('span');
+      this.$inner = this.$('.js-dropdown-list-item-inner');
     },
 
     isPlaceholder: function() {
