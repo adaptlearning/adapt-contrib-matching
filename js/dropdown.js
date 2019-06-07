@@ -217,7 +217,7 @@ define([
           .css({
             top: '',
             left: this.$button[0].offsetLeft,
-            width: this.$button.width()
+            width: this.$button.outerWidth()
           })
           .addClass('u-visibility-hidden')
           .removeClass('u-display-none');
