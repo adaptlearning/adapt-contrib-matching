@@ -7,11 +7,13 @@
     {{#each _items}}
     <div class="matching__item item item-{{@index}}{{#unless ../_isEnabled}}{{#if ../_canShowMarking}}{{#if _isCorrect}} is-correct{{else}} is-incorrect{{/if}}{{/if}}{{/unless}}">
 
+      {{#if text}}
       <div class="matching__item-title">
         <div class="matching__item-title_inner">
           {{{text}}}
         </div>
       </div>
+      {{/if}}
 
       <div class="matching__select-container">
 
