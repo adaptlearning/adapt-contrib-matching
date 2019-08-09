@@ -166,15 +166,15 @@ define([
       if (value === false) {
         this.$input.removeAttr('disabled');
         this.$button
-          .removeAttr('disabled')
-          .removeClass('is-disabled');
+            .removeAttr('disabled')
+            .removeClass('is-disabled');
         this.$el.removeAttr('disabled');
         return;
       }
       this.$input.attr('disabled', '');
       this.$button
-        .attr('disabled', '')
-        .addClass('is-disabled');
+          .attr('disabled', '')
+          .addClass('is-disabled');
       this.$el.attr('disabled', '');
     },
 
