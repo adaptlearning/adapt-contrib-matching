@@ -84,7 +84,7 @@
         "_isRandom": {
             "type": "boolean",
             "required": false,
-            "default": true,
+            "default": false,
             "title": "Randomise answers",
             "inputType": "Checkbox",
             "validators": []
@@ -141,7 +141,7 @@
                         "items": {
                             "type": "object",
                             "required": true,
-                            "properties":{
+                            "properties": {
                                 "text": {
                                     "type": "string",
                                     "required": true,
@@ -171,7 +171,7 @@
             "type": "object",
             "required": false,
             "title": "Feedback",
-            "properties":{
+            "properties": {
                 "title": {
                     "type": "string",
                     "required": false,
@@ -196,7 +196,7 @@
                     "type": "object",
                     "required": false,
                     "title": "Incorrect Feedback",
-                    "properties":{
+                    "properties": {
                         "final": {
                             "type": "string",
                             "required": false,
@@ -222,7 +222,7 @@
                 "_partlyCorrect": {
                     "type": "object",
                     "required": false,
-                    "properties":{
+                    "properties": {
                         "final": {
                             "type": "string",
                             "required": false,
@@ -251,11 +251,11 @@
             "type": "object",
             "title": "Buttons",
             "required": false,
-            "properties":{
+            "properties": {
                 "_submit": {
                     "type": "object",
                     "title": "Submit",
-                    "properties":{
+                    "properties": {
                         "buttonText": {
                             "type": "string",
                             "required": false,
@@ -281,7 +281,7 @@
                 "_reset": {
                     "type": "object",
                     "title": "Reset",
-                    "properties":{
+                    "properties": {
                         "buttonText": {
                             "type": "string",
                             "required": false,
@@ -307,7 +307,7 @@
                 "_showCorrectAnswer": {
                     "type": "object",
                     "title": "Show Correct Answer",
-                    "properties":{
+                    "properties": {
                         "buttonText": {
                             "type": "string",
                             "required": false,
@@ -333,7 +333,7 @@
                 "_hideCorrectAnswer": {
                     "type": "object",
                     "title": "Hide Correct Answer",
-                    "properties":{
+                    "properties": {
                         "buttonText": {
                             "type": "string",
                             "required": false,
@@ -359,7 +359,7 @@
                 "_showFeedback": {
                     "type": "object",
                     "title": "Show Feedback",
-                    "properties":{
+                    "properties": {
                         "buttonText": {
                             "type": "string",
                             "required": false,

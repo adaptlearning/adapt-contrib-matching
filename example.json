@@ -1,115 +1,115 @@
-{
-    "_id": "c-75",
-    "_parentId": "b-05",
-    "_classes": "",
-    "_layout": "left",
-    "_type": "component",
-    "_component": "matching",
-    "_attempts": 1,
-    "_shouldDisplayAttempts": false,
-    "_shouldResetAllAnswers": false,
-    "_isRandom": true,
-    "_canShowModelAnswer": true,
-    "_canShowFeedback": true,
-    "_canShowMarking": true,
-    "_recordInteraction": true,
-    "_questionWeight": 1,
-    "title": "Matching",
-    "displayTitle": "Matching",
-    "body": "Basically what you need to do is match the questions below with the drop down box option.",
-    "instruction": "",
-    "placeholder": "select an option",
-    "_items": [
-        {
-            "text": "Pick option two",
-            "_options": [
-                {
-                    "text": "Option one",
-                    "_isCorrect": false
-                },
-                {
-                    "text": "Option two (correct)",
-                    "_isCorrect": true
-                },
-                {
-                    "text": "Option three",
-                    "_isCorrect": false
-                }
-            ]
+    {
+        "_id": "c-05",
+        "_parentId": "b-05",
+        "_type": "component",
+        "_component": "matching",
+        "_classes": "",
+        "_layout": "left",
+        "title": "Matching",
+        "displayTitle": "Matching",
+        "body": "Basically what you need to do is match the questions below with the drop down box option.",
+        "instruction": "",
+        "_attempts": 1,
+        "_shouldDisplayAttempts": false,
+        "_shouldResetAllAnswers": false,
+        "_isRandom": false,
+        "_questionWeight": 1,
+        "_canShowModelAnswer": true,
+        "_canShowFeedback": true,
+        "_canShowMarking": true,
+        "_recordInteraction": true,
+        "placeholder": "Please select an option",
+        "_items": [
+            {
+                "text": "Pick option two",
+                "_options": [
+                    {
+                        "text": "Option one",
+                        "_isCorrect": false
+                    },
+                    {
+                        "text": "Option two (correct)",
+                        "_isCorrect": true
+                    },
+                    {
+                        "text": "Option three",
+                        "_isCorrect": false
+                    }
+                ]
+            },
+            {
+                "text": "Pick option three",
+                "_options": [
+                    {
+                        "text": "Option one",
+                        "_isCorrect": false
+                    },
+                    {
+                        "text": "Option two",
+                        "_isCorrect": false
+                    },
+                    {
+                        "text": "Option three (correct)",
+                        "_isCorrect": true
+                    }
+                ]
+            },
+            {
+                "text": "Pick option one",
+                "_options": [
+                    {
+                        "text": "Option one (correct)",
+                        "_isCorrect": true
+                    },
+                    {
+                        "text": "Option two",
+                        "_isCorrect": false
+                    },
+                    {
+                        "text": "Option three",
+                        "_isCorrect": false
+                    }
+                ]
+            }
+        ],
+        "_feedback": {
+            "title": "Feedback",
+            "correct": "This feedback will appear if you answered the question correctly.",
+            "_incorrect": {
+                "notFinal": "",
+                "final": "This feedback will appear if you answered the question incorrectly."
+            },
+            "_partlyCorrect": {
+                "notFinal": "",
+                "final": "This feedback will appear if you answered part of the question correctly."
+            }
         },
-        {
-            "text": "Pick option three",
-            "_options": [
-                {
-                    "text": "Option one",
-                    "_isCorrect": false
-                },
-                {
-                    "text": "Option two",
-                    "_isCorrect": false
-                },
-                {
-                    "text": "Option three (correct)",
-                    "_isCorrect": true
-                }
-            ]
+        "_comment": "You only need to include _buttons if you want to override the button labels that are set in course.json",
+        "_buttons": {
+            "_submit": {
+                "buttonText": "Submit",
+                "ariaLabel": "Select here to submit your answer."
+            },
+            "_reset": {
+                "buttonText": "Reset",
+                "ariaLabel": ""
+            },
+            "_showCorrectAnswer": {
+                "buttonText": "Correct Answer",
+                "ariaLabel": ""
+            },
+            "_hideCorrectAnswer": {
+                "buttonText": "My Answer",
+                "ariaLabel": ""
+            },
+            "_showFeedback": {
+                "buttonText": "Show feedback",
+                "ariaLabel": ""
+            },
+            "remainingAttemptsText": "attempts remaining",
+            "remainingAttemptText": "final attempt"
         },
-        {
-            "text": "Pick option one",
-            "_options": [
-                {
-                    "text": "Option one (correct)",
-                    "_isCorrect": true
-                },
-                {
-                    "text": "Option two",
-                    "_isCorrect": false
-                },
-                {
-                    "text": "Option three",
-                    "_isCorrect": false
-                }
-            ]
+        "_pageLevelProgress": {
+            "_isEnabled": true
         }
-    ],
-    "_feedback": {
-        "title": "Feedback",
-        "correct": "This feedback will appear if you answered the question correctly.",
-        "_incorrect": {
-            "notFinal": "",
-            "final": "This feedback will appear if you answered the question incorrectly."
-        },
-        "_partlyCorrect": {
-            "notFinal": "",
-            "final": "This feedback will appear if you answered part of the question correctly."
-        }
-    },
-    "_comment": "You only need to include _buttons if you want to override the button labels that are set in course.json",
-    "_buttons": {
-        "_submit": {
-            "buttonText": "Submit",
-            "ariaLabel": "Select here to submit your answer."
-        },
-        "_reset": {
-            "buttonText": "Reset",
-            "ariaLabel": ""
-        },
-        "_showCorrectAnswer": {
-            "buttonText": "Correct Answer",
-            "ariaLabel": ""
-        },
-        "_hideCorrectAnswer": {
-            "buttonText": "My Answer",
-            "ariaLabel": ""
-        },
-        "_showFeedback": {
-            "buttonText": "Show feedback",
-            "ariaLabel": ""
-        },
-        "remainingAttemptsText": "attempts remaining",
-        "remainingAttemptText": "final attempt"
-    },
-    "_pageLevelProgress": {
-        "_isEnabled": true
     }
-}
