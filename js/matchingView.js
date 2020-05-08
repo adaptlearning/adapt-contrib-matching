@@ -25,11 +25,11 @@ define([
     },
 
     setupQuestion: function() {
-      this.listenToOnce(Adapt, 'preRemove', this.onPreRemove);
+      this.listenToOnce(Adapt.parentView, 'postRemove', this.onPostRemove);
       this.model.setupRandomisation();
     },
 
-    onPreRemove: function() {
+    onPostRemove: function() {
       this.dropdowns.forEach(function(dropdown) {
         dropdown.off('change', this.onOptionSelected);
         dropdown.destroy();
