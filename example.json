@@ -17,6 +17,7 @@
         "_canShowModelAnswer": true,
         "_canShowFeedback": true,
         "_canShowMarking": true,
+        "_onlyShowFinalMarking": false,
         "_recordInteraction": true,
         "placeholder": "Please select an option",
         "_items": [

@@ -83,7 +83,7 @@ define([
     },
 
     showMarking: function() {
-      if (!this.model.get('_canShowMarking')) return;
+      if (!this.model.canShowMarking) return;
 
       this.model.get('_items').forEach(function(item, i) {
         var $item = this.$('.matching__item').eq(i);
