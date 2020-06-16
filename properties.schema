@@ -63,13 +63,13 @@
             "inputType": "Checkbox",
             "validators": []
         },
-        "_onlyShowFinalMarking": {
+        "_showMarkingForAllAttempts": {
             "type": "boolean",
             "default": false,
-            "title": "Display Marking on Final Attempt Only",
+            "title": "Display Marking on Every Attempt",
             "inputType": "Checkbox",
             "validators": [],
-            "help": "Only display the question marking when the final attempt has been completed"
+            "help": "Should the question marking be displayed with each attempt?"
         },
         "_shouldResetAllAnswers": {
             "type": "boolean",

@@ -58,7 +58,7 @@ guide the learner’s interaction with the component.
 
 **\_canShowMarking** (boolean): Setting this to `false` prevents ticks and crosses being displayed on question completion. The default is `true`.
 
-**\_onlyShowFinalMarking** (boolean): Setting this to `true` will prevent standard '_canShowMarking' behaviour until the final attempt has been exhausted. The default is `false`.
+**\_showMarkingForAllAttempts** (boolean): Setting this to `true` in combination with '_canShowMarking' will display marking for each attempt of the question. If `false`, the marking will only occur on teh final attempt. The default is `false`.
 
 **\_recordInteraction** (boolean) Determines whether or not the learner's answers will be recorded to the LMS via cmi.interactions. Default is `true`. For further information, see the entry for `_shouldRecordInteractions` in the README for [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor).
 
