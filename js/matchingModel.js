@@ -8,6 +8,7 @@ define([
       QuestionModel.prototype.init.call(this);
 
       this.setupQuestionItemIndexes();
+      this.checkCanSubmit();
     },
 
     setupQuestionItemIndexes: function() {
@@ -68,6 +69,7 @@ define([
       var option = _.findWhere(item._options, { '_index': optionIndex });
       option._isSelected = isSelected;
       item._selected = option;
+      this.checkCanSubmit();
     },
 
     storeUserAnswer: function() {
