@@ -3,7 +3,6 @@
     display: none;
   }
 
-  // --------------------------------------------------
   // Matching item icons
   // --------------------------------------------------
   &__select-correct-icon .icon {
@@ -13,27 +12,18 @@
   &__select-incorrect-icon .icon {
     .icon-cross;
   }
-  // --------------------------------------------------
 
-  // --------------------------------------------------
   // Class to show the users selection
   // --------------------------------------------------
-  &__widget.show-user-answer {
-    .is-correct .matching__select-correct-icon,
-    .is-incorrect .matching__select-incorrect-icon {
-      display: block;
-    }
+  &__widget.show-user-answer .is-correct &__select-correct-icon,
+  &__widget.show-user-answer .is-incorrect &__select-incorrect-icon {
+    display: block;
   }
-  // --------------------------------------------------
 
-  // --------------------------------------------------
   // Class to show the correct answers
   // --------------------------------------------------
-  &__widget.show-correct-answer {
-    .is-correct .matching__select-correct-icon,
-    .is-incorrect .matching__select-correct-icon {
-      display: block;
-    }
+  &__widget.show-correct-answer .is-correct &__select-correct-icon,
+  &__widget.show-correct-answer .is-incorrect &__select-correct-icon {
+    display: block;
   }
-  // --------------------------------------------------
 }
