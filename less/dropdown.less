@@ -4,7 +4,7 @@
     outline: 0;
   }
 
-  &__btn.is-disabled .dropdown__icon {
+  &__btn.is-disabled &__icon {
     display: none;
   }
 
@@ -14,17 +14,15 @@
     white-space: nowrap;
   }
 
-  // --------------------------------------------------
   // Dropdown icon
   // --------------------------------------------------
   &__icon .icon {
     .icon-triangle-down;
   }
 
-  &__btn[aria-expanded="true"] .dropdown__icon .icon {
+  &__btn[aria-expanded="true"] &__icon .icon {
     .icon-triangle-up;
   }
-  // --------------------------------------------------
 
   &__list {
     position: absolute;
