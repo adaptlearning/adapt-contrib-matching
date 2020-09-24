@@ -58,7 +58,7 @@ define([
     canSubmit: function() {
       // can submit if every item has a selection
       var canSubmit = _.every(this.get('_items'), function(item) {
-        return _.findWhere(item._options, {'_isSelected':true}) !== undefined;
+        return _.findWhere(item._options, { '_isSelected': true }) !== undefined;
       });
 
       return canSubmit;
@@ -78,15 +78,15 @@ define([
       var tempUserAnswer = new Array(this.get('_items').length);
 
       this.get('_items').forEach(function(item, index) {
-        var optionIndex = _.findIndex(item._options, function(o) {return o._isSelected;});
+        var optionIndex = _.findIndex(item._options, function(o) { return o._isSelected; });
 
         tempUserAnswer[item._index] = optionIndex;
         userAnswer[item._index] = item._options[optionIndex]._index;
       }, this);
 
       this.set({
-        '_userAnswer': userAnswer,
-        '_tempUserAnswer': tempUserAnswer
+        _userAnswer: userAnswer,
+        _tempUserAnswer: tempUserAnswer
       });
     },
 
@@ -105,8 +105,8 @@ define([
         numberOfCorrectAnswers++;
         item._isCorrect = true;
         this.set({
-          '_numberOfCorrectAnswers': numberOfCorrectAnswers,
-          '_isAtLeastOneCorrectSelection': true
+          _numberOfCorrectAnswers: numberOfCorrectAnswers,
+          _isAtLeastOneCorrectSelection: true
         });
 
       }, this);
@@ -210,7 +210,7 @@ define([
       var responses = [];
 
       this.get('_userAnswer').forEach(function(userAnswer, index) {
-        responses.push((index + 1) + "." + (userAnswer + 1));// convert from 0-based to 1-based counting
+        responses.push((index + 1) + '.' + (userAnswer + 1));// convert from 0-based to 1-based counting
       });
 
       return responses.join('#');
@@ -221,7 +221,7 @@ define([
     * @return {string}
     */
     getResponseType: function() {
-      return "matching";
+      return 'matching';
     }
   });
 
