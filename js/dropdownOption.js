@@ -79,12 +79,12 @@ define(function() {
 
     getNext: function() {
       var parent = this.parent();
-      return parent.options[this.getIndex()+1];
+      return parent.options[this.getIndex() + 1];
     },
 
     getPrevious: function() {
       var parent = this.parent();
-      return parent.options[this.getIndex()-1];
+      return parent.options[this.getIndex() - 1];
     },
 
     getFirst: function() {
@@ -94,7 +94,7 @@ define(function() {
 
     getLast: function() {
       var parent = this.parent();
-      return parent.options[parent.options.length-1];
+      return parent.options[parent.options.length - 1];
     },
 
     scrollTo: function() {
