@@ -8,7 +8,6 @@ define([
       QuestionModel.prototype.init.call(this);
 
       this.setupQuestionItemIndexes();
-      this.checkCanSubmit();
     },
 
     setupQuestionItemIndexes: function() {
@@ -50,6 +49,7 @@ define([
       });
 
       this.setQuestionAsSubmitted();
+      this.checkCanSubmit();
       this.markQuestion();
       this.setScore();
       this.setupFeedback();
