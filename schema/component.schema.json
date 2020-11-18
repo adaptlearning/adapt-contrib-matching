@@ -38,12 +38,7 @@
           "type": "number",
           "title": "Attempts",
           "description": "How many attempts the learner is allowed",
-          "default": 1,
-          "_backboneForms": {
-            "validators": [
-              "number"
-            ]
-          }
+          "default": 1
         },
         "_canShowModelAnswer": {
           "type": "boolean",
@@ -82,12 +77,7 @@
           "type": "number",
           "title": "Question Weight",
           "description": "How much this question is worth",
-          "default": 1,
-          "_backboneForms": {
-            "validators": [
-              "number"
-            ]
-          }
+          "default": 1
         },
         "_recordInteraction": {
           "type": "boolean",
