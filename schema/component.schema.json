@@ -237,8 +237,8 @@
                 },
                 "ariaLabel": {
                   "type": "string",
-                  "title": "Aria label",
-                  "description": "Aria label for the submit button",
+                  "title": "ARIA label",
+                  "description": "ARIA label for the submit button",
                   "default": "",
                   "_adapt": {
                     "translatable": true
@@ -262,8 +262,8 @@
                 },
                 "ariaLabel": {
                   "type": "string",
-                  "title": "Aria label",
-                  "description": "Aria label for the reset button",
+                  "title": "ARIA label",
+                  "description": "ARIA label for the reset button",
                   "default": "",
                   "_adapt": {
                     "translatable": true
@@ -287,8 +287,8 @@
                 },
                 "ariaLabel": {
                   "type": "string",
-                  "title": "Aria label",
-                  "description": "Aria label for the show model answer button",
+                  "title": "ARIA label",
+                  "description": "ARIA label for the show model answer button",
                   "default": "",
                   "_adapt": {
                     "translatable": true
@@ -312,8 +312,8 @@
                 },
                 "ariaLabel": {
                   "type": "string",
-                  "title": "Aria label",
-                  "description": "Aria label for the hide model answer button",
+                  "title": "ARIA label",
+                  "description": "ARIA label for the hide model answer button",
                   "default": "",
                   "_adapt": {
                     "translatable": true
@@ -337,8 +337,8 @@
                 },
                 "ariaLabel": {
                   "type": "string",
-                  "title": "Aria label",
-                  "description": "Aria label for the show feedback button",
+                  "title": "ARIA label",
+                  "description": "ARIA label for the show feedback button",
                   "default": "",
                   "_adapt": {
                     "translatable": true
