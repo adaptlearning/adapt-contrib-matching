@@ -233,14 +233,13 @@ define([
      */
     getCorrectAnswerAsText: function() {
       const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
-      let ariaAnswer = '';
-      this.get('_items').forEach(item => {
+      const ariaAnswer = this.get('_items').map(item => {
         var correctOption = _.findWhere(item._options, { _isCorrect: true });
-        ariaAnswer += Handlebars.compile(correctAnswerTemplate)({
+        return Handlebars.compile(correctAnswerTemplate)({
           itemText: item.text,
           correctAnswer: correctOption.text
         });
-      });
+      }).join('<br>');
 
       return ariaAnswer;
     },
