@@ -1,6 +1,7 @@
 define([
+  'core/js/adapt',
   'core/js/models/questionModel'
-], function(QuestionModel) {
+], function(Adapt, QuestionModel) {
 
   var MatchingModel = QuestionModel.extend({
 
@@ -222,7 +223,51 @@ define([
     */
     getResponseType: function() {
       return 'matching';
+    },
+
+    /**
+     * Creates a string explaining the answers the learner should have chosen
+     * Used by ButtonsView to retrieve question-specific correct answer text for the ARIA
+     * 'live region' that gets updated when the learner selects the 'show correct answer' button
+     * @return {string}
+     */
+    getCorrectAnswerAsText: function() {
+      const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
+      let ariaAnswer = '';
+      this.get('_items').forEach(item => {
+        var correctOption = _.findWhere(item._options, { _isCorrect: true });
+        ariaAnswer += Handlebars.compile(correctAnswerTemplate)({
+          itemText: item.text,
+          correctAnswer: correctOption.text
+        });
+      });
+
+      return ariaAnswer;
+    },
+
+    /**
+     * Creates a string listing the answers the learner chose
+     * Used by ButtonsView to retrieve question-specific user answer text for the ARIA
+     * 'live region' that gets updated when the learner selects the 'hide correct answer' button
+     * @return {string}
+     */
+    getUserAnswerAsText: function() {
+      const userAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaUserAnswer;
+      const answerArray = this.has('_tempUserAnswer') ?
+        this.get('_tempUserAnswer') :
+        this.get('_userAnswer');
+
+      const ariaAnswer = this.get('_items').map((item, index) => {
+        const key = answerArray[index];
+        return Handlebars.compile(userAnswerTemplate)({
+          itemText: item.text,
+          userAnswer: item._options[key].text
+        });
+      }).join('<br>');
+
+      return ariaAnswer;
     }
+
   });
 
   return MatchingModel;

@@ -11,6 +11,24 @@
             "inputType": "Text",
             "validators": [],
             "translatable": true
+        },
+        "ariaCorrectAnswer": {
+            "type": "string",
+            "required": true,
+            "default": "The correct answer for {{{itemText}}} is {{{correctAnswer}}}",
+            "inputType": "Text",
+            "validators": [],
+            "help": "Text that will be announced by the screen reader when the learner selects the 'correct answer' button",
+            "translatable": true
+        },
+        "ariaUserAnswer": {
+            "type": "string",
+            "required": true,
+            "default": "The answer you chose for {{{itemText}}} was {{{userAnswer}}}",
+            "inputType": "Text",
+            "validators": [],
+            "help": "Text that will be announced by the screen reader when the learner selects the 'hide correct answer' button",
+            "translatable": true
         }
     },
     "properties": {
