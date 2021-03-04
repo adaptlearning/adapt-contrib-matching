@@ -1,6 +1,6 @@
 {
   "name": "adapt-contrib-matching",
-  "version": "4.2.0-alpha.2",
+  "version": "4.2.0-alpha.3",
   "framework": ">=5.7",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-matching",
   "issues": "https://github.com/adaptlearning/adapt_framework/issues/new",
