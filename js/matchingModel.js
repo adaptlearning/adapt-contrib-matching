@@ -234,7 +234,7 @@ define([
     getCorrectAnswerAsText: function() {
       const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
       const ariaAnswer = this.get('_items').map(item => {
-        var correctOption = _.findWhere(item._options, { _isCorrect: true });
+        const correctOption = _.findWhere(item._options, { _isCorrect: true });
         return Handlebars.compile(correctAnswerTemplate)({
           itemText: item.text,
           correctAnswer: correctOption.text
