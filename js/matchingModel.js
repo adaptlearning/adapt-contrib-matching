@@ -1,5 +1,3 @@
-const { options } = require("less");
-
 define([
   'core/js/adapt',
   'core/js/models/questionModel'
