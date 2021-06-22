@@ -67,6 +67,11 @@ define([
 
     setOptionSelected: function(itemIndex, optionIndex, isSelected) {
       var item = this.get('_items')[itemIndex];
+      if (isNaN(optionIndex)) {
+        item._options.forEach(option => option._isSelected = false);
+        item._selected = null;
+        return this.checkCanSubmit();
+      }
       var option = _.findWhere(item._options, { '_index': optionIndex });
       option._isSelected = isSelected;
       item._selected = option;
