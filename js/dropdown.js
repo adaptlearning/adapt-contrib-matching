@@ -136,7 +136,7 @@ define([
     getFirstSelectedItem: function() {
       return _.find(this.options, function(option) {
         return option.isSelected();
-      });
+      }) || this.options[0];
     },
 
     setActiveDescendantId: function(id) {

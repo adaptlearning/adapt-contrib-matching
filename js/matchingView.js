@@ -6,7 +6,7 @@ define([
 
   var MatchingView = QuestionView.extend({
 
-    dropdowns: null,
+    dropdowns: [],
 
     disableQuestion: function() {
       this.dropdowns.forEach(function(dropdown) {
