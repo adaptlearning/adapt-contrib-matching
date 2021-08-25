@@ -2,9 +2,9 @@ define([
   './dropdownOption'
 ], function(DropDownOption) {
 
-  var DropDown = Backbone.View.extend({
+  class DropDown extends Backbone.View {
 
-    initialize: function(settings) {
+    initialize(settings) {
       _.bindAll(this, 'onStartInteraction', 'onButtonClick', 'onListBlur', 'onKeyDown');
       this.settings = _.defaults(settings, this.getDefaults());
       this.placeholder = null;
@@ -16,28 +16,28 @@ define([
       this.toggleOpen(false);
       this.settings.load.call(this, this);
       this.trigger('load', this);
-    },
+    }
 
-    getDefaults: function() {
+    getDefaults() {
       return {
         load: DropDown.defaults.load,
         openList: DropDown.defaults.openList,
         closeList: DropDown.defaults.closeList,
         scrollToItem: DropDown.defaults.scrollToItem
       };
-    },
+    }
 
-    setUpElements: function() {
+    setUpElements() {
       this.$list = this.$('.js-dropdown-list');
       this.$button = this.$('.js-dropdown-btn');
       this.$inner = this.$button.find('.js-dropdown-inner');
       this.$input = this.$('.js-data-output');
-    },
+    }
 
-    setUpItems: function() {
-      var $options = this.$('.js-dropdown-list-item');
+    setUpItems() {
+      const $options = this.$('.js-dropdown-list-item');
       $options.each(function(index, el) {
-        var option = new DropDownOption({
+        const option = new DropDownOption({
           parent: this,
           el: el
         });
@@ -47,29 +47,29 @@ define([
         }
         this.options.push(option);
       }.bind(this));
-    },
+    }
 
-    addEventListeners: function() {
+    addEventListeners() {
       this.$button.on({
         'mousedown touchstart': this.onStartInteraction,
         click: this.onButtonClick
       });
       this.$list.on('blur', this.onListBlur);
       $(document).on('keydown', this.onKeyDown);
-    },
+    }
 
-    onStartInteraction: function() {
+    onStartInteraction() {
       this.wasOpen = this.isOpen();
-    },
+    }
 
-    deselectAll: function() {
+    deselectAll() {
       this.placeholder.deselect();
       this.options.forEach(function(option) {
         option.deselect();
       });
-    },
+    }
 
-    onButtonClick: function(event) {
+    onButtonClick(event) {
       if (this.wasOpen || this.isOpen()) {
         // click toggle list:
         // if the list is open and the button is clicked
@@ -80,38 +80,38 @@ define([
         return;
       }
       this.toggleOpen();
-      var option = this.getFirstSelectedItem() || this.placeholder;
+      const option = this.getFirstSelectedItem() || this.placeholder;
       if (!option) return;
       option.reselect();
       option.scrollTo();
       this.$list.focus();
-    },
+    }
 
-    isOpen: function() {
+    isOpen() {
       return !this.$list.hasClass('u-display-none');
-    },
+    }
 
-    toggleOpen: function(open) {
+    toggleOpen(open) {
       if (open === undefined) open = !this.isOpen();
       if (open) clearTimeout(this.blurTimeout);
       this.$button.attr('aria-expanded', open ? 'true' : 'false');
-      var name = open ? 'openList' : 'closeList';
+      const name = open ? 'openList' : 'closeList';
       this.settings[name].call(this, this);
       this.trigger(name, this);
-    },
+    }
 
-    onListBlur: function(event) {
+    onListBlur(event) {
       // IE11: Allow option click handler to execute before blur and close list
-      var handleBlur = function() {
+      const handleBlur = function() {
         this.toggleOpen(false);
         this.removeActiveDescendantId();
       }.bind(this);
       this.blurTimeout = setTimeout(handleBlur, 100);
-    },
+    }
 
-    onKeyDown: function(event) {
+    onKeyDown(event) {
       if (!this.isOpen()) return;
-      var option = this.getFirstSelectedItem() || this.placeholder;
+      let option = this.getFirstSelectedItem() || this.placeholder;
       switch (event.keyCode) {
         case 38: // UP
           event.preventDefault();
@@ -131,25 +131,25 @@ define([
           return;
       }
       option.select().scrollTo();
-    },
+    }
 
-    getFirstSelectedItem: function() {
+    getFirstSelectedItem() {
       return _.find(this.options, function(option) {
         return option.isSelected();
       }) || this.options[0];
-    },
+    }
 
-    setActiveDescendantId: function(id) {
+    setActiveDescendantId(id) {
       this.$list.attr('aria-activedescendant', id);
-    },
+    }
 
-    removeActiveDescendantId: function() {
+    removeActiveDescendantId() {
       this.$list.removeAttr('aria-activedescendant');
-    },
+    }
 
-    select: function(value) {
+    select(value) {
       value = String(value);
-      var option = _.find(this.options, function(option) {
+      const option = _.find(this.options, function(option) {
         return option.getValue() === value;
       });
       if (option) {
@@ -157,36 +157,36 @@ define([
         return;
       }
       this.placeholder.select();
-    },
+    }
 
-    toggleDisabled: function(value) {
+    toggleDisabled(value) {
       if (value === undefined) {
         value = !this.$input.attr('disabled');
       }
       if (value === false) {
         this.$input.removeAttr('disabled');
         this.$button
-            .removeAttr('disabled')
-            .removeClass('is-disabled');
+          .removeAttr('disabled')
+          .removeClass('is-disabled');
         this.$el.removeAttr('disabled');
         return;
       }
       this.$input.attr('disabled', '');
       this.$button
-          .attr('disabled', '')
-          .addClass('is-disabled');
+        .attr('disabled', '')
+        .addClass('is-disabled');
       this.$el.attr('disabled', '');
-    },
+    }
 
-    isEmpty: function() {
+    isEmpty() {
       return !this.getFirstSelectedItem();
-    },
+    }
 
-    val: function() {
+    val() {
       return this.$input.val();
-    },
+    }
 
-    destroy: function() {
+    destroy() {
       this.removeEventListeners();
       this.$el.remove();
       delete this.options;
@@ -195,9 +195,9 @@ define([
       delete this.$button;
       delete this.$list;
       delete this.$el;
-    },
+    }
 
-    removeEventListeners: function() {
+    removeEventListeners() {
       this.$button.off({
         'mousedown touchstart': this.onStartInteraction,
         click: this.onButtonClick
@@ -206,51 +206,48 @@ define([
       $(document).off('keydown', this.onKeyDown);
     }
 
-  }, {
+  }
 
-    defaults: {
+  DropDown.defaults = {
 
-      load: function() {},
+    load: function() {},
 
-      openList: function() {
-        this.$list
-          .css({
-            top: '',
-            left: this.$button[0].offsetLeft,
-            width: this.$button.outerWidth()
-          })
-          .addClass('u-visibility-hidden')
-          .removeClass('u-display-none');
+    openList: function() {
+      this.$list
+        .css({
+          top: '',
+          left: this.$button[0].offsetLeft,
+          width: this.$button.outerWidth()
+        })
+        .addClass('u-visibility-hidden')
+        .removeClass('u-display-none');
 
-        var offset = this.$list[0].getBoundingClientRect();
-        var height = this.$list.height();
-        var windowHeight = $(window).height();
-        var isOffscreen = (offset.top + height > windowHeight);
+      const offset = this.$list[0].getBoundingClientRect();
+      const height = this.$list.height();
+      const windowHeight = $(window).height();
+      const isOffscreen = (offset.top + height > windowHeight);
 
-        this.$list
-          .css('top', isOffscreen ? -height : '')
-          .removeClass('u-visibility-hidden')
-          .focus();
+      this.$list
+        .css('top', isOffscreen ? -height : '')
+        .removeClass('u-visibility-hidden')
+        .focus();
 
-      },
+    },
 
-      closeList: function() {
-        this.$list
-          .removeClass('u-visibility-hidden')
-          .addClass('u-display-none')
-          .css('top', '');
-      },
+    closeList: function() {
+      this.$list
+        .removeClass('u-visibility-hidden')
+        .addClass('u-display-none')
+        .css('top', '');
+    },
 
-      scrollToItem: function(option) {
-        var height = this.$list[0].clientHeight;
-        var pos = option.$el[0].offsetTop-(height/2);
-        this.$list[0].scrollTop = pos;
-      }
-
+    scrollToItem: function(option) {
+      const height = this.$list[0].clientHeight;
+      const pos = option.$el[0].offsetTop - (height / 2);
+      this.$list[0].scrollTop = pos;
     }
 
-  });
+  };
 
   return DropDown;
-
 });

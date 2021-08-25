@@ -3,16 +3,15 @@ define([
   'core/js/models/questionModel'
 ], function(Adapt, QuestionModel) {
 
-  var MatchingModel = QuestionModel.extend({
+  class MatchingModel extends QuestionModel {
 
-    init: function() {
+    init() {
       QuestionModel.prototype.init.call(this);
 
       this.setupQuestionItemIndexes();
-    },
+    }
 
-    setupQuestionItemIndexes: function() {
-
+    setupQuestionItemIndexes() {
       this.get('_items').forEach(function(item, index) {
         if (item._index === undefined) {
           item._index = index;
@@ -25,20 +24,20 @@ define([
           }
         });
       });
-    },
+    }
 
-    setupRandomisation: function() {
+    setupRandomisation() {
       if (!this.get('_isRandom') || !this.get('_isEnabled')) return;
 
       this.get('_items').forEach(function(item) {
         item._options = _.shuffle(item._options);
       });
-    },
+    }
 
-    restoreUserAnswers: function() {
+    restoreUserAnswers() {
       if (!this.get('_isSubmitted')) return;
 
-      var userAnswer = this.get('_userAnswer');
+      const userAnswer = this.get('_userAnswer');
 
       this.get('_items').forEach(function(item, index) {
         item._options.forEach(function(option, index) {
@@ -54,37 +53,37 @@ define([
       this.markQuestion();
       this.setScore();
       this.setupFeedback();
-    },
+    }
 
-    canSubmit: function() {
+    canSubmit() {
       // can submit if every item has a selection
-      var canSubmit = _.every(this.get('_items'), function(item) {
-        return _.findWhere(item._options, { '_isSelected': true }) !== undefined;
+      const canSubmit = _.every(this.get('_items'), function(item) {
+        return _.findWhere(item._options, { _isSelected: true }) !== undefined;
       });
 
       return canSubmit;
-    },
+    }
 
-    setOptionSelected: function(itemIndex, optionIndex, isSelected) {
-      var item = this.get('_items')[itemIndex];
+    setOptionSelected(itemIndex, optionIndex, isSelected) {
+      const item = this.get('_items')[itemIndex];
       if (isNaN(optionIndex)) {
-        item._options.forEach(option => option._isSelected = false);
+        item._options.forEach(option => (option._isSelected = false));
         item._selected = null;
         return this.checkCanSubmit();
       }
-      var option = _.findWhere(item._options, { '_index': optionIndex });
+      const option = _.findWhere(item._options, { _index: optionIndex });
       option._isSelected = isSelected;
       item._selected = option;
       this.checkCanSubmit();
-    },
+    }
 
-    storeUserAnswer: function() {
+    storeUserAnswer() {
 
-      var userAnswer = new Array(this.get('_items').length);
-      var tempUserAnswer = new Array(this.get('_items').length);
+      const userAnswer = new Array(this.get('_items').length);
+      const tempUserAnswer = new Array(this.get('_items').length);
 
       this.get('_items').forEach(function(item, index) {
-        var optionIndex = _.findIndex(item._options, function(o) { return o._isSelected; });
+        const optionIndex = _.findIndex(item._options, function(o) { return o._isSelected; });
 
         tempUserAnswer[item._index] = optionIndex;
         userAnswer[item._index] = item._options[optionIndex]._index;
@@ -94,14 +93,14 @@ define([
         _userAnswer: userAnswer,
         _tempUserAnswer: tempUserAnswer
       });
-    },
+    }
 
-    isCorrect: function() {
-      var numberOfCorrectAnswers = 0;
+    isCorrect() {
+      let numberOfCorrectAnswers = 0;
 
       this.get('_items').forEach(function(item, index) {
 
-        var isCorrect = (item._selected && item._selected._isCorrect);
+        const isCorrect = (item._selected && item._selected._isCorrect);
 
         if (!isCorrect) {
           item._isCorrect = false;
@@ -124,42 +123,42 @@ define([
       }
 
       return false;
-    },
+    }
 
-    setScore: function() {
-      var questionWeight = this.get('_questionWeight');
+    setScore() {
+      const questionWeight = this.get('_questionWeight');
 
       if (this.get('_isCorrect')) {
         this.set('_score', questionWeight);
         return;
       }
 
-      var numberOfCorrectAnswers = this.get('_numberOfCorrectAnswers');
-      var itemLength = this.get('_items').length;
+      const numberOfCorrectAnswers = this.get('_numberOfCorrectAnswers');
+      const itemLength = this.get('_items').length;
 
-      var score = questionWeight * numberOfCorrectAnswers / itemLength;
+      const score = questionWeight * numberOfCorrectAnswers / itemLength;
 
       this.set('_score', score);
-    },
+    }
 
-    isPartlyCorrect: function() {
+    isPartlyCorrect() {
       return this.get('_isAtLeastOneCorrectSelection');
-    },
+    }
 
-    resetUserAnswer: function() {
+    resetUserAnswer() {
       this.set('_userAnswer', []);
-    },
+    }
 
     /**
     * Used by tracking extensions to return an object containing the component's specific interactions.
     */
-    getInteractionObject: function() {
-      var interactions = {
+    getInteractionObject() {
+      const interactions = {
         correctResponsesPattern: null,
         source: null,
         target: null
       };
-      var items = this.get('_items');
+      const items = this.get('_items');
       // This contains an array with a single string value, matching the source 'id' with the correct
       // matching target 'id' value. An example is as follows:
       // [ "1[.]1_2[,]2[.]2_3" ]
@@ -204,7 +203,7 @@ define([
         });
       }));
       return interactions;
-    },
+    }
 
     /**
     * Used by adapt-contrib-spoor to get the user's answers in the format required by the cmi.interactions.n.student_response data field
@@ -212,23 +211,23 @@ define([
     * option 3 in drop-down 2 and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor,
     * depending on which SCORM version is being used.
     */
-    getResponse: function() {
-      var responses = [];
+    getResponse() {
+      const responses = [];
 
       this.get('_userAnswer').forEach(function(userAnswer, index) {
         responses.push((index + 1) + '.' + (userAnswer + 1));// convert from 0-based to 1-based counting
       });
 
       return responses.join('#');
-    },
+    }
 
     /**
     * Used by adapt-contrib-spoor to get the type of this question in the format required by the cmi.interactions.n.type data field
     * @return {string}
     */
-    getResponseType: function() {
+    getResponseType() {
       return 'matching';
-    },
+    }
 
     /**
      * Creates a string explaining the answers the learner should have chosen
@@ -236,7 +235,7 @@ define([
      * 'live region' that gets updated when the learner selects the 'show correct answer' button
      * @return {string}
      */
-    getCorrectAnswerAsText: function() {
+    getCorrectAnswerAsText() {
       const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
       const ariaAnswer = this.get('_items').map(item => {
         const correctOption = _.findWhere(item._options, { _isCorrect: true });
@@ -247,7 +246,7 @@ define([
       }).join('<br>');
 
       return ariaAnswer;
-    },
+    }
 
     /**
      * Creates a string listing the answers the learner chose
@@ -255,7 +254,7 @@ define([
      * 'live region' that gets updated when the learner selects the 'hide correct answer' button
      * @return {string}
      */
-    getUserAnswerAsText: function() {
+    getUserAnswerAsText() {
       const userAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaUserAnswer;
       const answerArray = this.has('_tempUserAnswer') ?
         this.get('_tempUserAnswer') :
@@ -272,7 +271,7 @@ define([
       return ariaAnswer;
     }
 
-  });
+  };
 
   return MatchingModel;
 });

@@ -1,38 +1,40 @@
 define(function() {
 
-  var DropDownItem = Backbone.View.extend({
+  class DropDownItem extends Backbone.View {
 
-    events: {
-      'click': 'onClick',
-      'click *': 'onClick'
-    },
+    events() {
+      return {
+        click: 'onClick',
+        'click *': 'onClick'
+      };
+    }
 
-    initialize: function(settings) {
+    initialize(settings) {
       this.settings = settings;
       this.$inner = this.$('.js-dropdown-list-item-inner');
-    },
+    }
 
-    isPlaceholder: function() {
+    isPlaceholder() {
       return this.$el.is('[hidden]');
-    },
+    }
 
-    parent: function() {
+    parent() {
       return this.settings.parent;
-    },
+    }
 
-    onClick: function(event) {
-      var parent = this.parent();
+    onClick(event) {
+      const parent = this.parent();
       event.preventDefault();
       this.select().scrollTo();
       parent.$button.focus();
-    },
+    }
 
-    getValue: function() {
+    getValue() {
       return this.$el.attr('value').trim();
-    },
+    }
 
-    select: function() {
-      var parent = this.parent();
+    select() {
+      const parent = this.parent();
       parent.deselectAll();
       parent.setActiveDescendantId(this.el.id);
       this.$el.attr({
@@ -40,15 +42,15 @@ define(function() {
         'aria-selected': 'true'
       });
       parent.$inner.html(this.$el.attr('text'));
-      var value = this.isPlaceholder() ? '' : this.getValue();
+      const value = this.isPlaceholder() ? '' : this.getValue();
       parent.$input.val(value).trigger('change');
       parent.trigger('change', parent);
       return this;
-    },
+    }
 
-    deselect: function() {
+    deselect() {
       if (!this.isSelected()) return this;
-      var parent = this.parent();
+      const parent = this.parent();
       parent.removeActiveDescendantId();
       this.$el.removeAttr('selected');
       this.$el.attr('aria-selected', 'false');
@@ -56,60 +58,60 @@ define(function() {
       parent.$input.val('').trigger('change');
       parent.trigger('change', parent);
       return this;
-    },
+    }
 
-    reselect: function() {
-      var parent = this.parent();
+    reselect() {
+      const parent = this.parent();
       parent.setActiveDescendantId(this.$el[0].id);
       if (this.isSelected()) return this;
       this.select();
       return this;
-    },
+    }
 
-    isSelected: function() {
+    isSelected() {
       return Boolean(this.$el.attr('selected'));
-    },
+    }
 
-    getIndex: function() {
-      var parent = this.parent();
+    getIndex() {
+      const parent = this.parent();
       return _.findIndex(parent.options, function(option) {
         return (option === this);
       }.bind(this));
-    },
+    }
 
-    getNext: function() {
-      var parent = this.parent();
+    getNext() {
+      const parent = this.parent();
       return parent.options[this.getIndex() + 1];
-    },
+    }
 
-    getPrevious: function() {
-      var parent = this.parent();
+    getPrevious() {
+      const parent = this.parent();
       return parent.options[this.getIndex() - 1];
-    },
+    }
 
-    getFirst: function() {
-      var parent = this.parent();
+    getFirst() {
+      const parent = this.parent();
       return parent.options[0];
-    },
+    }
 
-    getLast: function() {
-      var parent = this.parent();
+    getLast() {
+      const parent = this.parent();
       return parent.options[parent.options.length - 1];
-    },
+    }
 
-    scrollTo: function() {
-      var parent = this.parent();
+    scrollTo() {
+      const parent = this.parent();
       parent.settings.scrollToItem.call(parent, this);
-    },
+    }
 
-    destroy: function() {
-      var parent = this.parent();
+    destroy() {
+      const parent = this.parent();
       this.remove();
       if (this.isPlaceholder()) {
         parent.placeholder = null;
       } else {
-        for (var i = 0, l = parent.options.length; i < l; i++) {
-          var item = parent.options[i];
+        for (let i = 0, l = parent.options.length; i < l; i++) {
+          const item = parent.options[i];
           if (item !== this) continue;
           parent.options.splice(i, 1);
           break;
@@ -118,7 +120,7 @@ define(function() {
       delete this.settings;
     }
 
-  });
+  };
 
   return DropDownItem;
 
