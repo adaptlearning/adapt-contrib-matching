@@ -1,12 +1,8 @@
-define([
-  'core/js/adapt',
-  './matchingView',
-  './matchingModel'
-], function(Adapt, MatchingView, MatchingModel) {
+import Adapt from 'core/js/adapt';
+import MatchingView from './matchingView';
+import MatchingModel from './matchingModel';
 
-  return Adapt.register('matching', {
-    view: MatchingView,
-    model: MatchingModel
-  });
-
+export default Adapt.register('matching', {
+  view: MatchingView,
+  model: MatchingModel
 });
