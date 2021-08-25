@@ -12,12 +12,12 @@ define([
     }
 
     setupQuestionItemIndexes() {
-      this.get('_items').forEach(function(item, index) {
+      this.get('_items').forEach((item, index) => {
         if (item._index === undefined) {
           item._index = index;
           item._selected = false;
         }
-        item._options.forEach(function(option, index) {
+        item._options.forEach((option, index) => {
           if (option._index === undefined) {
             option._index = index;
             option._isSelected = false;
@@ -29,7 +29,7 @@ define([
     setupRandomisation() {
       if (!this.get('_isRandom') || !this.get('_isEnabled')) return;
 
-      this.get('_items').forEach(function(item) {
+      this.get('_items').forEach(item => {
         item._options = _.shuffle(item._options);
       });
     }
@@ -39,8 +39,8 @@ define([
 
       const userAnswer = this.get('_userAnswer');
 
-      this.get('_items').forEach(function(item, index) {
-        item._options.forEach(function(option, index) {
+      this.get('_items').forEach((item, index) => {
+        item._options.forEach((option, index) => {
           if (option._index === userAnswer[item._index]) {
             option._isSelected = true;
             item._selected = option;
@@ -57,7 +57,7 @@ define([
 
     canSubmit() {
       // can submit if every item has a selection
-      const canSubmit = _.every(this.get('_items'), function(item) {
+      const canSubmit = _.every(this.get('_items'), item => {
         return _.findWhere(item._options, { _isSelected: true }) !== undefined;
       });
 
@@ -82,12 +82,12 @@ define([
       const userAnswer = new Array(this.get('_items').length);
       const tempUserAnswer = new Array(this.get('_items').length);
 
-      this.get('_items').forEach(function(item, index) {
-        const optionIndex = _.findIndex(item._options, function(o) { return o._isSelected; });
+      this.get('_items').forEach((item, index) => {
+        const optionIndex = _.findIndex(item._options, o => { return o._isSelected; });
 
         tempUserAnswer[item._index] = optionIndex;
         userAnswer[item._index] = item._options[optionIndex]._index;
-      }, this);
+      });
 
       this.set({
         _userAnswer: userAnswer,
@@ -98,7 +98,7 @@ define([
     isCorrect() {
       let numberOfCorrectAnswers = 0;
 
-      this.get('_items').forEach(function(item, index) {
+      this.get('_items').forEach((item, index) => {
 
         const isCorrect = (item._selected && item._selected._isCorrect);
 
@@ -114,7 +114,7 @@ define([
           _isAtLeastOneCorrectSelection: true
         });
 
-      }, this);
+      });
 
       this.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
 
@@ -163,15 +163,15 @@ define([
       // matching target 'id' value. An example is as follows:
       // [ "1[.]1_2[,]2[.]2_3" ]
       interactions.correctResponsesPattern = [
-        items.map(function(item, questionIndex) {
+        items.map((item, questionIndex) => {
           // Offset the item index and use it as a group identifier.
           questionIndex = questionIndex + 1;
           return [
             questionIndex,
-            item._options.filter(function(item) {
+            item._options.filter(item => {
               // Get the correct item(s).
               return item._isCorrect;
-            }).map(function(item) {
+            }).map(item => {
               // Prefix the option's index and offset by 1.
               return questionIndex + '_' + (item._index + 1).toString();
             })
@@ -180,7 +180,7 @@ define([
       ];
       // The 'source' property contains an array of all the stems/questions, e.g.
       // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
-      interactions.source = _.flatten(items.map(function(item) {
+      interactions.source = _.flatten(items.map(item => {
         return {
           // Offset by 1.
           id: (item._index + 1).toString(),
@@ -192,10 +192,10 @@ define([
       // [  {id: "1_1": description: "First option, group 1"},
       //    {id: "1_2": description: "Second option, group 1"}
       //    {id: "2_1": description: "First option, group 2"}  ]
-      interactions.target = _.flatten(items.map(function(item, index) {
+      interactions.target = _.flatten(items.map((item, index) => {
         // Offset by 1, as these values are not zero-indexed.
         index = index + 1;
-        return item._options.map(function(option) {
+        return item._options.map(option => {
           return {
             id: index + '_' + (option._index + 1),
             description: option.text
@@ -214,7 +214,7 @@ define([
     getResponse() {
       const responses = [];
 
-      this.get('_userAnswer').forEach(function(userAnswer, index) {
+      this.get('_userAnswer').forEach((userAnswer, index) => {
         responses.push((index + 1) + '.' + (userAnswer + 1));// convert from 0-based to 1-based counting
       });
 

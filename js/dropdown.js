@@ -36,7 +36,7 @@ define([
 
     setUpItems() {
       const $options = this.$('.js-dropdown-list-item');
-      $options.each(function(index, el) {
+      $options.each((index, el) => {
         const option = new DropDownOption({
           parent: this,
           el: el
@@ -46,7 +46,7 @@ define([
           return;
         }
         this.options.push(option);
-      }.bind(this));
+      });
     }
 
     addEventListeners() {
@@ -64,7 +64,7 @@ define([
 
     deselectAll() {
       this.placeholder.deselect();
-      this.options.forEach(function(option) {
+      this.options.forEach(option => {
         option.deselect();
       });
     }
@@ -102,10 +102,10 @@ define([
 
     onListBlur(event) {
       // IE11: Allow option click handler to execute before blur and close list
-      const handleBlur = function() {
+      const handleBlur = () => {
         this.toggleOpen(false);
         this.removeActiveDescendantId();
-      }.bind(this);
+      };
       this.blurTimeout = setTimeout(handleBlur, 100);
     }
 
@@ -134,7 +134,7 @@ define([
     }
 
     getFirstSelectedItem() {
-      return _.find(this.options, function(option) {
+      return _.find(this.options, option => {
         return option.isSelected();
       }) || this.options[0];
     }
@@ -149,7 +149,7 @@ define([
 
     select(value) {
       value = String(value);
-      const option = _.find(this.options, function(option) {
+      const option = _.find(this.options, option => {
         return option.getValue() === value;
       });
       if (option) {

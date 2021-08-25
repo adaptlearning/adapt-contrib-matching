@@ -74,9 +74,9 @@ define(function() {
 
     getIndex() {
       const parent = this.parent();
-      return _.findIndex(parent.options, function(option) {
+      return _.findIndex(parent.options, option => {
         return (option === this);
-      }.bind(this));
+      });
     }
 
     getNext() {
