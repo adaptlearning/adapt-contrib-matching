@@ -35,10 +35,7 @@ class DropDown extends Backbone.View {
   setUpItems() {
     const $options = this.$('.js-dropdown-list-item');
     $options.each((index, el) => {
-      const option = new DropDownOption({
-        parent: this,
-        el: el
-      });
+      const option = new DropDownOption({ parent: this, el });
       if (option.isPlaceholder()) {
         this.placeholder = option;
         return;
@@ -65,7 +62,7 @@ class DropDown extends Backbone.View {
     this.options.forEach(option => option.deselect());
   }
 
-  onButtonClick(event) {
+  onButtonClick() {
     if (this.wasOpen || this.isOpen()) {
       // click toggle list:
       // if the list is open and the button is clicked
