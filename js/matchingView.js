@@ -9,15 +9,11 @@ export default class MatchingView extends QuestionView {
   }
 
   disableQuestion() {
-    this.dropdowns.forEach(dropdown => {
-      dropdown.toggleDisabled(true);
-    });
+    this.dropdowns.forEach(dropdown => dropdown.toggleDisabled(true));
   }
 
   enableQuestion() {
-    this.dropdowns.forEach(dropdown => {
-      dropdown.toggleDisabled(false);
-    });
+    this.dropdowns.forEach(dropdown => dropdown.toggleDisabled(false));
   }
 
   resetQuestionOnRevisit() {
@@ -42,14 +38,11 @@ export default class MatchingView extends QuestionView {
   }
 
   setUpDropdowns() {
-    _.bindAll(this, 'onOptionSelected');
-    this.dropdowns = [];
+    this.onOptionSelected = this.onOptionSelected.bind(this);
     const items = this.model.get('_items');
     this.$('.matching__item').each((i, el) => {
       const item = items[i];
-      const selectedOption = _.find(item._options, option => {
-        return option._isSelected;
-      });
+      const selectedOption = item._options.find(({ _isSelected }) => _isSelected);
       const dropdown = new DropDown({
         el: $(el).find('.dropdown')[0],
         placeholder: this.model.get('placeholder'),

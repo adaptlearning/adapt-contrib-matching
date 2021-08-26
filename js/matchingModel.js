@@ -146,45 +146,43 @@ export default class MatchingModel extends QuestionModel {
     // matching target 'id' value. An example is as follows:
     // [ "1[.]1_2[,]2[.]2_3" ]
     interactions.correctResponsesPattern = [
-      items.map((item, questionIndex) => {
+      items.map(({ _options }, questionIndex) => {
         // Offset the item index and use it as a group identifier.
-        questionIndex = questionIndex + 1;
+        questionIndex++;
         return [
           questionIndex,
-          item._options.filter(item => {
-            // Get the correct item(s).
-            return item._isCorrect;
-          }).map(item => {
+          // Get the correct item(s).
+          _options.filter(({ _isCorrect }) => _isCorrect).map(({ _index }) => {
             // Prefix the option's index and offset by 1.
-            return questionIndex + '_' + (item._index + 1).toString();
+            return `${questionIndex}_${_index + 1}`;
           })
         ].join('[.]');
       }).join('[,]')
     ];
     // The 'source' property contains an array of all the stems/questions, e.g.
     // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
-    interactions.source = _.flatten(items.map(item => {
+    interactions.source = items.map(item => {
       return {
         // Offset by 1.
-        id: (item._index + 1).toString(),
+        id: `${item._index + 1}`,
         description: item.text
       };
-    }));
+    }).flat(Infinity);
     // The 'target' property contains an array of all the option responses, with the 'id'
     // prefixed to indicate the grouping, e.g.
     // [  {id: "1_1": description: "First option, group 1"},
     //    {id: "1_2": description: "Second option, group 1"}
     //    {id: "2_1": description: "First option, group 2"}  ]
-    interactions.target = _.flatten(items.map((item, index) => {
+    interactions.target = items.map(({ _options }, index) => {
       // Offset by 1, as these values are not zero-indexed.
-      index = index + 1;
-      return item._options.map(option => {
+      index++;
+      return _options.map(option => {
         return {
-          id: index + '_' + (option._index + 1),
+          id: `${index}_${option._index + 1}`,
           description: option.text
         };
       });
-    }));
+    }).flat(Infinity);
     return interactions;
   }
 
@@ -195,11 +193,11 @@ export default class MatchingModel extends QuestionModel {
   * depending on which SCORM version is being used.
   */
   getResponse() {
-    const responses = [];
-
-    this.get('_userAnswer').forEach((userAnswer, index) => {
-      responses.push((index + 1) + '.' + (userAnswer + 1));// convert from 0-based to 1-based counting
-    });
+    const responses = this.get('_userAnswer').reduce((a, userAnswer, index) => {
+      // convert from 0-based to 1-based counting
+      a.push(`${index + 1}.${userAnswer + 1}`);
+      return a;
+    }, []);
 
     return responses.join('#');
   }
@@ -221,7 +219,7 @@ export default class MatchingModel extends QuestionModel {
   getCorrectAnswerAsText() {
     const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
     const ariaAnswer = this.get('_items').map(item => {
-      const correctOption = _.findWhere(item._options, { _isCorrect: true });
+      const correctOption = item._options.find(({ _isCorrect }) => _isCorrect);
       return Handlebars.compile(correctAnswerTemplate)({
         itemText: item.text,
         correctAnswer: correctOption.text
