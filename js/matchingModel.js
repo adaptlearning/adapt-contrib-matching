@@ -193,11 +193,10 @@ export default class MatchingModel extends QuestionModel {
   * depending on which SCORM version is being used.
   */
   getResponse() {
-    const responses = this.get('_userAnswer').reduce((a, userAnswer, index) => {
+    const responses = this.get('_userAnswer').map((userAnswer, index) => {
       // convert from 0-based to 1-based counting
-      a.push(`${index + 1}.${userAnswer + 1}`);
-      return a;
-    }, []);
+      return `${index + 1}.${userAnswer + 1}`;
+    });
 
     return responses.join('#');
   }
