@@ -3,7 +3,7 @@
   "version": "4.4.0",
   "framework": ">=5.8",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-matching",
-  "issues": "https://github.com/adaptlearning/adapt_framework/issues/new",
+  "bugs": "https://github.com/adaptlearning/adapt-contrib-matching/issues",
   "component" : "matching",
   "targetAttribute": "_matching",
   "displayName" : "Matching Question",
