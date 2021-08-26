@@ -16,15 +16,6 @@ class DropDown extends Backbone.View {
     this.trigger('load', this);
   }
 
-  getDefaults() {
-    return {
-      load: DropDown.defaults.load,
-      openList: DropDown.defaults.openList,
-      closeList: DropDown.defaults.closeList,
-      scrollToItem: DropDown.defaults.scrollToItem
-    };
-  }
-
   setUpElements() {
     this.$list = this.$('.js-dropdown-list');
     this.$button = this.$('.js-dropdown-btn');
