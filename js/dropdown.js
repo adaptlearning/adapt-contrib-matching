@@ -64,7 +64,7 @@ class DropDown extends Backbone.View {
     });
   }
 
-  onButtonClick(event) {
+  onButtonClick() {
     if (this.wasOpen || this.isOpen()) {
       // click toggle list:
       // if the list is open and the button is clicked
