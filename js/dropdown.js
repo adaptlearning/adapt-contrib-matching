@@ -4,7 +4,7 @@ class DropDown extends Backbone.View {
 
   initialize(settings) {
     _.bindAll(this, 'onStartInteraction', 'onButtonClick', 'onListBlur', 'onKeyDown');
-    this.settings = _.defaults(settings, this.getDefaults());
+    this.settings = _.defaults(settings, DropDown.defaults);
     this.placeholder = null;
     this.options = [];
     this.setUpElements();
@@ -62,9 +62,7 @@ class DropDown extends Backbone.View {
 
   deselectAll() {
     this.placeholder.deselect();
-    this.options.forEach(option => {
-      option.deselect();
-    });
+    this.options.forEach(option => option.deselect());
   }
 
   onButtonClick(event) {
@@ -89,8 +87,7 @@ class DropDown extends Backbone.View {
     return !this.$list.hasClass('u-display-none');
   }
 
-  toggleOpen(open) {
-    if (open === undefined) open = !this.isOpen();
+  toggleOpen(open = !this.isOpen()) {
     if (open) clearTimeout(this.blurTimeout);
     this.$button.attr('aria-expanded', open ? 'true' : 'false');
     const name = open ? 'openList' : 'closeList';
@@ -98,7 +95,7 @@ class DropDown extends Backbone.View {
     this.trigger(name, this);
   }
 
-  onListBlur(event) {
+  onListBlur() {
     // IE11: Allow option click handler to execute before blur and close list
     const handleBlur = () => {
       this.toggleOpen(false);
@@ -132,9 +129,7 @@ class DropDown extends Backbone.View {
   }
 
   getFirstSelectedItem() {
-    return _.find(this.options, option => {
-      return option.isSelected();
-    }) || this.options[0];
+    return this.options.find(option => option.isSelected()) || this.options[0];
   }
 
   setActiveDescendantId(id) {
@@ -147,9 +142,7 @@ class DropDown extends Backbone.View {
 
   select(value) {
     value = String(value);
-    const option = _.find(this.options, option => {
-      return option.getValue() === value;
-    });
+    const option = this.options.find(option => option.getValue() === value);
     if (option) {
       option.select();
       return;
@@ -157,10 +150,7 @@ class DropDown extends Backbone.View {
     this.placeholder.select();
   }
 
-  toggleDisabled(value) {
-    if (value === undefined) {
-      value = !this.$input.attr('disabled');
-    }
+  toggleDisabled(value = !this.$input.attr('disabled')) {
     if (value === false) {
       this.$input.removeAttr('disabled');
       this.$button
@@ -208,9 +198,9 @@ class DropDown extends Backbone.View {
 
 DropDown.defaults = {
 
-  load: function() {},
+  load() {},
 
-  openList: function() {
+  openList() {
     this.$list
       .css({
         top: '',
@@ -229,21 +219,21 @@ DropDown.defaults = {
       .css('top', isOffscreen ? -height : '')
       .removeClass('u-visibility-hidden')
       .focus();
-
   },
 
-  closeList: function() {
+  closeList() {
     this.$list
       .removeClass('u-visibility-hidden')
       .addClass('u-display-none')
       .css('top', '');
   },
 
-  scrollToItem: function(option) {
+  scrollToItem(option) {
     const height = this.$list[0].clientHeight;
     const pos = option.$el[0].offsetTop - (height / 2);
     this.$list[0].scrollTop = pos;
   }
+
 };
 
 export default DropDown;

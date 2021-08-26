@@ -4,7 +4,7 @@ import QuestionModel from 'core/js/models/questionModel';
 export default class MatchingModel extends QuestionModel {
 
   init() {
-    QuestionModel.prototype.init.call(this);
+    super.init();
 
     this.setupQuestionItemIndexes();
   }
@@ -16,10 +16,9 @@ export default class MatchingModel extends QuestionModel {
         item._selected = false;
       }
       item._options.forEach((option, index) => {
-        if (option._index === undefined) {
-          option._index = index;
-          option._isSelected = false;
-        }
+        if (option._index !== undefined) return;
+        option._index = index;
+        option._isSelected = false;
       });
     });
   }
@@ -27,9 +26,7 @@ export default class MatchingModel extends QuestionModel {
   setupRandomisation() {
     if (!this.get('_isRandom') || !this.get('_isEnabled')) return;
 
-    this.get('_items').forEach(item => {
-      item._options = _.shuffle(item._options);
-    });
+    this.get('_items').forEach(item => (item._options = _.shuffle(item._options)));
   }
 
   restoreUserAnswers() {
@@ -37,12 +34,11 @@ export default class MatchingModel extends QuestionModel {
 
     const userAnswer = this.get('_userAnswer');
 
-    this.get('_items').forEach((item, index) => {
-      item._options.forEach((option, index) => {
-        if (option._index === userAnswer[item._index]) {
-          option._isSelected = true;
-          item._selected = option;
-        }
+    this.get('_items').forEach(item => {
+      item._options.forEach(option => {
+        if (option._index !== userAnswer[item._index]) return;
+        option._isSelected = true;
+        item._selected = option;
       });
     });
 
@@ -55,8 +51,8 @@ export default class MatchingModel extends QuestionModel {
 
   canSubmit() {
     // can submit if every item has a selection
-    const canSubmit = _.every(this.get('_items'), item => {
-      return _.findWhere(item._options, { _isSelected: true }) !== undefined;
+    const canSubmit = this.get('_items').every(({ _options }) => {
+      return _options.some(({ _isSelected }) => _isSelected);
     });
 
     return canSubmit;
@@ -69,19 +65,18 @@ export default class MatchingModel extends QuestionModel {
       item._selected = null;
       return this.checkCanSubmit();
     }
-    const option = _.findWhere(item._options, { _index: optionIndex });
+    const option = item._options.find(({ _index }) => _index === optionIndex);
     option._isSelected = isSelected;
     item._selected = option;
     this.checkCanSubmit();
   }
 
   storeUserAnswer() {
-
     const userAnswer = new Array(this.get('_items').length);
     const tempUserAnswer = new Array(this.get('_items').length);
 
-    this.get('_items').forEach((item, index) => {
-      const optionIndex = _.findIndex(item._options, o => { return o._isSelected; });
+    this.get('_items').forEach(item => {
+      const optionIndex = item._options.findIndex(({ _isSelected }) => _isSelected);
 
       tempUserAnswer[item._index] = optionIndex;
       userAnswer[item._index] = item._options[optionIndex]._index;
@@ -94,25 +89,15 @@ export default class MatchingModel extends QuestionModel {
   }
 
   isCorrect() {
-    let numberOfCorrectAnswers = 0;
-
-    this.get('_items').forEach((item, index) => {
-
-      const isCorrect = (item._selected && item._selected._isCorrect);
-
+    const numberOfCorrectAnswers = this.get('_items').reduce((a, item) => {
+      const isCorrect = item._selected?._isCorrect;
+      item._isCorrect = Boolean(isCorrect);
       if (!isCorrect) {
-        item._isCorrect = false;
-        return;
+        return a;
       }
-
-      numberOfCorrectAnswers++;
-      item._isCorrect = true;
-      this.set({
-        _numberOfCorrectAnswers: numberOfCorrectAnswers,
-        _isAtLeastOneCorrectSelection: true
-      });
-
-    });
+      this.set('_isAtLeastOneCorrectSelection', true);
+      return ++a;
+    }, 0);
 
     this.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
 

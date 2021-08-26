@@ -72,9 +72,7 @@ export default class DropDownItem extends Backbone.View {
 
   getIndex() {
     const parent = this.parent();
-    return _.findIndex(parent.options, option => {
-      return (option === this);
-    });
+    return parent.options.findIndex(option => option === this);
   }
 
   getNext() {

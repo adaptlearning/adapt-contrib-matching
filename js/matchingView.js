@@ -50,11 +50,10 @@ export default class MatchingView extends QuestionView {
       const selectedOption = _.find(item._options, option => {
         return option._isSelected;
       });
-      const value = selectedOption ? selectedOption._index : null;
       const dropdown = new DropDown({
         el: $(el).find('.dropdown')[0],
         placeholder: this.model.get('placeholder'),
-        value: value
+        value: selectedOption?._index || null
       });
       this.dropdowns.push(dropdown);
       dropdown.on('change', this.onOptionSelected);
@@ -85,9 +84,11 @@ export default class MatchingView extends QuestionView {
   showMarking() {
     if (!this.model.get('_canShowMarking')) return;
 
-    this.model.get('_items').forEach((item, i) => {
+    this.model.get('_items').forEach(({ _isCorrect }, i) => {
       const $item = this.$('.matching__item').eq(i);
-      $item.removeClass('is-correct is-incorrect').addClass(item._isCorrect ? 'is-correct' : 'is-incorrect');
+      $item
+        .toggleClass('is-correct', _isCorrect)
+        .toggleClass('is-incorrect', !_isCorrect);
     });
   }
 
@@ -99,16 +100,14 @@ export default class MatchingView extends QuestionView {
     this.model.get('_items').forEach((item, index) => {
       if (item._isCorrect && resetAll === false) return;
       this.selectValue(index, null);
-      item._options.forEach((option, index) => {
-        option._isSelected = false;
-      });
+      item._options.forEach(option => (option._isSelected = false));
       item._selected = null;
     });
   }
 
   showCorrectAnswer() {
-    this.model.get('_items').forEach((item, index) => {
-      const correctOption = _.findWhere(item._options, { _isCorrect: true });
+    this.model.get('_items').forEach(({ _options }, index) => {
+      const correctOption = _options.find(({ _isCorrect }) => _isCorrect);
       this.selectValue(index, correctOption._index);
     });
   }
@@ -118,9 +117,9 @@ export default class MatchingView extends QuestionView {
       this.model.get('_tempUserAnswer') :
       this.model.get('_userAnswer');
 
-    this.model.get('_items').forEach((item, index) => {
+    this.model.get('_items').forEach(({ _options }, index) => {
       const key = answerArray[index];
-      const value = item._options[key]._index;
+      const value = _options[key]._index;
       this.selectValue(index, value);
     });
   }
