@@ -35,10 +35,7 @@ class DropDown extends Backbone.View {
   setUpItems() {
     const $options = this.$('.js-dropdown-list-item');
     $options.each((index, el) => {
-      const option = new DropDownOption({
-        parent: this,
-        el: el
-      });
+      const option = new DropDownOption({ parent: this, el });
       if (option.isPlaceholder()) {
         this.placeholder = option;
         return;
