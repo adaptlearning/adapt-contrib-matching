@@ -1,278 +1,253 @@
-define([
-  'core/js/adapt',
-  'core/js/models/questionModel'
-], function(Adapt, QuestionModel) {
+import Adapt from 'core/js/adapt';
+import QuestionModel from 'core/js/models/questionModel';
 
-  var MatchingModel = QuestionModel.extend({
+export default class MatchingModel extends QuestionModel {
 
-    init: function() {
-      QuestionModel.prototype.init.call(this);
+  init() {
+    super.init();
 
-      this.setupQuestionItemIndexes();
-    },
+    this.setupQuestionItemIndexes();
+  }
 
-    setupQuestionItemIndexes: function() {
-
-      this.get('_items').forEach(function(item, index) {
-        if (item._index === undefined) {
-          item._index = index;
-          item._selected = false;
-        }
-        item._options.forEach(function(option, index) {
-          if (option._index === undefined) {
-            option._index = index;
-            option._isSelected = false;
-          }
-        });
-      });
-    },
-
-    setupRandomisation: function() {
-      if (!this.get('_isRandom') || !this.get('_isEnabled')) return;
-
-      this.get('_items').forEach(function(item) {
-        item._options = _.shuffle(item._options);
-      });
-    },
-
-    restoreUserAnswers: function() {
-      if (!this.get('_isSubmitted')) return;
-
-      var userAnswer = this.get('_userAnswer');
-
-      this.get('_items').forEach(function(item, index) {
-        item._options.forEach(function(option, index) {
-          if (option._index === userAnswer[item._index]) {
-            option._isSelected = true;
-            item._selected = option;
-          }
-        });
-      });
-
-      this.setQuestionAsSubmitted();
-      this.checkCanSubmit();
-      this.markQuestion();
-      this.setScore();
-      this.setupFeedback();
-    },
-
-    canSubmit: function() {
-      // can submit if every item has a selection
-      var canSubmit = _.every(this.get('_items'), function(item) {
-        return _.findWhere(item._options, { '_isSelected': true }) !== undefined;
-      });
-
-      return canSubmit;
-    },
-
-    setOptionSelected: function(itemIndex, optionIndex, isSelected) {
-      var item = this.get('_items')[itemIndex];
-      if (isNaN(optionIndex)) {
-        item._options.forEach(option => option._isSelected = false);
-        item._selected = null;
-        return this.checkCanSubmit();
+  setupQuestionItemIndexes() {
+    this.get('_items').forEach((item, index) => {
+      if (item._index === undefined) {
+        item._index = index;
+        item._selected = false;
       }
-      var option = _.findWhere(item._options, { '_index': optionIndex });
-      option._isSelected = isSelected;
-      item._selected = option;
-      this.checkCanSubmit();
-    },
-
-    storeUserAnswer: function() {
-
-      var userAnswer = new Array(this.get('_items').length);
-      var tempUserAnswer = new Array(this.get('_items').length);
-
-      this.get('_items').forEach(function(item, index) {
-        var optionIndex = _.findIndex(item._options, function(o) { return o._isSelected; });
-
-        tempUserAnswer[item._index] = optionIndex;
-        userAnswer[item._index] = item._options[optionIndex]._index;
-      }, this);
-
-      this.set({
-        _userAnswer: userAnswer,
-        _tempUserAnswer: tempUserAnswer
+      item._options.forEach((option, index) => {
+        if (option._index !== undefined) return;
+        option._index = index;
+        option._isSelected = false;
       });
-    },
+    });
+  }
 
-    isCorrect: function() {
-      var numberOfCorrectAnswers = 0;
+  setupRandomisation() {
+    if (!this.get('_isRandom') || !this.get('_isEnabled')) return;
 
-      this.get('_items').forEach(function(item, index) {
+    this.get('_items').forEach(item => (item._options = _.shuffle(item._options)));
+  }
 
-        var isCorrect = (item._selected && item._selected._isCorrect);
+  restoreUserAnswers() {
+    if (!this.get('_isSubmitted')) return;
 
-        if (!isCorrect) {
-          item._isCorrect = false;
-          return;
-        }
+    const userAnswer = this.get('_userAnswer');
 
-        numberOfCorrectAnswers++;
-        item._isCorrect = true;
-        this.set({
-          _numberOfCorrectAnswers: numberOfCorrectAnswers,
-          _isAtLeastOneCorrectSelection: true
-        });
-
-      }, this);
-
-      this.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
-
-      if (numberOfCorrectAnswers === this.get('_items').length) {
-        return true;
-      }
-
-      return false;
-    },
-
-    setScore: function() {
-      var questionWeight = this.get('_questionWeight');
-
-      if (this.get('_isCorrect')) {
-        this.set('_score', questionWeight);
-        return;
-      }
-
-      var numberOfCorrectAnswers = this.get('_numberOfCorrectAnswers');
-      var itemLength = this.get('_items').length;
-
-      var score = questionWeight * numberOfCorrectAnswers / itemLength;
-
-      this.set('_score', score);
-    },
-
-    isPartlyCorrect: function() {
-      return this.get('_isAtLeastOneCorrectSelection');
-    },
-
-    resetUserAnswer: function() {
-      this.set('_userAnswer', []);
-    },
-
-    /**
-    * Used by tracking extensions to return an object containing the component's specific interactions.
-    */
-    getInteractionObject: function() {
-      var interactions = {
-        correctResponsesPattern: null,
-        source: null,
-        target: null
-      };
-      var items = this.get('_items');
-      // This contains an array with a single string value, matching the source 'id' with the correct
-      // matching target 'id' value. An example is as follows:
-      // [ "1[.]1_2[,]2[.]2_3" ]
-      interactions.correctResponsesPattern = [
-        items.map(function(item, questionIndex) {
-          // Offset the item index and use it as a group identifier.
-          questionIndex = questionIndex + 1;
-          return [
-            questionIndex,
-            item._options.filter(function(item) {
-              // Get the correct item(s).
-              return item._isCorrect;
-            }).map(function(item) {
-              // Prefix the option's index and offset by 1.
-              return questionIndex + '_' + (item._index + 1).toString();
-            })
-          ].join('[.]');
-        }).join('[,]')
-      ];
-      // The 'source' property contains an array of all the stems/questions, e.g.
-      // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
-      interactions.source = _.flatten(items.map(function(item) {
-        return {
-          // Offset by 1.
-          id: (item._index + 1).toString(),
-          description: item.text
-        };
-      }));
-      // The 'target' property contains an array of all the option responses, with the 'id'
-      // prefixed to indicate the grouping, e.g.
-      // [  {id: "1_1": description: "First option, group 1"},
-      //    {id: "1_2": description: "Second option, group 1"}
-      //    {id: "2_1": description: "First option, group 2"}  ]
-      interactions.target = _.flatten(items.map(function(item, index) {
-        // Offset by 1, as these values are not zero-indexed.
-        index = index + 1;
-        return item._options.map(function(option) {
-          return {
-            id: index + '_' + (option._index + 1),
-            description: option.text
-          };
-        });
-      }));
-      return interactions;
-    },
-
-    /**
-    * Used by adapt-contrib-spoor to get the user's answers in the format required by the cmi.interactions.n.student_response data field
-    * @return {string} the user's answers as a string in the format "1.1#2.3#3.2" assuming user selected option 1 in drop-down 1,
-    * option 3 in drop-down 2 and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor,
-    * depending on which SCORM version is being used.
-    */
-    getResponse: function() {
-      var responses = [];
-
-      this.get('_userAnswer').forEach(function(userAnswer, index) {
-        responses.push((index + 1) + '.' + (userAnswer + 1));// convert from 0-based to 1-based counting
+    this.get('_items').forEach(item => {
+      item._options.forEach(option => {
+        if (option._index !== userAnswer[item._index]) return;
+        option._isSelected = true;
+        item._selected = option;
       });
+    });
 
-      return responses.join('#');
-    },
+    this.setQuestionAsSubmitted();
+    this.checkCanSubmit();
+    this.markQuestion();
+    this.setScore();
+    this.setupFeedback();
+  }
 
-    /**
-    * Used by adapt-contrib-spoor to get the type of this question in the format required by the cmi.interactions.n.type data field
-    * @return {string}
-    */
-    getResponseType: function() {
-      return 'matching';
-    },
+  canSubmit() {
+    // can submit if every item has a selection
+    const canSubmit = this.get('_items').every(({ _options }) => {
+      return _options.some(({ _isSelected }) => _isSelected);
+    });
 
-    /**
-     * Creates a string explaining the answers the learner should have chosen
-     * Used by ButtonsView to retrieve question-specific correct answer text for the ARIA
-     * 'live region' that gets updated when the learner selects the 'show correct answer' button
-     * @return {string}
-     */
-    getCorrectAnswerAsText: function() {
-      const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
-      const ariaAnswer = this.get('_items').map(item => {
-        const correctOption = _.findWhere(item._options, { _isCorrect: true });
-        return Handlebars.compile(correctAnswerTemplate)({
-          itemText: item.text,
-          correctAnswer: correctOption.text
-        });
-      }).join('<br>');
+    return canSubmit;
+  }
 
-      return ariaAnswer;
-    },
+  setOptionSelected(itemIndex, optionIndex, isSelected) {
+    const item = this.get('_items')[itemIndex];
+    if (isNaN(optionIndex)) {
+      item._options.forEach(option => (option._isSelected = false));
+      item._selected = null;
+      return this.checkCanSubmit();
+    }
+    const option = item._options.find(({ _index }) => _index === optionIndex);
+    option._isSelected = isSelected;
+    item._selected = option;
+    this.checkCanSubmit();
+  }
 
-    /**
-     * Creates a string listing the answers the learner chose
-     * Used by ButtonsView to retrieve question-specific user answer text for the ARIA
-     * 'live region' that gets updated when the learner selects the 'hide correct answer' button
-     * @return {string}
-     */
-    getUserAnswerAsText: function() {
-      const userAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaUserAnswer;
-      const answerArray = this.has('_tempUserAnswer') ?
-        this.get('_tempUserAnswer') :
-        this.get('_userAnswer');
+  storeUserAnswer() {
+    const userAnswer = new Array(this.get('_items').length);
+    const tempUserAnswer = new Array(this.get('_items').length);
 
-      const ariaAnswer = this.get('_items').map((item, index) => {
-        const key = answerArray[index];
-        return Handlebars.compile(userAnswerTemplate)({
-          itemText: item.text,
-          userAnswer: item._options[key].text
-        });
-      }).join('<br>');
+    this.get('_items').forEach(item => {
+      const optionIndex = item._options.findIndex(({ _isSelected }) => _isSelected);
 
-      return ariaAnswer;
+      tempUserAnswer[item._index] = optionIndex;
+      userAnswer[item._index] = item._options[optionIndex]._index;
+    });
+
+    this.set({
+      _userAnswer: userAnswer,
+      _tempUserAnswer: tempUserAnswer
+    });
+  }
+
+  isCorrect() {
+    const numberOfCorrectAnswers = this.get('_items').reduce((a, item) => {
+      const isCorrect = item._selected?._isCorrect;
+      item._isCorrect = Boolean(isCorrect);
+      if (!isCorrect) {
+        return a;
+      }
+      this.set('_isAtLeastOneCorrectSelection', true);
+      return ++a;
+    }, 0);
+
+    this.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
+
+    if (numberOfCorrectAnswers === this.get('_items').length) {
+      return true;
     }
 
-  });
+    return false;
+  }
 
-  return MatchingModel;
-});
+  setScore() {
+    const questionWeight = this.get('_questionWeight');
+
+    if (this.get('_isCorrect')) {
+      this.set('_score', questionWeight);
+      return;
+    }
+
+    const numberOfCorrectAnswers = this.get('_numberOfCorrectAnswers');
+    const itemLength = this.get('_items').length;
+
+    const score = questionWeight * numberOfCorrectAnswers / itemLength;
+
+    this.set('_score', score);
+  }
+
+  isPartlyCorrect() {
+    return this.get('_isAtLeastOneCorrectSelection');
+  }
+
+  resetUserAnswer() {
+    this.set('_userAnswer', []);
+  }
+
+  /**
+  * Used by tracking extensions to return an object containing the component's specific interactions.
+  */
+  getInteractionObject() {
+    const interactions = {
+      correctResponsesPattern: null,
+      source: null,
+      target: null
+    };
+    const items = this.get('_items');
+    // This contains an array with a single string value, matching the source 'id' with the correct
+    // matching target 'id' value. An example is as follows:
+    // [ "1[.]1_2[,]2[.]2_3" ]
+    interactions.correctResponsesPattern = [
+      items.map(({ _options }, questionIndex) => {
+        // Offset the item index and use it as a group identifier.
+        questionIndex++;
+        return [
+          questionIndex,
+          // Get the correct item(s).
+          _options.filter(({ _isCorrect }) => _isCorrect).map(({ _index }) => {
+            // Prefix the option's index and offset by 1.
+            return `${questionIndex}_${_index + 1}`;
+          })
+        ].join('[.]');
+      }).join('[,]')
+    ];
+    // The 'source' property contains an array of all the stems/questions, e.g.
+    // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
+    interactions.source = items.map(item => {
+      return {
+        // Offset by 1.
+        id: `${item._index + 1}`,
+        description: item.text
+      };
+    }).flat(Infinity);
+    // The 'target' property contains an array of all the option responses, with the 'id'
+    // prefixed to indicate the grouping, e.g.
+    // [  {id: "1_1": description: "First option, group 1"},
+    //    {id: "1_2": description: "Second option, group 1"}
+    //    {id: "2_1": description: "First option, group 2"}  ]
+    interactions.target = items.map(({ _options }, index) => {
+      // Offset by 1, as these values are not zero-indexed.
+      index++;
+      return _options.map(option => {
+        return {
+          id: `${index}_${option._index + 1}`,
+          description: option.text
+        };
+      });
+    }).flat(Infinity);
+    return interactions;
+  }
+
+  /**
+  * Used by adapt-contrib-spoor to get the user's answers in the format required by the cmi.interactions.n.student_response data field
+  * @return {string} the user's answers as a string in the format "1.1#2.3#3.2" assuming user selected option 1 in drop-down 1,
+  * option 3 in drop-down 2 and option 2 in drop-down 3. The '#' character will be changed to either ',' or '[,]' by adapt-contrib-spoor,
+  * depending on which SCORM version is being used.
+  */
+  getResponse() {
+    const responses = this.get('_userAnswer').map((userAnswer, index) => {
+      // convert from 0-based to 1-based counting
+      return `${index + 1}.${userAnswer + 1}`;
+    });
+
+    return responses.join('#');
+  }
+
+  /**
+  * Used by adapt-contrib-spoor to get the type of this question in the format required by the cmi.interactions.n.type data field
+  * @return {string}
+  */
+  getResponseType() {
+    return 'matching';
+  }
+
+  /**
+   * Creates a string explaining the answers the learner should have chosen
+   * Used by ButtonsView to retrieve question-specific correct answer text for the ARIA
+   * 'live region' that gets updated when the learner selects the 'show correct answer' button
+   * @return {string}
+   */
+  getCorrectAnswerAsText() {
+    const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
+    const ariaAnswer = this.get('_items').map(item => {
+      const correctOption = item._options.find(({ _isCorrect }) => _isCorrect);
+      return Handlebars.compile(correctAnswerTemplate)({
+        itemText: item.text,
+        correctAnswer: correctOption.text
+      });
+    }).join('<br>');
+
+    return ariaAnswer;
+  }
+
+  /**
+   * Creates a string listing the answers the learner chose
+   * Used by ButtonsView to retrieve question-specific user answer text for the ARIA
+   * 'live region' that gets updated when the learner selects the 'hide correct answer' button
+   * @return {string}
+   */
+  getUserAnswerAsText() {
+    const userAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaUserAnswer;
+    const answerArray = this.has('_tempUserAnswer') ?
+      this.get('_tempUserAnswer') :
+      this.get('_userAnswer');
+
+    const ariaAnswer = this.get('_items').map((item, index) => {
+      const key = answerArray[index];
+      return Handlebars.compile(userAnswerTemplate)({
+        itemText: item.text,
+        userAnswer: item._options[key].text
+      });
+    }).join('<br>');
+
+    return ariaAnswer;
+  }
+}
