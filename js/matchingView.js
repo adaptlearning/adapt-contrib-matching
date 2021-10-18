@@ -16,10 +16,6 @@ export default class MatchingView extends QuestionView {
     this.dropdowns.forEach(dropdown => dropdown.toggleDisabled(false));
   }
 
-  resetQuestionOnRevisit() {
-    this.resetQuestion();
-  }
-
   setupQuestion() {
     this.listenToOnce(Adapt.parentView, 'postRemove', this.onPostRemove);
     this.model.setupRandomisation();
@@ -89,7 +85,6 @@ export default class MatchingView extends QuestionView {
     this.$('.matching__item').removeClass('is-correct is-incorrect');
     this.model.set('_isAtLeastOneCorrectSelection', false);
     const resetAll = this.model.get('_shouldResetAllAnswers');
-
     this.model.get('_items').forEach((item, index) => {
       if (item._isCorrect && resetAll === false) return;
       this.selectValue(index, null);

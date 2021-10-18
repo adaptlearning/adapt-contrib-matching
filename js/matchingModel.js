@@ -9,6 +9,22 @@ export default class MatchingModel extends QuestionModel {
     this.setupQuestionItemIndexes();
   }
 
+  /**
+   * @param {string} [type] 'hard' resets _isComplete and _isInteractionComplete, 'soft' resets _isInteractionComplete only.
+   * @param {boolean} [canReset] Defaults to this.get('_canReset')
+   * @returns {boolean}
+   */
+  reset(type = 'hard', canReset = this.get('_canReset')) {
+    const wasReset = super.reset(type, canReset);
+    if (!wasReset) return false;
+    this.set('_isAtLeastOneCorrectSelection', false);
+    this.get('_items').forEach(item => {
+      item._options.forEach(option => (option._isSelected = false));
+      item._selected = null;
+    });
+    return true;
+  }
+
   setupQuestionItemIndexes() {
     this.get('_items').forEach((item, index) => {
       if (item._index === undefined) {
