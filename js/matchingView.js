@@ -42,7 +42,7 @@ export default class MatchingView extends QuestionView {
       const dropdown = new DropDown({
         el: $(el).find('.dropdown')[0],
         placeholder: this.model.get('placeholder'),
-        value: selectedOption?._index || null
+        value: selectedOption?._index ?? null
       });
       this.dropdowns.push(dropdown);
       dropdown.on('change', this.onOptionSelected);
