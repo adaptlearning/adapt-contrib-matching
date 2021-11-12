@@ -5,25 +5,25 @@
   <div class="component__widget matching__widget{{#unless _isEnabled}} is-disabled{{#if _isInteractionComplete}} is-complete is-submitted show-user-answer{{#if _isCorrect}} is-correct{{/if}}{{/if}}{{/unless}}">
 
     {{#each _items}}
-    <div class="matching__item item item-{{@index}}{{#unless ../_isEnabled}}{{#if ../_canShowMarking}}{{#if _isCorrect}} is-correct{{else}} is-incorrect{{/if}}{{/if}}{{/unless}}">
+    <div class="matching-item item item-{{@index}} js-matching-item{{#unless ../_isEnabled}}{{#if ../_canShowMarking}}{{#if _isCorrect}} is-correct{{else}} is-incorrect{{/if}}{{/if}}{{/unless}}">
 
       {{#if text}}
-      <div class="matching__item-title">
-        <div class="matching__item-title_inner">
+      <div class="matching-item__title">
+        <div class="matching-item__title_inner">
           {{{text}}}
         </div>
       </div>
       {{/if}}
 
-      <div class="matching__select-container">
+      <div class="matching-item__select-container js-matching-item-select-container">
 
         {{> dropdown this placeholder=../placeholder _id=../_id _dropdownIndex=@index}}
 
-        <div class="matching__select-state">
-          <div class="matching__select-icon matching__select-correct-icon">
+        <div class="matching-item__select-state">
+          <div class="matching-item__select-icon matching-item__select-correct-icon">
             <div class="icon"></div>
           </div>
-          <div class="matching__select-icon matching__select-incorrect-icon">
+          <div class="matching-item__select-icon matching-item__select-incorrect-icon">
             <div class="icon"></div>
           </div>
         </div>
