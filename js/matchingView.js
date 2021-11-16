@@ -36,7 +36,7 @@ export default class MatchingView extends QuestionView {
   setUpDropdowns() {
     this.onOptionSelected = this.onOptionSelected.bind(this);
     const items = this.model.get('_items');
-    this.$('.matching__item').each((i, el) => {
+    this.$('.js-matching-item').each((i, el) => {
       const item = items[i];
       const selectedOption = item._options.find(({ _isSelected }) => _isSelected);
       const dropdown = new DropDown({
@@ -56,15 +56,15 @@ export default class MatchingView extends QuestionView {
   onCannotSubmit() {
     this.dropdowns.forEach(dropdown => {
       if (!dropdown.isEmpty()) return;
-      dropdown.$el.parents('.matching__select-container').addClass('has-error');
+      dropdown.$el.parents('.js-matching-item-select-container').addClass('has-error');
     });
   }
 
   onOptionSelected(dropdown) {
     if (this.model.get('_isInteractionComplete')) return;
-    const $container = dropdown.$el.parents('.matching__select-container');
+    const $container = dropdown.$el.parents('.js-matching-item-select-container');
     $container.removeClass('error');
-    const itemIndex = dropdown.$el.parents('.matching__item').index();
+    const itemIndex = dropdown.$el.parents('.js-matching-item').index();
     if (dropdown.isEmpty()) return;
     const optionIndex = parseInt(dropdown.val());
     this.model.setOptionSelected(itemIndex, optionIndex, true);
@@ -74,7 +74,7 @@ export default class MatchingView extends QuestionView {
     if (!this.model.get('_canShowMarking')) return;
 
     this.model.get('_items').forEach(({ _isCorrect }, i) => {
-      const $item = this.$('.matching__item').eq(i);
+      const $item = this.$('.js-matching-item').eq(i);
       $item
         .toggleClass('is-correct', _isCorrect)
         .toggleClass('is-incorrect', !_isCorrect);
@@ -82,7 +82,7 @@ export default class MatchingView extends QuestionView {
   }
 
   resetQuestion() {
-    this.$('.matching__item').removeClass('is-correct is-incorrect');
+    this.$('.js-matching-item').removeClass('is-correct is-incorrect');
     this.model.set('_isAtLeastOneCorrectSelection', false);
     const resetAll = this.model.get('_shouldResetAllAnswers');
     this.model.get('_items').forEach((item, index) => {
