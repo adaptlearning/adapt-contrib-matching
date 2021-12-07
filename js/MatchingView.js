@@ -1,4 +1,3 @@
-// import Adapt from 'core/js/adapt';
 import QuestionView from 'core/js/views/questionView';
 
 class MatchingView extends QuestionView {
