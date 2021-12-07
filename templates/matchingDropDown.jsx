@@ -156,17 +156,13 @@ export default function MatchingDropDown(props) {
   const activeOption = options.find(option => (option._itemIndex === _itemIndex) && option._isActive) || { text: placeholder };
   const highlightedOption = options.find(option => (option._itemIndex === _itemIndex) && option._isHighlighted) || { text: placeholder };
 
-  const displayActiveOption = _isCorrectAnswerShown
-    ? activeOption._shouldBeSelected
-      ? activeOption
-      : options.find(option => option._shouldBeSelected)
-    : activeOption;
+  const correctActiveOption = activeOption?._shouldBeSelected
+    ? activeOption
+    : options.find(option => option._shouldBeSelected);
 
-  const displayHighlightedOption = _isCorrectAnswerShown
-    ? highlightedOption._shouldBeSelected
-      ? highlightedOption
-      : options.find(option => option._shouldBeSelected)
-    : highlightedOption;
+  const displayActiveOption = _isCorrectAnswerShown
+    ? correctActiveOption
+    : activeOption;
 
   return (
     <div className="dropdown" disabled={!_isEnabled}>
@@ -193,8 +189,6 @@ export default function MatchingDropDown(props) {
 
       </button>
 
-      <input className="js-data-output" type="hidden" disabled={!_isEnabled}/>
-
       <ul
         className={classes([
           'dropdown__list js-dropdown-list',
@@ -211,7 +205,7 @@ export default function MatchingDropDown(props) {
         onBlur={onListBlur}
         ref={list}
         disabled={!_isEnabled}
-        aria-activedescendant={displayHighlightedOption && `dropdown__item__${_id}__${_itemIndex}__${displayHighlightedOption._index}`}
+        aria-activedescendant={highlightedOption && `dropdown__item__${_id}__${_itemIndex}__${highlightedOption._index}`}
       >
 
         {options.map(({

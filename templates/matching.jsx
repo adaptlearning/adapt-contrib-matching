@@ -28,12 +28,12 @@ export default function Matching(props) {
 
         {_items.map(({
           text,
-          _itemIndex
+          _index
         }, index) => {
-          const activeOption = _options.find(option => (option._itemIndex === _itemIndex) && option._isActive);
+          const activeOption = _options.find(option => (option._itemIndex === _index) && option._isActive);
           const displayItemAsCorrect = (!_isEnabled && _canShowMarking && (_isCorrectAnswerShown || activeOption?._shouldBeSelected));
           return (
-            <div key={_itemIndex} className={classes([
+            <div key={_index} className={classes([
               'matching-item',
               'item',
               `item-${index}`,
@@ -50,7 +50,7 @@ export default function Matching(props) {
 
               <div className="matching-item__select-container js-matching-item-select-container">
 
-                <templates.matchingDropDown {...props} _itemIndex={_itemIndex} />
+                <templates.matchingDropDown {...props} _itemIndex={_index} />
 
                 <div className="matching-item__select-state">
                   <div className="matching-item__select-icon matching-item__select-correct-icon">
