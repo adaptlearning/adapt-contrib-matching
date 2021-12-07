@@ -125,6 +125,24 @@
             "validators": [],
             "help": "If disabled, recording the user's answer(s) to this question to cmi.interactions on the LMS will be disabled for this component only."
         },
+        "_hasItemScoring": {
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "title": "Enable item scoring",
+            "inputType": "Checkbox",
+            "validators": [],
+            "help": "When disabled, this question scores 0 for incorrect and 'Question Weight' for correct. When enabled, this question scores by summing the scores of the selected options."
+        },
+        "_allowOnlyUniqueAnswers": {
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "title": "Unique answers only",
+            "inputType": "Checkbox",
+            "validators": [],
+            "help": "When disabled, multiple items can be selected with the same option text."
+        },
         "placeholder": {
             "type": "string",
             "required": true,
@@ -178,6 +196,15 @@
                                     "inputType": "Checkbox",
                                     "validators": [],
                                     "help": "Defines whether this option is correct or not"
+                                },
+                                "_score": {
+                                    "type": "number",
+                                    "required": false,
+                                    "default": 0,
+                                    "title": "Score",
+                                    "inputType": "Number",
+                                    "validators": ["required", "number"],
+                                    "help": "If item scoring is enabled, selected item scores are summed to give the question score."
                                 }
                             }
                         }

@@ -1,205 +1,195 @@
-import Adapt from 'core/js/adapt';
-import QuestionModel from 'core/js/models/questionModel';
+// import Adapt from 'core/js/adapt';
+import MatchingItemModel from './MatchingItemModel';
+import ItemsQuestionModel from 'core/js/models/itemsQuestionModel';
 
-export default class MatchingModel extends QuestionModel {
+export default class MatchingModel extends ItemsQuestionModel {
 
-  init() {
-    super.init();
-
-    this.setupQuestionItemIndexes();
+  toJSON() {
+    const json = super.toJSON();
+    // Make sure _items and _options is updated from child collection
+    json._items = this.get('_items');
+    json._options = this.getChildren().toJSON();
+    return json;
   }
 
-  /**
-   * @param {string} [type] 'hard' resets _isComplete and _isInteractionComplete, 'soft' resets _isInteractionComplete only.
-   * @param {boolean} [canReset] Defaults to this.get('_canReset')
-   * @returns {boolean}
-   */
-  reset(type = 'hard', canReset = this.get('_canReset')) {
-    const wasReset = super.reset(type, canReset);
-    if (!wasReset) return false;
-    this.set('_isAtLeastOneCorrectSelection', false);
-    this.get('_items').forEach(item => {
-      item._options.forEach(option => (option._isSelected = false));
-      item._selected = null;
-    });
-    return true;
-  }
-
-  setupQuestionItemIndexes() {
-    this.get('_items').forEach((item, index) => {
-      if (item._index === undefined) {
-        item._index = index;
-        item._selected = false;
-      }
-      item._options.forEach((option, index) => {
-        if (option._index !== undefined) return;
-        option._index = index;
-        option._isSelected = false;
+  setUpItems() {
+    let index = 0;
+    const items = (this.get('_items') || []);
+    const options = items.reduce((options, item, itemIndex) => {
+      item._itemIndex = itemIndex;
+      const itemOptions = (item._options || []);
+      itemOptions.forEach(option => {
+        option._globalIndex = null;
+        option._index = index++;
+        option._itemIndex = item._itemIndex;
+        option._shouldBeSelected = Boolean(option._isCorrect);
       });
+      options.push(...itemOptions);
+      return options;
+    }, []);
+    this.set({
+      _items: items,
+      _selectable: items.length
+    });
+    // Use _options for getChildren instead of _items.
+    // Note: This creates a small gap between the json config and the ItemsQuestionModel apis
+    // as 'item' in the api refers now to 'options' from the json. Doing this allows the options
+    // to inherit the scoring, save/restore and completion mechanisms normally reserve for _items
+    this.setChildren(new Backbone.Collection(options, { model: MatchingItemModel }));
+  }
+
+  setupInitialHighlighted() {
+    this.get('_items')?.forEach(({ _itemIndex }) => {
+      const selectOption = this.getActiveItemOption(_itemIndex) || this.getFirstItemOption(_itemIndex);
+      selectOption?.toggleHighlighted(true);
     });
   }
 
-  setupRandomisation() {
-    if (!this.get('_isRandom') || !this.get('_isEnabled')) return;
-
-    this.get('_items').forEach(item => (item._options = _.shuffle(item._options)));
+  resetItems() {
+    super.resetItems();
+    this.resetHighlightedItems();
+    this.setupInitialHighlighted();
   }
 
-  restoreUserAnswers() {
-    if (!this.get('_isSubmitted')) return;
-
-    const userAnswer = this.get('_userAnswer');
-
-    this.get('_items').forEach(item => {
-      item._options.forEach(option => {
-        if (option._index !== userAnswer[item._index]) return;
-        option._isSelected = true;
-        item._selected = option;
-      });
-    });
-
-    this.setQuestionAsSubmitted();
-    this.checkCanSubmit();
-    this.markQuestion();
-    this.setScore();
-    this.setupFeedback();
+  resetHighlightedItems() {
+    this.getChildren().forEach(option => option.toggleHighlighted(false));
   }
 
   canSubmit() {
-    // can submit if every item has a selection
-    const canSubmit = this.get('_items').every(({ _options }) => {
-      return _options.some(({ _isSelected }) => _isSelected);
-    });
-
+    // Can submit if every item has an active option
+    const options = this.getChildren().models;
+    const activeCount = options.reduce((count, option) => (count + (option.get('_isActive') ? 1 : 0)), 0);
+    const canSubmit = (activeCount === this.get('_selectable'));
     return canSubmit;
   }
 
-  setOptionSelected(itemIndex, optionIndex, isSelected) {
-    const item = this.get('_items')[itemIndex];
-    if (isNaN(optionIndex)) {
-      item._options.forEach(option => (option._isSelected = false));
-      item._selected = null;
-      return this.checkCanSubmit();
-    }
-    const option = item._options.find(({ _index }) => _index === optionIndex);
-    option._isSelected = isSelected;
-    item._selected = option;
-    this.checkCanSubmit();
+  getItemOptions(itemIndex) {
+    return this.getChildren().filter(option => (option.get('_itemIndex') === itemIndex));
   }
 
-  storeUserAnswer() {
-    const userAnswer = new Array(this.get('_items').length);
-    const tempUserAnswer = new Array(this.get('_items').length);
+  getActiveItemOption(itemIndex) {
+    return this.getItemOptions(itemIndex).find(option => option.get('_isActive'));
+  }
 
-    this.get('_items').forEach(item => {
-      const optionIndex = item._options.findIndex(({ _isSelected }) => _isSelected);
+  getFirstItemOption(itemIndex) {
+    return this.getItemOptions(itemIndex)[0];
+  }
 
-      tempUserAnswer[item._index] = optionIndex;
-      userAnswer[item._index] = item._options[optionIndex]._index;
-    });
-
-    this.set({
-      _userAnswer: userAnswer,
-      _tempUserAnswer: tempUserAnswer
+  setHighlightedOption(optionIndex) {
+    const itemIndex = this.getItem(optionIndex).get('_itemIndex');
+    const itemOptions = this.getItemOptions(itemIndex);
+    itemOptions.forEach(option => {
+      const isHighlighted = (option.get('_index') === optionIndex);
+      option.toggleHighlighted(isHighlighted);
     });
   }
 
-  isCorrect() {
-    const numberOfCorrectAnswers = this.get('_items').reduce((a, item) => {
-      const isCorrect = item._selected?._isCorrect;
-      item._isCorrect = Boolean(isCorrect);
-      if (!isCorrect) {
-        return a;
-      }
-      this.set('_isAtLeastOneCorrectSelection', true);
-      return ++a;
-    }, 0);
-
-    this.set('_numberOfCorrectAnswers', numberOfCorrectAnswers);
-
-    if (numberOfCorrectAnswers === this.get('_items').length) {
-      return true;
-    }
-
-    return false;
+  setActiveOption(optionIndex) {
+    const itemIndex = this.getItem(optionIndex).get('_itemIndex');
+    const itemOptions = this.getItemOptions(itemIndex);
+    itemOptions.forEach(option => {
+      const isActive = (option.get('_index') === optionIndex);
+      option.toggleHighlighted(isActive);
+      option.toggleActive(isActive);
+    });
+    this.unsetDuplicateOptions(optionIndex);
   }
 
-  setScore() {
-    const questionWeight = this.get('_questionWeight');
-
-    if (this.get('_isCorrect')) {
-      this.set('_score', questionWeight);
-      return;
-    }
-
-    const numberOfCorrectAnswers = this.get('_numberOfCorrectAnswers');
-    const itemLength = this.get('_items').length;
-
-    const score = questionWeight * numberOfCorrectAnswers / itemLength;
-
-    this.set('_score', score);
+  unsetDuplicateOptions(optionIndex) {
+    const allowOnlyUniqueAnswers = this.get('_allowOnlyUniqueAnswers');
+    if (!allowOnlyUniqueAnswers) return;
+    const itemIndex = this.getItem(optionIndex).get('_itemIndex');
+    const activeItemOption = this.getActiveItemOption(itemIndex);
+    const activeItemOptionText = activeItemOption.get('text');
+    const otherActiveOptions = this.getChildren().filter(option => (option !== activeItemOption) && option.get('_isActive'));
+    otherActiveOptions.forEach(option => {
+      const optionText = option.get('text');
+      const hasMatchingText = (activeItemOptionText === optionText);
+      if (!hasMatchingText) return;
+      option.toggleHighlighted(false);
+      option.toggleActive(false);
+    });
   }
 
-  isPartlyCorrect() {
-    return this.get('_isAtLeastOneCorrectSelection');
+  get maxScore() {
+    if (!this.get('_hasItemScoring')) return super.maxScore;
+    const items = this.get('_items') || [];
+    const maxItemScores = items.map(({ _itemIndex }) => {
+      const itemOptions = this.getItemOptions(_itemIndex);
+      const optionScores = itemOptions.map(child => child.get('_score') || 0);
+      optionScores.sort((a, b) => a - b);
+      return optionScores[optionScores.length - 1] || 0;
+    });
+    maxItemScores.sort((a, b) => a - b);
+    return maxItemScores.reverse().filter(score => score > 0).reduce((maxScore, score) => (maxScore += score), 0);
   }
 
-  resetUserAnswer() {
-    this.set('_userAnswer', []);
+  get minScore() {
+    if (!this.get('_hasItemScoring')) return super.minScore;
+    const items = this.get('_items') || [];
+    const minItemScores = items.map(({ _itemIndex }) => {
+      const itemOptions = this.getItemOptions(_itemIndex);
+      const optionScores = itemOptions.map(child => child.get('_score') || 0);
+      optionScores.sort((a, b) => a - b);
+      return optionScores[0] || 0;
+    });
+    minItemScores.sort((a, b) => a - b);
+    return minItemScores.filter(score => score < 0).reduce((minScore, score) => (minScore += score), 0);
   }
 
   /**
   * Used by tracking extensions to return an object containing the component's specific interactions.
   */
   getInteractionObject() {
-    const interactions = {
-      correctResponsesPattern: null,
-      source: null,
-      target: null
-    };
-    const items = this.get('_items');
-    // This contains an array with a single string value, matching the source 'id' with the correct
-    // matching target 'id' value. An example is as follows:
-    // [ "1[.]1_2[,]2[.]2_3" ]
-    interactions.correctResponsesPattern = [
-      items.map(({ _options }, questionIndex) => {
-        // Offset the item index and use it as a group identifier.
-        questionIndex++;
-        return [
-          questionIndex,
-          // Get the correct item(s).
-          _options.filter(({ _isCorrect }) => _isCorrect).map(({ _index }) => {
-            // Prefix the option's index and offset by 1.
-            return `${questionIndex}_${_index + 1}`;
-          })
-        ].join('[.]');
-      }).join('[,]')
-    ];
-    // The 'source' property contains an array of all the stems/questions, e.g.
-    // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
-    interactions.source = items.map(item => {
-      return {
-        // Offset by 1.
-        id: `${item._index + 1}`,
-        description: item.text
-      };
-    }).flat(Infinity);
-    // The 'target' property contains an array of all the option responses, with the 'id'
-    // prefixed to indicate the grouping, e.g.
-    // [  {id: "1_1": description: "First option, group 1"},
-    //    {id: "1_2": description: "Second option, group 1"}
-    //    {id: "2_1": description: "First option, group 2"}  ]
-    interactions.target = items.map(({ _options }, index) => {
-      // Offset by 1, as these values are not zero-indexed.
-      index++;
-      return _options.map(option => {
-        return {
-          id: `${index}_${option._index + 1}`,
-          description: option.text
-        };
-      });
-    }).flat(Infinity);
-    return interactions;
+    return {};
+    // const interactions = {
+    //   correctResponsesPattern: null,
+    //   source: null,
+    //   target: null
+    // };
+    // const items = this.get('_items');
+    // // This contains an array with a single string value, matching the source 'id' with the correct
+    // // matching target 'id' value. An example is as follows:
+    // // [ "1[.]1_2[,]2[.]2_3" ]
+    // interactions.correctResponsesPattern = [
+    //   items.map(({ _options }, questionIndex) => {
+    //     // Offset the item index and use it as a group identifier.
+    //     questionIndex++;
+    //     return [
+    //       questionIndex,
+    //       // Get the correct item(s).
+    //       _options.filter(({ _isCorrect }) => _isCorrect).map(({ _index }) => {
+    //         // Prefix the option's index and offset by 1.
+    //         return `${questionIndex}_${_index + 1}`;
+    //       })
+    //     ].join('[.]');
+    //   }).join('[,]')
+    // ];
+    // // The 'source' property contains an array of all the stems/questions, e.g.
+    // // [{id: "1", description: "First question"}, {id: "2", description: "Second question"}]
+    // interactions.source = items.map(item => {
+    //   return {
+    //     // Offset by 1.
+    //     id: `${item._index + 1}`,
+    //     description: item.text
+    //   };
+    // }).flat(Infinity);
+    // // The 'target' property contains an array of all the option responses, with the 'id'
+    // // prefixed to indicate the grouping, e.g.
+    // // [  {id: "1_1": description: "First option, group 1"},
+    // //    {id: "1_2": description: "Second option, group 1"}
+    // //    {id: "2_1": description: "First option, group 2"}  ]
+    // interactions.target = items.map(({ _options }, index) => {
+    //   // Offset by 1, as these values are not zero-indexed.
+    //   index++;
+    //   return _options.map(option => {
+    //     return {
+    //       id: `${index}_${option._index + 1}`,
+    //       description: option.text
+    //     };
+    //   });
+    // }).flat(Infinity);
+    // return interactions;
   }
 
   /**
@@ -209,12 +199,13 @@ export default class MatchingModel extends QuestionModel {
   * depending on which SCORM version is being used.
   */
   getResponse() {
-    const responses = this.get('_userAnswer').map((userAnswer, index) => {
-      // convert from 0-based to 1-based counting
-      return `${index + 1}.${userAnswer + 1}`;
-    });
+    return '';
+    // const responses = this.get('_userAnswer').map((userAnswer, index) => {
+    //   // convert from 0-based to 1-based counting
+    //   return `${index + 1}.${userAnswer + 1}`;
+    // });
 
-    return responses.join('#');
+    // return responses.join('#');
   }
 
   /**
@@ -232,16 +223,17 @@ export default class MatchingModel extends QuestionModel {
    * @return {string}
    */
   getCorrectAnswerAsText() {
-    const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
-    const ariaAnswer = this.get('_items').map(item => {
-      const correctOption = item._options.find(({ _isCorrect }) => _isCorrect);
-      return Handlebars.compile(correctAnswerTemplate)({
-        itemText: item.text,
-        correctAnswer: correctOption.text
-      });
-    }).join('<br>');
+    return '';
+    // const correctAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaCorrectAnswer;
+    // const ariaAnswer = this.get('_items').map(item => {
+    //   const correctOption = item._options.find(({ _isCorrect }) => _isCorrect);
+    //   return Handlebars.compile(correctAnswerTemplate)({
+    //     itemText: item.text,
+    //     correctAnswer: correctOption.text
+    //   });
+    // }).join('<br>');
 
-    return ariaAnswer;
+    // return ariaAnswer;
   }
 
   /**
@@ -251,19 +243,20 @@ export default class MatchingModel extends QuestionModel {
    * @return {string}
    */
   getUserAnswerAsText() {
-    const userAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaUserAnswer;
-    const answerArray = this.has('_tempUserAnswer') ?
-      this.get('_tempUserAnswer') :
-      this.get('_userAnswer');
+    return '';
+    // const userAnswerTemplate = Adapt.course.get('_globals')._components._matching.ariaUserAnswer;
+    // const answerArray = this.has('_tempUserAnswer') ?
+    //   this.get('_tempUserAnswer') :
+    //   this.get('_userAnswer');
 
-    const ariaAnswer = this.get('_items').map((item, index) => {
-      const key = answerArray[index];
-      return Handlebars.compile(userAnswerTemplate)({
-        itemText: item.text,
-        userAnswer: item._options[key].text
-      });
-    }).join('<br>');
+    // const ariaAnswer = this.get('_items').map((item, index) => {
+    //   const key = answerArray[index];
+    //   return Handlebars.compile(userAnswerTemplate)({
+    //     itemText: item.text,
+    //     userAnswer: item._options[key].text
+    //   });
+    // }).join('<br>');
 
-    return ariaAnswer;
+    // return ariaAnswer;
   }
 }

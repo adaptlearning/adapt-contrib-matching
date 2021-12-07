@@ -19,21 +19,26 @@
         "_canShowMarking": true,
         "_recordInteraction": true,
         "placeholder": "Please select an option",
+        "_allowOnlyUniqueAnswers": false,
+        "_hasItemScoring": false,
         "_items": [
             {
                 "text": "Pick option two",
                 "_options": [
                     {
                         "text": "Option one",
-                        "_isCorrect": false
+                        "_isCorrect": false,
+                        "_score": 0
                     },
                     {
                         "text": "Option two (correct)",
-                        "_isCorrect": true
+                        "_isCorrect": true,
+                        "_score": 1
                     },
                     {
                         "text": "Option three",
-                        "_isCorrect": false
+                        "_isCorrect": false,
+                        "_score": 0
                     }
                 ]
             },
@@ -42,15 +47,18 @@
                 "_options": [
                     {
                         "text": "Option one",
-                        "_isCorrect": false
+                        "_isCorrect": false,
+                        "_score": 0
                     },
                     {
                         "text": "Option two",
-                        "_isCorrect": false
+                        "_isCorrect": false,
+                        "_score": 0
                     },
                     {
                         "text": "Option three (correct)",
-                        "_isCorrect": true
+                        "_isCorrect": true,
+                        "_score": 1
                     }
                 ]
             },
@@ -59,15 +67,18 @@
                 "_options": [
                     {
                         "text": "Option one (correct)",
-                        "_isCorrect": true
+                        "_isCorrect": true,
+                        "_score": 1
                     },
                     {
                         "text": "Option two",
-                        "_isCorrect": false
+                        "_isCorrect": false,
+                        "_score": 0
                     },
                     {
                         "text": "Option three",
-                        "_isCorrect": false
+                        "_isCorrect": false,
+                        "_score": 0
                     }
                 ]
             }
