@@ -1,8 +1,8 @@
-import Adapt from 'core/js/adapt';
+import components from 'core/js/components';
 import MatchingView from './MatchingView';
 import MatchingModel from './MatchingModel';
 
-export default Adapt.register('matching', {
+export default components.register('matching', {
   view: MatchingView,
   model: MatchingModel
 });
