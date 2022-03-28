@@ -38,7 +38,7 @@ export default function Matching(props) {
               'item',
               `item-${index}`,
               'js-matching-item',
-              displayItemAsCorrect ? 'is-correct' : 'is-incorrect'
+              !_canShowMarking ? '' : displayItemAsCorrect ? 'is-correct' : 'is-incorrect'
             ])}>
 
               {text &&
