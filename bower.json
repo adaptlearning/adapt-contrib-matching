@@ -1,7 +1,7 @@
 {
   "name": "adapt-contrib-matching",
   "version": "6.0.0",
-  "framework": ">=5.18.0",
+  "framework": ">=5.19.1",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-matching",
   "bugs": "https://github.com/adaptlearning/adapt-contrib-matching/issues",
   "component" : "matching",
