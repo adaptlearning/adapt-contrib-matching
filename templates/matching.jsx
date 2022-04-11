@@ -6,7 +6,7 @@ export default function Matching(props) {
     _isEnabled,
     _isInteractionComplete,
     _isCorrect,
-    _canShowMarking,
+    _shouldShowMarking,
     _isCorrectAnswerShown,
     _items,
     _options
@@ -31,14 +31,14 @@ export default function Matching(props) {
           _index
         }, index) => {
           const activeOption = _options.find(option => (option._itemIndex === _index) && option._isActive);
-          const displayItemAsCorrect = (!_isEnabled && _canShowMarking && (_isCorrectAnswerShown || activeOption?._shouldBeSelected));
+          const displayItemAsCorrect = (!_isEnabled && _shouldShowMarking && (_isCorrectAnswerShown || activeOption?._shouldBeSelected));
           return (
             <div key={_index} className={classes([
               'matching-item',
               'item',
               `item-${index}`,
               'js-matching-item',
-              displayItemAsCorrect ? 'is-correct' : 'is-incorrect'
+              _shouldShowMarking && (displayItemAsCorrect ? 'is-correct' : 'is-incorrect')
             ])}>
 
               {text &&
