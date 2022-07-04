@@ -180,12 +180,12 @@ export default function MatchingDropDown(props) {
         onClick={onButtonClick}
         ref={button}>
 
-        <div className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
-        </div>
+        <span className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
+        </span>
 
-        <div className="dropdown__icon">
-          <div className="icon"></div>
-        </div>
+        <span className="dropdown__icon">
+          <span className="icon"></span>
+        </span>
 
       </button>
 
