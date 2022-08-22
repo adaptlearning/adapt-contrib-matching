@@ -1,10 +1,7 @@
-import Adapt from 'core/js/adapt';
 import React from 'react';
 import { templates, classes } from 'core/js/reactHelpers';
 
 export default function Matching(props) {
-  const ariaLabels = Adapt.course.get('_globals')._accessibility._ariaLabels;
-
   const {
     _isEnabled,
     _isInteractionComplete,
@@ -12,7 +9,8 @@ export default function Matching(props) {
     _shouldShowMarking,
     _isCorrectAnswerShown,
     _items,
-    _options
+    _options,
+    _globals
   } = props;
 
   const displayAsCorrect = (_isInteractionComplete && (_isCorrectAnswerShown || _isCorrect));
@@ -56,10 +54,10 @@ export default function Matching(props) {
                 <templates.matchingDropDown {...props} _itemIndex={_index} />
 
                 <div className="matching-item__select-state">
-                  <div className="matching-item__select-icon matching-item__select-correct-icon" aria-label={ariaLabels.correct}>
+                  <div className="matching-item__select-icon matching-item__select-correct-icon" aria-label={_globals._accessibility._ariaLabels.correct}>
                     <div className="icon"></div>
                   </div>
-                  <div className="matching-item__select-icon matching-item__select-incorrect-icon" aria-label={ariaLabels.incorrect}>
+                  <div className="matching-item__select-icon matching-item__select-incorrect-icon" aria-label={_globals._accessibility._ariaLabels.incorrect}>
                     <div className="icon"></div>
                   </div>
                 </div>
