@@ -8,7 +8,7 @@
         "title": "Matching",
         "displayTitle": "Matching",
         "body": "Basically what you need to do is match the questions below with the drop down box option.",
-        "instruction": "",
+        "instruction": "Choose an option from each dropdown list and select Submit.",
         "_attempts": 1,
         "_shouldDisplayAttempts": false,
         "_shouldResetAllAnswers": false,

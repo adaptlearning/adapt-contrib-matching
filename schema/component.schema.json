@@ -28,7 +28,7 @@
         "instruction": {
           "type": "string",
           "title": "Instruction",
-          "default": "",
+          "default": "Choose an option from each dropdown list and select Submit.",
           "_adapt": {
             "translatable": true
           }
