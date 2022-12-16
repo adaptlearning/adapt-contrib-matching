@@ -42,7 +42,7 @@
         "instruction": {
             "type": "string",
             "required": false,
-            "default": "",
+            "default": "Choose an option from each dropdown list and select Submit.",
             "inputType": "Text",
             "validators": [],
             "help": "This is the instruction text",
