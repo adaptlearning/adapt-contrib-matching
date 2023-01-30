@@ -9,6 +9,7 @@
         "displayTitle": "Matching",
         "body": "Basically what you need to do is match the questions below with the drop down box option.",
         "instruction": "Choose an option from each dropdown list and select Submit.",
+        "ariaQuestion": "Question text specifically for screen readers.",
         "_attempts": 1,
         "_shouldDisplayAttempts": false,
         "_shouldResetAllAnswers": false,

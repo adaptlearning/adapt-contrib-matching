@@ -3,6 +3,7 @@ import { templates, classes } from 'core/js/reactHelpers';
 
 export default function Matching(props) {
   const {
+    _id,
     _isEnabled,
     _isInteractionComplete,
     _isCorrect,
@@ -10,7 +11,11 @@ export default function Matching(props) {
     _isCorrectAnswerShown,
     _items,
     _options,
-    _globals
+    _globals,
+    displayTitle,
+    body,
+    instruction,
+    ariaQuestion
   } = props;
 
   const displayAsCorrect = (_isInteractionComplete && (_isCorrectAnswerShown || _isCorrect));
@@ -20,12 +25,16 @@ export default function Matching(props) {
 
       <templates.header {...props} />
 
-      <div className={classes([
-        'component__widget matching__widget',
-        !_isEnabled && 'is-disabled',
-        _isInteractionComplete && 'is-complete is-submitted show-user-answer',
-        displayAsCorrect && 'is-correct'
-      ])}>
+      <div
+        className={classes([
+          'component__widget matching__widget',
+          !_isEnabled && 'is-disabled',
+          _isInteractionComplete && 'is-complete is-submitted show-user-answer',
+          displayAsCorrect && 'is-correct'
+        ])}
+        aria-labelledby={ariaQuestion ? null : (displayTitle || body || instruction) && `${_id}-header`}
+        aria-label={ariaQuestion || null}
+      >
 
         {_items.map(({
           text,
