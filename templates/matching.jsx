@@ -64,10 +64,10 @@ export default function Matching(props) {
 
                 <div className="matching-item__select-state">
                   <div className="matching-item__select-icon matching-item__select-correct-icon" aria-label={_globals._accessibility._ariaLabels.correct}>
-                    <div className="icon"></div>
+                    <div className="icon" aria-hidden="true"></div>
                   </div>
                   <div className="matching-item__select-icon matching-item__select-incorrect-icon" aria-label={_globals._accessibility._ariaLabels.incorrect}>
-                    <div className="icon"></div>
+                    <div className="icon" aria-hidden="true"></div>
                   </div>
                 </div>
 

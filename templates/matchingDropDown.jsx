@@ -183,7 +183,7 @@ export default function MatchingDropDown(props) {
         <span className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
         </span>
 
-        <span className="dropdown__icon">
+        <span className="dropdown__icon" aria-hidden="true">
           <span className="icon"></span>
         </span>
 
