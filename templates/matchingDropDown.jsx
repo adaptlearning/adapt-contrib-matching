@@ -225,7 +225,7 @@ export default function MatchingDropDown(props) {
             selected={_isHighlighted || null}
             onClick={onOptionClicked}
           >
-            <div className="dropdown-item__inner js-dropdown-list-item-inner" dangerouslySetInnerHTML={{ __html: displayText || text }}>
+            <div className="dropdown-item__inner js-dropdown-list-item-inner u-no-select" dangerouslySetInnerHTML={{ __html: displayText || text }}>
             </div>
           </li>;
         })}
