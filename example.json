@@ -86,6 +86,7 @@
         ],
         "_feedback": {
             "title": "Feedback",
+            "altTitle": "Alt feedback title text",
             "correct": "This feedback will appear if you answered the question correctly.",
             "_incorrect": {
                 "notFinal": "",

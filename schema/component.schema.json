@@ -156,6 +156,15 @@
                 "translatable": true
               }
             },
+            "altTitle": {
+              "type": "string",
+              "title": "Alternative Feedback Title",
+              "description": "Text read out by screen readers if no visual title is included",
+              "default": "",
+              "_adapt": {
+                "translatable": true
+              }
+            },
             "correct": {
               "type": "string",
               "title": "Correct feedback",
