@@ -12,16 +12,23 @@
           "type": "object",
           "default": {},
           "properties": {
-            "_matching": {
+            "_components": {
               "type": "object",
               "default": {},
               "properties": {
-                "ariaRegion": {
-                  "type": "string",
-                  "title": "ARIA region",
-                  "default": "Matching. Select from lists and then submit.",
-                  "_adapt": {
-                    "translatable": true
+                "_matching": {
+                  "type": "object",
+                  "title": "Matching",
+                  "default": {},
+                  "properties": {
+                    "ariaRegion": {
+                      "type": "string",
+                      "title": "ARIA region",
+                      "default": "Matching. Select from lists and then submit.",
+                      "_adapt": {
+                        "translatable": true
+                      }
+                    }
                   }
                 }
               }
