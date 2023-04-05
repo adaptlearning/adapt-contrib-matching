@@ -80,6 +80,11 @@
           "title": "Randomise answers",
           "default": false
         },
+        "_isRandomQuestionOrder": {
+          "type": "boolean",
+          "title": "Randomise questions",
+          "default": false
+        },
         "_questionWeight": {
           "type": "number",
           "title": "Question weight",

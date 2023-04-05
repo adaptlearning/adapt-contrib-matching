@@ -116,6 +116,14 @@
             "inputType": "Checkbox",
             "validators": []
         },
+        "_isRandomQuestionOrder": {
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "title": "Randomise questions",
+            "inputType": "Checkbox",
+            "validators": []
+        },
         "_questionWeight": {
             "type": "number",
             "required": false,
