@@ -14,6 +14,7 @@
         "_shouldDisplayAttempts": false,
         "_shouldResetAllAnswers": false,
         "_isRandom": false,
+        "_isRandomQuestionOrder": false,
         "_questionWeight": 1,
         "_canShowModelAnswer": true,
         "_canShowFeedback": true,

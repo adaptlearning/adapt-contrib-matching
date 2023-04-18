@@ -38,6 +38,18 @@ export default class MatchingModel extends ItemsQuestionModel {
     this.setChildren(new Backbone.Collection(options, { model: MatchingItemModel }));
   }
 
+  setupRandomisation() {
+    if (!this.get('_isEnabled')) return;
+    if (this.get('_isRandomQuestionOrder')) {
+      // Randomise question/list order
+      this.set('_items', _.shuffle(this.get('_items')));
+    }
+    if (!this.get('_isRandom')) return;
+    // Randomise options
+    const children = this.getChildren();
+    children.set(children.shuffle());
+  }
+
   setupInitialHighlighted() {
     this.get('_items')?.forEach(({ _index }) => {
       const selectOption = this.getActiveItemOption(_index) || this.getFirstItemOption(_index);

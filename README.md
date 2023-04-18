@@ -52,6 +52,8 @@ guide the learner’s interaction with the component.
 
 **\_isRandom** (boolean): Setting this value to `true` will cause the possible answers associated with each *item* to appear in a random order each time the component is loaded. The default is `false`.
 
+**\_isRandomQuestionOrder** (boolean): Setting this value to `true` will cause the *items* to appear in a random order each time the component is loaded. The default is `false`.
+
 **\_questionWeight** (number): A number which reflects the significance of the question in relation to the other questions in the course. This number is used in calculations of the final score reported to the LMS.
 
 **\_canShowModelAnswer** (boolean): Setting this to `false` prevents the [**\_showCorrectAnswer** button](https://github.com/adaptlearning/adapt_framework/wiki/Core-Buttons) from being displayed. The default is `true`.
