@@ -1,5 +1,5 @@
 import React from 'react';
-import { templates, classes } from 'core/js/reactHelpers';
+import { templates, classes, compile } from 'core/js/reactHelpers';
 
 export default function Matching(props) {
   const {
@@ -53,7 +53,7 @@ export default function Matching(props) {
 
               {text &&
               <div className="matching-item__title">
-                <div className="matching-item__title_inner" dangerouslySetInnerHTML={{ __html: text }}>
+                <div className="matching-item__title_inner" dangerouslySetInnerHTML={{ __html: compile(text) }}>
                 </div>
               </div>
               }
