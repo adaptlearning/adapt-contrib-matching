@@ -219,13 +219,12 @@ export default function MatchingDropDown(props) {
             id={`dropdown__item__${_id}__${_itemIndex}__${_index}`}
             className="dropdown-item js-dropdown-list-item"
             role="option"
-            text={text}
             value={_index}
             aria-selected={_isHighlighted || null}
             selected={_isHighlighted || null}
             onClick={onOptionClicked}
           >
-            <div className="dropdown-item__inner js-dropdown-list-item-inner u-no-select" dangerouslySetInnerHTML={{ __html: displayText || text }}>
+            <div className="dropdown-item__inner js-dropdown-list-item-inner u-no-select" dangerouslySetInnerHTML={{ __html: displayText || compile(text) }}>
             </div>
           </li>;
         })}
