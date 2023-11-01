@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { classes } from 'core/js/reactHelpers';
+import { classes, compile } from 'core/js/reactHelpers';
 
 export default function MatchingDropDown(props) {
   const button = useRef(null);
