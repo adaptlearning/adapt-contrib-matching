@@ -171,7 +171,8 @@ export default function MatchingDropDown(props) {
         disabled={!_isEnabled}
         className={classes([
           'dropdown__btn js-dropdown-btn',
-          !_isEnabled && 'is-disabled'
+          !_isEnabled && 'is-disabled',
+          (displayActiveOption.text !== placeholder) && 'is-selected'
         ])}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
