@@ -164,6 +164,8 @@ export default function MatchingDropDown(props) {
     ? correctActiveOption
     : activeOption;
 
+  const hasActiveOption = Boolean(options.find(option => (option._itemIndex === _itemIndex) && option._isActive));
+
   return (
     <div className="dropdown" disabled={!_isEnabled}>
 
@@ -172,7 +174,7 @@ export default function MatchingDropDown(props) {
         className={classes([
           'dropdown__btn js-dropdown-btn',
           !_isEnabled && 'is-disabled',
-          (displayActiveOption.text !== placeholder) && 'is-selected'
+          hasActiveOption && 'is-selected'
         ])}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
