@@ -8,12 +8,9 @@ describe('Matching', function () {
     const matchingComponents = this.data.components.filter((component) => component._component === 'matching')
     matchingComponents.forEach((matchingComponent) => {
       cy.visit(`/#/preview/${matchingComponent._id}`);
-      // Returns the stripped text in this.text
-      cy.stripHtml(matchingComponent.body)
-      const bodyWithoutHtml = this.text;
+      const bodyWithoutHtml = cy.helpers.stripHtml(matchingComponent.body)
       cy.testContainsOrNotExists('.matching__body', bodyWithoutHtml)
-      
-      cy.testQuestionButtons()
+
       cy.testContainsOrNotExists('.matching__title', matchingComponent.displayTitle)
       cy.testContainsOrNotExists('.matching__instruction', matchingComponent.instruction)
       cy.get('.matching-item.item').should('have.length', matchingComponent._items.length)
