@@ -66,6 +66,10 @@ guide the learner’s interaction with the component.
 
 **placeholder** (string): This is the text that is initially displayed on each drop-down. It is usually set to something like 'Please select an option'.
 
+**\_allowOnlyUniqueAnswers** (boolean): When set to `false`, multiple items can be selected with the same option text. Defaults to `false`.
+
+**\_hasItemScoring** (boolean): When set to `false`, this question scores 0 for incorrect and 'Question Weight' for correct. When enabled, this question scores by summing the scores of the selected options. Defaults to `false`.
+
 **\_items** (array): Multiple items may be created. Each *item* represents one question and its possible answers. It contains values for **text** and multiple **\_options**.
 
 >**text** (string): Text that functions as the question.
@@ -103,15 +107,17 @@ contains values for three types of answers: **correct**, **\_incorrect**, and **
 When **Matching** is used with Adapt Framework v5.12.0 (or better), it supports announcing the correct/learner answer to screen readers (via an an [ARIA Live Region](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions)) when the Correct Answer button is toggled by the learner. The following attributes are used to provide this functionality: **ariaCorrectAnswer**, **ariaUserAnswer**.
 
 These ARIA labels are not visible elements; they are used by assistive technology (such as screen readers). Should any of these labels need to be customised or translated, they can be found within the `_globals._components._matching` object in **course.json** (or Project settings > Globals in the Adapt Authoring Tool).
-<div float align=right><a href="#top">Back to Top</a></div>
 
 ## Limitations
 
 No known limitations.
 
+<div float align=right><a href="#top">Back to Top</a></div>
+
 -----------------------------
+
 <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a>
-**Author / maintainer:** Adapt Core Team with [contributors](https://github.com/adaptlearning/adapt-contrib-matching/graphs/contributors)
-**Accessibility support:** WAI AA
-**RTL support:** Yes
-**Cross-platform coverage:** Chrome, Chrome for Android, Firefox (ESR + latest version), Edge, IE11, Safari 14 for macOS/iOS/iPadOS, Opera
+**Author / maintainer:** Adapt Core Team with [contributors](https://github.com/adaptlearning/adapt-contrib-matching/graphs/contributors)<br>
+**Accessibility support:** WAI AA<br>
+**RTL support:** Yes<br>
+**Cross-platform coverage:** Chrome, Chrome for Android, Firefox (ESR + latest version), Edge, Safari for macOS/iOS/iPadOS, Opera<br>
