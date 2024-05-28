@@ -45,13 +45,13 @@
         "_attempts": {
           "type": "number",
           "title": "Allowed attempts",
-          "description": "How many attempts the learner is allowed. Defaults to `1` attempt",
+          "description": "How many attempts the learner is allowed. Defaults to `1` attempt.",
           "default": 1
         },
         "_canShowModelAnswer": {
           "type": "boolean",
           "title": "Enable correct answer toggle",
-          "description": "Allow the user to view the 'model answer' if they answer the question incorrectly. Defaults to true",
+          "description": "Allow the user to view the 'model answer' if they answer the question incorrectly. Defaults to true.",
           "default": true
         },
         "_canShowFeedback": {
@@ -67,7 +67,7 @@
         "_shouldResetAllAnswers": {
           "type": "boolean",
           "title": "Reset correct answers between attempts",
-          "description": "Controls whether all - or just incorrect - answers should be reset when the question is reset. Defaults to true",
+          "description": "Controls whether all - or just incorrect - answers should be reset when the question is reset. Defaults to true.",
           "default": true
         },
         "_shouldDisplayAttempts": {
@@ -94,7 +94,7 @@
         "_recordInteraction": {
           "type": "boolean",
           "title": "Record interaction",
-          "description": "If disabled, recording the user's answer(s) to this question to cmi.interactions on the LMS will be disabled for this component only. Defaults to true",
+          "description": "If disabled, recording the user's answer(s) to this question to cmi.interactions on the LMS will be disabled for this component only. Defaults to true.",
           "default": true
         },
         "placeholder": {
@@ -200,7 +200,7 @@
                 "final": {
                   "type": "string",
                   "title": "Default incorrect feedback",
-                  "description": "Incorrect answer feedback for the final attempt",
+                  "description": "Incorrect answer feedback for the final attempt.",
                   "default": "",
                   "_adapt": {
                     "translatable": true
