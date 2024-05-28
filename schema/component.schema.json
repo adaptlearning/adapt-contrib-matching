@@ -200,7 +200,7 @@
                 "final": {
                   "type": "string",
                   "title": "Default incorrect feedback",
-                  "description": "Incorrect answer feedback for the final attempt.",
+                  "description": "Incorrect answer feedback for the final attempt",
                   "default": "",
                   "_adapt": {
                     "translatable": true
