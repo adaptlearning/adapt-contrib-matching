@@ -45,13 +45,13 @@
         "_attempts": {
           "type": "number",
           "title": "Allowed attempts",
-          "description": "How many attempts the learner is allowed",
+          "description": "How many attempts the learner is allowed. Defaults to `1` attempt.",
           "default": 1
         },
         "_canShowModelAnswer": {
           "type": "boolean",
           "title": "Enable correct answer toggle",
-          "description": "Allow the user to view the 'model answer' if they answer the question incorrectly",
+          "description": "Allow the user to view the 'model answer' if they answer the question incorrectly. Defaults to true.",
           "default": true
         },
         "_canShowFeedback": {
@@ -67,7 +67,7 @@
         "_shouldResetAllAnswers": {
           "type": "boolean",
           "title": "Reset correct answers between attempts",
-          "description": "Controls whether all - or just incorrect - answers should be reset when the question is reset",
+          "description": "Controls whether all - or just incorrect - answers should be reset when the question is reset. Defaults to true.",
           "default": true
         },
         "_shouldDisplayAttempts": {
@@ -94,7 +94,7 @@
         "_recordInteraction": {
           "type": "boolean",
           "title": "Record interaction",
-          "description": "If disabled, recording the user's answer(s) to this question to cmi.interactions on the LMS will be disabled for this component only",
+          "description": "If disabled, recording the user's answer(s) to this question to cmi.interactions on the LMS will be disabled for this component only. Defaults to true.",
           "default": true
         },
         "placeholder": {
@@ -105,6 +105,18 @@
           "_adapt": {
             "translatable": true
           }
+        },
+        "_hasItemScoring": {
+          "type": "boolean",
+          "title": "Enable item scoring",
+          "description": "When disabled, this question scores 0 for incorrect and 'Question Weight' for correct. When enabled, this question scores by summing the scores of the selected options. Defaults to false.",
+          "default": false
+        },
+        "_allowOnlyUniqueAnswers": {
+          "type": "boolean",
+          "title": "Unique answers only",
+          "description": "When disabled, multiple items can be selected with the same option text. Defaults to false.",
+          "default": false
         },
         "_items": {
           "type": "array",
