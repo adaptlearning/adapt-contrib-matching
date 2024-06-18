@@ -6,9 +6,9 @@ describe('Matching', function () {
 
   it('should display the matching component', function () {
     const matchingComponents = this.data.components.filter(component => component._component === 'matching');
+    const stripHtml = cy.helpers.stripHtml;
     matchingComponents.forEach(matchingComponent => {
       cy.visit(`/#/preview/${matchingComponent._id}`);
-      const stripHtml = cy.helpers.stripHtml;
       cy.testContainsOrNotExists('.matching__body', stripHtml(matchingComponent.body));
       cy.testContainsOrNotExists('.matching__title', stripHtml(matchingComponent.displayTitle));
       cy.testContainsOrNotExists('.matching__instruction', stripHtml(matchingComponent.instruction));
