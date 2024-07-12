@@ -209,6 +209,7 @@ export default function MatchingDropDown(props) {
         ref={list}
         disabled={!_isEnabled}
         aria-activedescendant={highlightedOption && `dropdown__item__${_id}__${_itemIndex}__${highlightedOption._index}`}
+        aria-labelledby={`${_id}-matching-item-${_itemIndex}__title`}
       >
 
         {options.map(({
