@@ -34,6 +34,7 @@ export default function Matching(props) {
         ])}
         aria-labelledby={ariaQuestion ? null : (displayTitle || body || instruction) && `${_id}-header`}
         aria-label={ariaQuestion || null}
+        role='group'
       >
 
         {_items.map(({
