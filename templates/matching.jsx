@@ -53,7 +53,7 @@ export default function Matching(props) {
 
               {text &&
               <div className="matching-item__title">
-                <div className="matching-item__title_inner" dangerouslySetInnerHTML={{ __html: compile(text) }}>
+                <div id={`${_id}-matching-item-${_index}__title`} className="matching-item__title_inner" dangerouslySetInnerHTML={{ __html: compile(text) }}>
                 </div>
               </div>
               }
