@@ -182,7 +182,7 @@ export default function MatchingDropDown(props) {
         onTouchStart={onStartInteraction}
         onClick={onButtonClick}
         ref={button}
-        aria-labelledby={props._questionTitleId}
+        aria-labelledby={props.questionTitleId}
         >
 
         <span className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
