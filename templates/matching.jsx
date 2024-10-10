@@ -81,7 +81,7 @@ export default function Matching(props) {
                 key={`answer-${_index}`}
                 className="matching-item__answer-container"
                 dangerouslySetInnerHTML={{
-                  __html: (_isInteractionComplete && _canShowCorrectness && _correctAnswers) || '&nbsp;'
+                  __html: (_isInteractionComplete && _correctAnswers) || '&nbsp;'
                 }}>
               </div>
               }
