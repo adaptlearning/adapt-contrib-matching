@@ -28,6 +28,15 @@
                       "_adapt": {
                         "translatable": true
                       }
+                    },
+                    "correctAnswerPrefix": {
+                      "type": "string",
+                      "title": "ARIA prefix for correct answer",
+                      "description": "If _canShowCorrectness is enabled, this text provides a prefix for the comma separated list of correct options displayed below the submitted question item",
+                      "default": "The correct answer is ",
+                      "_adapt": {
+                        "translatable": true
+                      }
                     }
                   }
                 }

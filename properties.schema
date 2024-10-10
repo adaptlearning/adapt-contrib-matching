@@ -29,6 +29,15 @@
             "validators": [],
             "help": "Text that will be announced by the screen reader when the learner selects the 'hide correct answer' button",
             "translatable": true
+        },
+        "correctAnswerPrefix": {
+            "type": "string",
+            "required": false,
+            "default": "The correct answer is",
+            "inputType": "Text",
+            "validators": [],
+            "help": "If _canShowCorrectness is enabled, this text provides a prefix for the comma separated list of correct options displayed below the submitted question item",
+            "translatable": true
         }
     },
     "properties": {

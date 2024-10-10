@@ -21,6 +21,8 @@ export default function Matching(props) {
 
   const displayAsCorrect = (_isInteractionComplete && (_isCorrectAnswerShown || _isCorrect));
 
+  const correctAnswerPrefix = _globals?._components?._matching?.correctAnswerPrefix || '';
+
   return (
     <div className="component__inner matching__inner">
 
@@ -81,7 +83,7 @@ export default function Matching(props) {
                 key={`answer-${_index}`}
                 className="matching-item__answer-container"
                 dangerouslySetInnerHTML={{
-                  __html: (_isInteractionComplete && _correctAnswers) || '&nbsp;'
+                  __html: (_isInteractionComplete && correctAnswerPrefix + _correctAnswers) || '&nbsp;'
                 }}>
               </div>
               }
