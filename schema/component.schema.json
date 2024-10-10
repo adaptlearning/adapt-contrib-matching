@@ -54,6 +54,12 @@
           "description": "Allow the user to view the 'model answer' if they answer the question incorrectly. Defaults to true.",
           "default": true
         },
+        "_canShowCorrectness": {
+          "type": "boolean",
+          "title": "Enable correct answers to display after submit",
+          "description": "If enabled, this replaces the associated 'model answer' toggle button and a comma separated list of correct options is displayed below the submitted question item",
+          "default": false
+        },
         "_canShowFeedback": {
           "type": "boolean",
           "title": "Enable feedback",

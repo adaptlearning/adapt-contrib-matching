@@ -8,6 +8,7 @@ export default function Matching(props) {
     _isInteractionComplete,
     _isCorrect,
     _shouldShowMarking,
+    _canShowCorrectness,
     _isCorrectAnswerShown,
     _items,
     _options,
@@ -19,6 +20,8 @@ export default function Matching(props) {
   } = props;
 
   const displayAsCorrect = (_isInteractionComplete && (_isCorrectAnswerShown || _isCorrect));
+
+  const correctAnswerPrefix = _globals?._components?._matching?.correctAnswerPrefix || '';
 
   return (
     <div className="component__inner matching__inner">
@@ -39,7 +42,8 @@ export default function Matching(props) {
 
         {_items.map(({
           text,
-          _index
+          _index,
+          _correctAnswers
         }, index) => {
           const activeOption = _options.find(option => (option._itemIndex === _index) && option._isActive);
           const displayItemAsCorrect = (!_isEnabled && _shouldShowMarking && (_isCorrectAnswerShown || activeOption?._shouldBeSelected));
@@ -73,6 +77,16 @@ export default function Matching(props) {
                 </div>
 
               </div>
+
+              {_canShowCorrectness &&
+              <div
+                key={`answer-${_index}`}
+                className="matching-item__answer-container"
+                dangerouslySetInnerHTML={{
+                  __html: (_isInteractionComplete && correctAnswerPrefix + _correctAnswers) || '&nbsp;'
+                }}>
+              </div>
+              }
 
             </div>
           );
