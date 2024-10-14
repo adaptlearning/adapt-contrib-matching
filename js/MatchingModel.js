@@ -27,6 +27,14 @@ export default class MatchingModel extends ItemsQuestionModel {
       options.push(...itemOptions);
       return options;
     }, []);
+    items.forEach(item => {
+      const itemOptions = (item._options || []);
+      item._correctAnswers = itemOptions
+        .filter(option => option._isCorrect)
+        .map(option => option.text || '')
+        .map(item => item.trim())
+        .filter(Boolean);
+    });
     this.set({
       _items: items,
       _selectable: items.length

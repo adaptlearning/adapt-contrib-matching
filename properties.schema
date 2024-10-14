@@ -29,6 +29,24 @@
             "validators": [],
             "help": "Text that will be announced by the screen reader when the learner selects the 'hide correct answer' button",
             "translatable": true
+        },
+        "correctAnswerPrefix": {
+            "type": "string",
+            "required": false,
+            "default": "The correct answer is",
+            "inputType": "Text",
+            "validators": [],
+            "help": "If _canShowCorrectness is enabled, this text provides a prefix for the correct option displayed below the submitted question item",
+            "translatable": true
+        },
+        "correctAnswersPrefix": {
+            "type": "string",
+            "required": false,
+            "default": "The correct answers are",
+            "inputType": "Text",
+            "validators": [],
+            "help": "If _canShowCorrectness is enabled, this text provides a prefix for the comma separated list of correct options displayed below the submitted question item",
+            "translatable": true
         }
     },
     "properties": {
@@ -74,6 +92,15 @@
             "inputType": "Checkbox",
             "validators": [],
             "help": "Allow the user to view the 'model answer' if they answer the question incorrectly?"
+        },
+        "_canShowCorrectness": {
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "title": "Display correct answers after submit",
+            "inputType": "Checkbox",
+            "validators": [],
+            "help": "If enabled, this replaces the associated 'model answer' toggle button and a comma separated list of correct options is displayed below the submitted question item."
         },
         "_canShowFeedback": {
             "type": "boolean",
