@@ -36,6 +36,15 @@
             "default": "The correct answer is",
             "inputType": "Text",
             "validators": [],
+            "help": "If _canShowCorrectness is enabled, this text provides a prefix for the correct option displayed below the submitted question item",
+            "translatable": true
+        },
+        "correctAnswersPrefix": {
+            "type": "string",
+            "required": false,
+            "default": "The correct answers are",
+            "inputType": "Text",
+            "validators": [],
             "help": "If _canShowCorrectness is enabled, this text provides a prefix for the comma separated list of correct options displayed below the submitted question item",
             "translatable": true
         }

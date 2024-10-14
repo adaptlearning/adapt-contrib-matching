@@ -33,8 +33,7 @@ export default class MatchingModel extends ItemsQuestionModel {
         .filter(option => option._isCorrect)
         .map(option => option.text || '')
         .map(item => item.trim())
-        .filter(Boolean)
-        .join(', ');
+        .filter(Boolean);
     });
     this.set({
       _items: items,

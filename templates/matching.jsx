@@ -22,6 +22,7 @@ export default function Matching(props) {
   const displayAsCorrect = (_isInteractionComplete && (_isCorrectAnswerShown || _isCorrect));
 
   const correctAnswerPrefix = _globals?._components?._matching?.correctAnswerPrefix || '';
+  const correctAnswersPrefix = _globals?._components?._matching?.correctAnswersPrefix || '';
 
   return (
     <div className="component__inner matching__inner">
@@ -47,6 +48,8 @@ export default function Matching(props) {
         }, index) => {
           const activeOption = _options.find(option => (option._itemIndex === _index) && option._isActive);
           const displayItemAsCorrect = (!_isEnabled && _shouldShowMarking && (_isCorrectAnswerShown || activeOption?._shouldBeSelected));
+          const hasMultipleCorrectAnswers = _correctAnswers.length > 1;
+
           return (
             <div key={_index} className={classes([
               'matching-item',
@@ -83,7 +86,7 @@ export default function Matching(props) {
                 key={`answer-${_index}`}
                 className="matching-item__answer-container"
                 dangerouslySetInnerHTML={{
-                  __html: (_isInteractionComplete && correctAnswerPrefix + _correctAnswers) || '&nbsp;'
+                  __html: (_isInteractionComplete && (hasMultipleCorrectAnswers ? correctAnswersPrefix.join(' ') : correctAnswerPrefix.join(' ')) + (hasMultipleCorrectAnswers ? _correctAnswers.join(', ') : _correctAnswers)) || '&nbsp;'
                 }}>
               </div>
               }
