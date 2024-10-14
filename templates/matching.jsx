@@ -21,8 +21,8 @@ export default function Matching(props) {
 
   const displayAsCorrect = (_isInteractionComplete && (_isCorrectAnswerShown || _isCorrect));
 
-  const correctAnswerPrefix = _globals?._components?._matching?.correctAnswerPrefix || '';
-  const correctAnswersPrefix = _globals?._components?._matching?.correctAnswersPrefix || '';
+  const correctAnswerPrefix = _globals?._components?._matching?.correctAnswerPrefix + ' ' || '';
+  const correctAnswersPrefix = _globals?._components?._matching?.correctAnswersPrefix + ' ' || '';
 
   return (
     <div className="component__inner matching__inner">
@@ -86,7 +86,7 @@ export default function Matching(props) {
                 key={`answer-${_index}`}
                 className="matching-item__answer-container"
                 dangerouslySetInnerHTML={{
-                  __html: (_isInteractionComplete && (hasMultipleCorrectAnswers ? (correctAnswersPrefix && correctAnswersPrefix + ' ') : (correctAnswerPrefix && correctAnswerPrefix + ' ')) + (hasMultipleCorrectAnswers ? _correctAnswers.join(', ') : _correctAnswers)) || '&nbsp;'
+                  __html: (_isInteractionComplete && (hasMultipleCorrectAnswers ? correctAnswersPrefix : correctAnswerPrefix) + (hasMultipleCorrectAnswers ? _correctAnswers.join(', ') : _correctAnswers)) || '&nbsp;'
                 }}>
               </div>
               }
