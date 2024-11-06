@@ -49,7 +49,7 @@ export default function Matching(props) {
           const activeOption = _options.find(option => (option._itemIndex === _index) && option._isActive);
           const displayItemAsCorrect = (!_isEnabled && _shouldShowMarking && (_isCorrectAnswerShown || activeOption?._shouldBeSelected));
           const questionTitleId = `${_id}-matching-item-${_index}__title`;
-          const questionTextId = `${_id}-matching-item-${_index}__placeholder`;
+          const questionTextId = `${_id}-matching-item-${_index}__text`;
           const hasMultipleCorrectAnswers = _correctAnswers.length > 1;
 
           return (
