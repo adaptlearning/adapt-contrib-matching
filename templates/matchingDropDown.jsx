@@ -176,8 +176,10 @@ export default function MatchingDropDown(props) {
           !_isEnabled && 'is-disabled',
           hasActiveOption && 'is-selected'
         ])}
+        role="combobox"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
+        aria-controls="${_id}-matching-item-${_itemIndex}__list"
         onMouseDown={onStartInteraction}
         onTouchStart={onStartInteraction}
         onClick={onButtonClick}
@@ -205,6 +207,7 @@ export default function MatchingDropDown(props) {
           left: buttonOffsetLeft,
           width: buttonWidth
         }}
+        id="${_id}-matching-item-${_itemIndex}__list"
         role="listbox"
         tabIndex="-1"
         onBlur={onListBlur}
