@@ -181,9 +181,11 @@ export default function MatchingDropDown(props) {
         onMouseDown={onStartInteraction}
         onTouchStart={onStartInteraction}
         onClick={onButtonClick}
-        ref={button}>
+        ref={button}
+        aria-labelledby={props.questionTitleId + ' ' + props.questionTextId}
+      >
 
-        <span className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
+        <span id={props.questionTextId} className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
         </span>
 
         <span className="dropdown__icon" aria-hidden="true">

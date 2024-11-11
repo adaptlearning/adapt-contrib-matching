@@ -48,6 +48,8 @@ export default function Matching(props) {
         }, index) => {
           const activeOption = _options.find(option => (option._itemIndex === _index) && option._isActive);
           const displayItemAsCorrect = (!_isEnabled && _shouldShowMarking && (_isCorrectAnswerShown || activeOption?._shouldBeSelected));
+          const questionTitleId = `${_id}-matching-item-${_index}__title`;
+          const questionTextId = `${_id}-matching-item-${_index}__text`;
           const hasMultipleCorrectAnswers = _correctAnswers.length > 1;
 
           return (
@@ -61,14 +63,14 @@ export default function Matching(props) {
 
               {text &&
               <div className="matching-item__title">
-                <div id={`${_id}-matching-item-${_index}__title`} className="matching-item__title_inner" dangerouslySetInnerHTML={{ __html: compile(text) }}>
+                <div id={questionTitleId} className="matching-item__title_inner" dangerouslySetInnerHTML={{ __html: compile(text) }}>
                 </div>
               </div>
               }
 
               <div className="matching-item__select-container js-matching-item-select-container">
 
-                <templates.matchingDropDown {...props} _itemIndex={_index} />
+                <templates.matchingDropDown {...props} _itemIndex={_index} questionTitleId={questionTitleId} questionTextId={questionTextId}/>
 
                 <div className="matching-item__select-state">
                   <div className="matching-item__select-icon matching-item__select-correct-icon" aria-label={_globals._accessibility._ariaLabels.correct}>
