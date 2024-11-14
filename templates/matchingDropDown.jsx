@@ -184,10 +184,10 @@ export default function MatchingDropDown(props) {
         onTouchStart={onStartInteraction}
         onClick={onButtonClick}
         ref={button}
-        aria-labelledby={props.questionTitleId + ' ' + props.questionTextId}
+        aria-labelledby={props.questionTitleId}
       >
 
-        <span id={props.questionTextId} className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
+        <span className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
         </span>
 
         <span className="dropdown__icon" aria-hidden="true">
@@ -214,7 +214,7 @@ export default function MatchingDropDown(props) {
         ref={list}
         disabled={!_isEnabled}
         aria-activedescendant={highlightedOption && `dropdown__item__${_id}__${_itemIndex}__${highlightedOption._index}`}
-        aria-labelledby={`${_id}-matching-item-${_itemIndex}__title`}
+        aria-labelledby={props.questionTitleId}
       >
 
         {options.map(({
