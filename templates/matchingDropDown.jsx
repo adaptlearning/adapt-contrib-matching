@@ -149,7 +149,8 @@ export default function MatchingDropDown(props) {
     _options,
     _isCorrectAnswerShown,
     setActiveOption,
-    setHighlightedOption
+    setHighlightedOption,
+    ariaQuestion
   } = props;
 
   const options = _options.filter(({ _itemIndex: itemIndex }) => (itemIndex === _itemIndex) || (itemIndex === -1));
@@ -184,7 +185,8 @@ export default function MatchingDropDown(props) {
         onTouchStart={onStartInteraction}
         onClick={onButtonClick}
         ref={button}
-        aria-labelledby={props.questionTitleId}
+        aria-labelledby={props.ariaLabel}
+        aria-label={ariaQuestion || null}
       >
 
         <span className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
