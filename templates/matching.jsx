@@ -50,7 +50,7 @@ export default function Matching(props) {
           const displayItemAsCorrect = (!_isEnabled && _shouldShowMarking && (_isCorrectAnswerShown || activeOption?._shouldBeSelected));
           const questionTitleId = `${_id}-matching-item-${_index}__title`;
           const hasMultipleCorrectAnswers = _correctAnswers.length > 1;
-          const ariaLabel = text ? questionTitleId : (ariaQuestion ? null : `${_id}-header`);
+          const ariaLabelledBy = text ? questionTitleId : (ariaQuestion ? null : `${_id}-header`);
 
           return (
             <div key={_index} className={classes([
