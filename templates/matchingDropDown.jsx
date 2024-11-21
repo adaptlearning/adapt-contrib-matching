@@ -215,7 +215,7 @@ export default function MatchingDropDown(props) {
         onBlur={onListBlur}
         ref={list}
         disabled={!_isEnabled}
-        aria-labelledby={props.questionTitleId}
+        aria-labelledby={props.ariaLabelledBy}
         aria-activedescendant={highlightedOption && `dropdown__item__${_id}__${_itemIndex}__${highlightedOption._index}`}
       >
 
