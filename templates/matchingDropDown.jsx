@@ -185,7 +185,7 @@ export default function MatchingDropDown(props) {
         onTouchStart={onStartInteraction}
         onClick={onButtonClick}
         ref={button}
-        aria-labelledby={props.ariaLabel}
+        aria-labelledby={props.ariaLabelledBy}
         aria-label={ariaQuestion || null}
       >
 

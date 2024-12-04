@@ -70,7 +70,7 @@ export default function Matching(props) {
 
               <div className="matching-item__select-container js-matching-item-select-container">
 
-                <templates.matchingDropDown {...props} _itemIndex={_index} questionTitleId={questionTitleId} ariaLabel={ariaLabel}/>
+                <templates.matchingDropDown {...props} _itemIndex={_index} ariaLabelledBy={ariaLabelledBy}/>
 
                 <div className="matching-item__select-state">
                   <div className="matching-item__select-icon matching-item__select-correct-icon" aria-label={_globals._accessibility._ariaLabels.correct}>
