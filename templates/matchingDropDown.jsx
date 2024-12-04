@@ -149,7 +149,8 @@ export default function MatchingDropDown(props) {
     _options,
     _isCorrectAnswerShown,
     setActiveOption,
-    setHighlightedOption
+    setHighlightedOption,
+    ariaQuestion
   } = props;
 
   const options = _options.filter(({ _itemIndex: itemIndex }) => (itemIndex === _itemIndex) || (itemIndex === -1));
@@ -176,16 +177,19 @@ export default function MatchingDropDown(props) {
           !_isEnabled && 'is-disabled',
           hasActiveOption && 'is-selected'
         ])}
+        role="combobox"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
+        aria-controls={`${_id}-matching-item-${_itemIndex}__list`}
         onMouseDown={onStartInteraction}
         onTouchStart={onStartInteraction}
         onClick={onButtonClick}
         ref={button}
-        aria-labelledby={props.questionTitleId + ' ' + props.questionTextId}
+        aria-labelledby={props.ariaLabelledBy}
+        aria-label={ariaQuestion || null}
       >
 
-        <span id={props.questionTextId} className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
+        <span className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
         </span>
 
         <span className="dropdown__icon" aria-hidden="true">
@@ -205,13 +209,14 @@ export default function MatchingDropDown(props) {
           left: buttonOffsetLeft,
           width: buttonWidth
         }}
+        id={`${_id}-matching-item-${_itemIndex}__list`}
         role="listbox"
         tabIndex="-1"
         onBlur={onListBlur}
         ref={list}
         disabled={!_isEnabled}
+        aria-labelledby={props.ariaLabelledBy}
         aria-activedescendant={highlightedOption && `dropdown__item__${_id}__${_itemIndex}__${highlightedOption._index}`}
-        aria-labelledby={`${_id}-matching-item-${_itemIndex}__title`}
       >
 
         {options.map(({
