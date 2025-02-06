@@ -1,5 +1,4 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
-import _ from 'lodash';
 
 describe('Matching - v2.2.0 to v3.0.0', async () => {
   let matchings, course, courseMatchingGlobals;
