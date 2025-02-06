@@ -3,7 +3,7 @@ import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, u
 let matchings;
 
 describe('Matching - v2.1.4 to v2.2.0', async () => {
-  whereFromPlugin('Matching - from v2.1.4', { name: 'adapt-contrib-matching', version: '>=2.0.15' });
+  whereFromPlugin('Matching - from v2.1.4', { name: 'adapt-contrib-matching', version: '<2.2.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
@@ -26,5 +26,5 @@ describe('Matching - v2.1.4 to v2.2.0', async () => {
     if (!isValid) throw new Error('Matching - _feedback.title attribute invalid');
     return true;
   });
-  updatePlugin('Matching - update to v2.2.0', { name: 'adapt-contrib-matching', version: '>=2.0.15', framework: '>=2.0.15' });
+  updatePlugin('Matching - update to v2.2.0', { name: 'adapt-contrib-matching', version: '2.2.0', framework: '>=2.0.15' });
 });

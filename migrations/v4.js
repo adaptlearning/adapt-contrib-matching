@@ -2,7 +2,7 @@ import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, u
 
 describe('Matching - v3.0.0 to v4.2.0', async () => {
   let matchings, course, courseMatchingGlobals;
-  whereFromPlugin('Matching - from v3.0.0', { name: 'adapt-contrib-matching', version: '>=4.2.0' });
+  whereFromPlugin('Matching - from v3.0.0', { name: 'adapt-contrib-matching', version: '<4.2.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
@@ -27,5 +27,5 @@ describe('Matching - v3.0.0 to v4.2.0', async () => {
     if (!isValid) throw new Error('Matching - ariaUserAnswer attribute invalid');
     return true;
   });
-  updatePlugin('Matching - update to v4.2.0', { name: 'adapt-contrib-matching', version: '>=4.2.0', framework: '>=5.7.0' });
+  updatePlugin('Matching - update to v4.2.0', { name: 'adapt-contrib-matching', version: '4.2.0', framework: '>=5.7.0' });
 });
