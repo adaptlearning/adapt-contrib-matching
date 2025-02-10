@@ -22,7 +22,7 @@ describe('Matching - v2.1.4 to v2.2.0', async () => {
     return true;
   });
   checkContent('Matching - check _feedback.title attribute', async content => {
-    const isValid = matchings.every(({ _feedback }) => _feedback.title !== '');
+    const isValid = matchings.every(({ _feedback }) => _feedback.title === '');
     if (!isValid) throw new Error('Matching - _feedback.title attribute invalid');
     return true;
   });
