@@ -1,4 +1,5 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
+import _ from 'lodash';
 let matchings;
 
 describe('Matching - v2.1.4 to v2.2.0', async () => {
@@ -12,7 +13,7 @@ describe('Matching - v2.1.4 to v2.2.0', async () => {
     return true;
   });
   mutateContent('Matching - add _feedback.title attribute', async content => {
-    matchings.forEach(matching => { matching._feedback.title = ''; });
+    matchings.forEach(({ _feedback }) => { _.set(_feedback, 'title', ''); });
     return true;
   });
   checkContent('Matching - check _shouldResetAllAnswers attribute', async content => {
