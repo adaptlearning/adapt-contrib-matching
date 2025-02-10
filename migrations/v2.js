@@ -1,5 +1,4 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
-
 let matchings;
 
 describe('Matching - v2.1.4 to v2.2.0', async () => {

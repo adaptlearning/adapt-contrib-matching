@@ -18,12 +18,12 @@ describe('Matching - v3.0.0 to v4.2.0', async () => {
     return true;
   });
   checkContent('Matching - check globals ariaCorrectAnswer attribute', async (content) => {
-    const isValid = courseMatchingGlobals.ariaCorrectAnswer = 'The correct answer for {{{itemText}}} is {{{correctAnswer}}}';
+    const isValid = courseMatchingGlobals.ariaCorrectAnswer === 'The correct answer for {{{itemText}}} is {{{correctAnswer}}}';
     if (!isValid) throw new Error('Matching - ariaCorrectAnswer attribute invalid');
     return true;
   });
   checkContent('Matching - check globals ariaUserAnswer attribute', async (content) => {
-    const isValid = courseMatchingGlobals.ariaUserAnswer = 'The answer you chose for {{{itemText}}} was {{{userAnswer}}}';
+    const isValid = courseMatchingGlobals.ariaUserAnswer === 'The answer you chose for {{{itemText}}} was {{{userAnswer}}}';
     if (!isValid) throw new Error('Matching - ariaUserAnswer attribute invalid');
     return true;
   });

@@ -1,5 +1,5 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
-
+import _ from 'lodash';
 let matchings;
 
 describe('Matching - v4.2.0 to v6.0.0', async () => {
@@ -17,7 +17,13 @@ describe('Matching - v4.2.0 to v6.0.0', async () => {
     return true;
   });
   mutateContent('Matching - add item option _score', async (content) => {
-    matchings.forEach(({ _items }) => { _items.forEach(({ _options }) => { _.set(_options, '_score', 0); }); });
+    matchings.forEach((matching) => {
+      matching._items.forEach((item) => {
+        item._options.forEach((option) => {
+          _.set(option, '_score', 0);
+        });
+      });
+    });
     return true;
   });
   checkContent('Matching - check _hasItemScoring attribute', async content => {
@@ -31,7 +37,9 @@ describe('Matching - v4.2.0 to v6.0.0', async () => {
     return true;
   });
   checkContent('Matching - check item option _score', async content => {
-    const isValid = matchings.every(({ _items }) => _items.every(({ _options }) => _options?._score === 0));
+    const isValid = matchings.every(({ _items }) => {
+      return _items.every(({ _options }) => _options.every((option) => option._score === 0));
+    });
     if (!isValid) throw new Error('Matching - item option _score attribute invalid');
     return true;
   });

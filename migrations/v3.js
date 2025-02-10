@@ -11,7 +11,9 @@ describe('Matching - v2.2.0 to v3.0.0', async () => {
   mutateContent('Matching - add globals ariaRegion attribute', async content => {
     course = content.find(({ _type }) => _type === 'course');
     courseMatchingGlobals = course._globals._components._matching;
-    if (courseMatchingGlobals.ariaRegion === originalAriaRegion) courseMatchingGlobals.ariaRegion = 'Matching. Select from lists and then submit.';
+    if (courseMatchingGlobals.ariaRegion === originalAriaRegion) {
+      courseMatchingGlobals.ariaRegion = 'Matching. Select from lists and then submit.';
+    }
     return true;
   });
   checkContent('Matching - check globals ariaRegion attribute', async (content) => {
