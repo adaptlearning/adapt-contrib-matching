@@ -16,6 +16,10 @@ describe('Matching - v4.2.0 to v6.0.0', async () => {
     matchings.forEach(matching => { matching._allowOnlyUniqueAnswers = false; });
     return true;
   });
+  mutateContent('Matching - add item option _score', async (content) => {
+    matchings.forEach(({ _items }) => { _items.forEach(({ _options }) => { _.set(_options, '_score', 0); }); });
+    return true;
+  });
   checkContent('Matching - check _hasItemScoring attribute', async content => {
     const isValid = matchings.every(({ _hasItemScoring }) => _hasItemScoring === false);
     if (!isValid) throw new Error('Matching - _hasItemScoring attribute invalid');
@@ -24,6 +28,11 @@ describe('Matching - v4.2.0 to v6.0.0', async () => {
   checkContent('Matching - check _allowOnlyUniqueAnswers attribute', async content => {
     const isValid = matchings.every(({ _allowOnlyUniqueAnswers }) => _allowOnlyUniqueAnswers === false);
     if (!isValid) throw new Error('Matching - _allowOnlyUniqueAnswers attribute invalid');
+    return true;
+  });
+  checkContent('Matching - check item option _score', async content => {
+    const isValid = matchings.every(({ _items }) => _items.every(({ _options }) => _options?._score === 0));
+    if (!isValid) throw new Error('Matching - item option _score attribute invalid');
     return true;
   });
   updatePlugin('Matching - update to v6.0.0', { name: 'adapt-contrib-matching', version: '6.0.0', framework: '>=5.18.0' });
