@@ -3,13 +3,13 @@ import _ from 'lodash';
 let matchings, course, courseMatchingGlobals;
 
 describe('Matching - v6.0.0 to v7.2.0', async () => {
+  const originalInstruction = '';
   whereFromPlugin('Matching - from v6.0.0', { name: 'adapt-contrib-matching', version: '<7.2.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
   });
   mutateContent('Matching - update instruction attribute', async content => {
-    const originalInstruction = '';
     matchings.forEach(matching => {
       if (matching.instruction === originalInstruction) {
         matching.instruction = 'Choose an option from each dropdown list and select Submit.';
@@ -18,9 +18,7 @@ describe('Matching - v6.0.0 to v7.2.0', async () => {
     return true;
   });
   checkContent('Matching - check instruction attribute', async content => {
-    const isValid = matchings.every(({ instruction }) => {
-      return instruction === 'Choose an option from each dropdown list and select Submit.';
-    });
+    const isValid = matchings.every(({ instruction }) => instruction !== originalInstruction);
     if (!isValid) throw new Error('Matching - instruction attribute invalid');
     return true;
   });
