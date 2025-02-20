@@ -1,10 +1,10 @@
-import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
+import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getCourse } from 'adapt-migrations';
 import _ from 'lodash';
 let matchings, course, courseMatchingGlobals;
 
-describe('Matching - v6.0.0 to v7.2.0', async () => {
+describe('Matching - v7.1.2 to v7.2.0', async () => {
   const originalInstruction = '';
-  whereFromPlugin('Matching - from v6.0.0', { name: 'adapt-contrib-matching', version: '<7.2.0' });
+  whereFromPlugin('Matching - from v7.1.2', { name: 'adapt-contrib-matching', version: '<7.2.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
@@ -43,8 +43,8 @@ describe('Matching - v7.2.0 to v7.2.1', async () => {
   updatePlugin('Matching - update to v7.2.1', { name: 'adapt-contrib-matching', version: '7.2.1', framework: '>=5.19.1' });
 });
 
-describe('Matching - v7.2.1 to v7.3.0', async () => {
-  whereFromPlugin('Matching - from v7.2.1', { name: 'adapt-contrib-matching', version: '<7.3.0' });
+describe('Matching - v7.2.7 to v7.3.0', async () => {
+  whereFromPlugin('Matching - from v7.2.7', { name: 'adapt-contrib-matching', version: '<7.3.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
@@ -92,14 +92,20 @@ describe('Matching - v7.3.0 to v7.4.1', async () => {
   updatePlugin('Matching - update to v7.4.1', { name: 'adapt-contrib-matching', version: '7.4.1', framework: '>=5.19.1' });
 });
 
-describe('Matching - v7.4.1 to v7.5.0', async () => {
-  whereFromPlugin('Matching - from v7.4.1', { name: 'adapt-contrib-matching', version: '<7.5.0' });
+describe('Matching - v7.4.6 to v7.5.0', async () => {
+  whereFromPlugin('Matching - from v7.4.6', { name: 'adapt-contrib-matching', version: '<7.5.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
   });
   mutateContent('Matching - add _canShowCorrectness attribute', async content => {
     matchings.forEach(matching => (matching._canShowCorrectness = false));
+    return true;
+  });
+  mutateContent('Matching - add globals if missing', async (content) => {
+    course = getCourse();
+    if (!_.has(course, '_globals._components._matching')) _.set(course, '_globals._components._matching', {});
+    courseMatchingGlobals = course._globals._components._matching;
     return true;
   });
   mutateContent('Matching - add globals correctAnswerPrefix attribute', async content => {
@@ -110,6 +116,10 @@ describe('Matching - v7.4.1 to v7.5.0', async () => {
   });
   mutateContent('Matching - add globals correctAnswersPrefix attribute', async content => {
     courseMatchingGlobals.correctAnswersPrefix = 'The correct answers are';
+    return true;
+  });
+  checkContent('Matching - check globals object', async (content) => {
+    if (!courseMatchingGlobals) throw new Error('Matching - course globals object missing');
     return true;
   });
   checkContent('Matching - check _canShowCorrectness attribute', async content => {
