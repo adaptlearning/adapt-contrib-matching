@@ -61,8 +61,8 @@ describe('Matching - v7.2.7 to v7.3.0', async () => {
   updatePlugin('Matching - update to v7.3.0', { name: 'adapt-contrib-matching', version: '7.3.0', framework: '>=5.19.1' });
 });
 
-describe('Matching - v7.3.0 to v7.4.1', async () => {
-  whereFromPlugin('Matching - from v7.3.0', { name: 'adapt-contrib-matching', version: '<7.4.1' });
+describe('Matching - v7.4.0 to v7.4.1', async () => {
+  whereFromPlugin('Matching - from v7.4.0', { name: 'adapt-contrib-matching', version: '<7.4.1' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
