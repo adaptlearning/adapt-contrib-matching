@@ -2,6 +2,46 @@ import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, u
 import _ from 'lodash';
 let matchings;
 
+describe('Matching - v2.0.0 to v2.0.1', async () => {
+  whereFromPlugin('Matching - from v2.0.0', { name: 'adapt-contrib-matching', version: '>=2.0.0 <2.0.1' });
+  whereContent('Matching - where matching', async content => {
+    matchings = content.filter(({ _component }) => _component === 'matching');
+    return matchings.length;
+  });
+
+  updatePlugin('Matching - update to v2.0.1', { name: 'adapt-contrib-matching', version: '2.0.1', framework: '^2.0.0' });
+});
+
+describe('Matching - v2.0.2 to v2.0.3', async () => {
+  whereFromPlugin('Matching - from v2.0.2', { name: 'adapt-contrib-matching', version: '<2.0.3' });
+  whereContent('Matching - where matching', async content => {
+    matchings = content.filter(({ _component }) => _component === 'matching');
+    return matchings.length;
+  });
+
+  updatePlugin('Matching - update to v2.0.3', { name: 'adapt-contrib-matching', version: '2.0.3', framework: '^2.0.0' });
+});
+
+describe('Matching - v2.0.4 to v2.1.0', async () => {
+  whereFromPlugin('Matching - from v2.0.4', { name: 'adapt-contrib-matching', version: '<2.1.0' });
+  whereContent('Matching - where matching', async content => {
+    matchings = content.filter(({ _component }) => _component === 'matching');
+    return matchings.length;
+  });
+
+  updatePlugin('Matching - update to v2.1.0', { name: 'adapt-contrib-matching', version: '2.1.0', framework: '^2.0.15' });
+});
+
+describe('Matching - v2.1.1 to v2.1.2', async () => {
+  whereFromPlugin('Matching - from v2.1.1', { name: 'adapt-contrib-matching', version: '<2.1.2' });
+  whereContent('Matching - where matching', async content => {
+    matchings = content.filter(({ _component }) => _component === 'matching');
+    return matchings.length;
+  });
+
+  updatePlugin('Matching - update to v2.1.2', { name: 'adapt-contrib-matching', version: '2.1.2', framework: '^2.0.15' });
+});
+
 describe('Matching - v2.1.4 to v2.2.0', async () => {
   whereFromPlugin('Matching - from v2.1.4', { name: 'adapt-contrib-matching', version: '<2.2.0' });
   whereContent('Matching - where matching', async content => {
