@@ -109,8 +109,6 @@ describe('Matching - v7.4.6 to v7.5.0', async () => {
     return true;
   });
   mutateContent('Matching - add globals correctAnswerPrefix attribute', async content => {
-    course = content.find(({ _type }) => _type === 'course');
-    courseMatchingGlobals = course._globals._components._matching;
     courseMatchingGlobals.correctAnswerPrefix = 'The correct answer is';
     return true;
   });
