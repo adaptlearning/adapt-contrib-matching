@@ -8,7 +8,15 @@ describe('Matching - v2.0.0 to v2.0.1', async () => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
   });
-
+  mutateContent('Matching - add _recordInteraction attribute', async content => {
+    matchings.forEach(matching => { matching._recordInteraction = true; });
+    return true;
+  });
+  checkContent('Matching - check _recordInteraction attribute', async content => {
+    const isValid = matchings.every(({ _recordInteraction }) => _recordInteraction === true);
+    if (!isValid) throw new Error('Matching - _recordInteraction attribute invalid');
+    return true;
+  });
   updatePlugin('Matching - update to v2.0.1', { name: 'adapt-contrib-matching', version: '2.0.1', framework: '^2.0.0' });
 });
 
@@ -19,7 +27,15 @@ describe('Matching - v2.0.2 to v2.0.3', async () => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
   });
-
+  mutateContent('Matching - add _canShowModelAnswer attribute', async content => {
+    matchings.forEach(matching => { matching._canShowModelAnswer = true; });
+    return true;
+  });
+  checkContent('Matching - check _canShowModelAnswer attribute', async content => {
+    const isValid = matchings.every(({ _canShowModelAnswer }) => _canShowModelAnswer === true);
+    if (!isValid) throw new Error('Matching - _canShowModelAnswer attribute invalid');
+    return true;
+  });
   updatePlugin('Matching - update to v2.0.3', { name: 'adapt-contrib-matching', version: '2.0.3', framework: '^2.0.0' });
 });
 
@@ -30,7 +46,15 @@ describe('Matching - v2.0.4 to v2.1.0', async () => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
   });
-
+  mutateContent('Matching - add _canShowMarking attribute', async content => {
+    matchings.forEach(matching => { matching._canShowMarking = true; });
+    return true;
+  });
+  checkContent('Matching - check _canShowMarking attribute', async content => {
+    const isValid = matchings.every(({ _canShowMarking }) => _canShowMarking === true);
+    if (!isValid) throw new Error('Matching - _canShowMarking attribute invalid');
+    return true;
+  });
   updatePlugin('Matching - update to v2.1.0', { name: 'adapt-contrib-matching', version: '2.1.0', framework: '^2.0.15' });
 });
 
@@ -41,7 +65,15 @@ describe('Matching - v2.1.1 to v2.1.2', async () => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
   });
-
+  mutateContent('Matching - add _canShowFeedback attribute', async content => {
+    matchings.forEach(matching => { matching._canShowFeedback = true; });
+    return true;
+  });
+  checkContent('Matching - check _canShowFeedback attribute', async content => {
+    const isValid = matchings.every(({ _canShowFeedback }) => _canShowFeedback === true);
+    if (!isValid) throw new Error('Matching - _canShowFeedback attribute invalid');
+    return true;
+  });
   updatePlugin('Matching - update to v2.1.2', { name: 'adapt-contrib-matching', version: '2.1.2', framework: '^2.0.15' });
 });
 
