@@ -1,8 +1,8 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
 import _ from 'lodash';
-let matchings;
 
 describe('Matching - v5.0.0 to v6.0.0', async () => {
+  let matchings;
   whereFromPlugin('Matching - from v5.0.0', { name: 'adapt-contrib-matching', version: '<6.0.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');

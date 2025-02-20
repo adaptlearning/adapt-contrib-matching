@@ -1,8 +1,8 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getCourse } from 'adapt-migrations';
 import _ from 'lodash';
-let matchings, course, courseMatchingGlobals;
 
 describe('Matching - v7.1.2 to v7.2.0', async () => {
+  let matchings;
   const originalInstruction = '';
   whereFromPlugin('Matching - from v7.1.2', { name: 'adapt-contrib-matching', version: '<7.2.0' });
   whereContent('Matching - where matching', async content => {
@@ -26,6 +26,7 @@ describe('Matching - v7.1.2 to v7.2.0', async () => {
 });
 
 describe('Matching - v7.2.0 to v7.2.1', async () => {
+  let matchings;
   whereFromPlugin('Matching - from v7.2.0', { name: 'adapt-contrib-matching', version: '<7.2.1' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
@@ -44,6 +45,7 @@ describe('Matching - v7.2.0 to v7.2.1', async () => {
 });
 
 describe('Matching - v7.2.7 to v7.3.0', async () => {
+  let matchings;
   whereFromPlugin('Matching - from v7.2.7', { name: 'adapt-contrib-matching', version: '<7.3.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
@@ -62,6 +64,7 @@ describe('Matching - v7.2.7 to v7.3.0', async () => {
 });
 
 describe('Matching - v7.4.0 to v7.4.1', async () => {
+  let matchings;
   whereFromPlugin('Matching - from v7.4.0', { name: 'adapt-contrib-matching', version: '<7.4.1' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
@@ -93,6 +96,7 @@ describe('Matching - v7.4.0 to v7.4.1', async () => {
 });
 
 describe('Matching - v7.4.6 to v7.5.0', async () => {
+  let matchings, course, courseMatchingGlobals;
   whereFromPlugin('Matching - from v7.4.6', { name: 'adapt-contrib-matching', version: '<7.5.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
