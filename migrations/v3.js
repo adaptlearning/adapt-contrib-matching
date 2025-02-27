@@ -1,10 +1,10 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getCourse } from 'adapt-migrations';
 import _ from 'lodash';
 
-describe('Matching - v2.2.0 to v3.0.0', async () => {
+describe('Matching - v2.3.0 to v3.0.0', async () => {
   let matchings, course, courseMatchingGlobals;
   const originalAriaRegion = 'This question component requires you to select the matching answer from a drop down list below. When you have selected your answers select the submit button.';
-  whereFromPlugin('Matching - from v2.2.0', { name: 'adapt-contrib-matching', version: '<3.0.0' });
+  whereFromPlugin('Matching - from v2.3.0', { name: 'adapt-contrib-matching', version: '<3.0.0' });
   whereContent('Matching - where matching', async content => {
     matchings = content.filter(({ _component }) => _component === 'matching');
     return matchings.length;
