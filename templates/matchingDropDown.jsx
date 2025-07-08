@@ -154,6 +154,8 @@ export default function MatchingDropDown(props) {
     text
   } = props;
 
+  console.log('test plugin uploaded')
+
   const options = _options.filter(({ _itemIndex: itemIndex }) => (itemIndex === _itemIndex) || (itemIndex === -1));
   const activeOption = options.find(option => (option._itemIndex === _itemIndex) && option._isActive) || { text: placeholder };
   const highlightedOption = options.find(option => (option._itemIndex === _itemIndex) && option._isHighlighted) || { text: placeholder };
