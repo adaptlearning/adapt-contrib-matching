@@ -155,6 +155,8 @@ export default function MatchingDropDown(props) {
   } = props;
 
   console.log('test plugin uploaded')
+  console.log(props.ariaLabelledBy)
+  console.log(ariaQuestion)
 
   const options = _options.filter(({ _itemIndex: itemIndex }) => (itemIndex === _itemIndex) || (itemIndex === -1));
   const activeOption = options.find(option => (option._itemIndex === _itemIndex) && option._isActive) || { text: placeholder };
@@ -189,10 +191,13 @@ export default function MatchingDropDown(props) {
         onClick={onButtonClick}
         ref={button}
         aria-labelledby={props.ariaLabelledBy}
-        aria-label={text || ariaQuestion || null}
+        aria-label={ariaQuestion || null}
       >
 
-        <span className="dropdown__inner js-dropdown-inner" dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}>
+        <span 
+          className="dropdown__inner js-dropdown-inner"
+          dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}
+          aria-label={text || null}>
         </span>
 
         <span className="dropdown__icon" aria-hidden="true">
