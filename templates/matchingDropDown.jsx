@@ -182,6 +182,7 @@ export default function MatchingDropDown(props) {
           !_isEnabled && 'is-disabled',
           hasActiveOption && 'is-selected'
         ])}
+        role="combobox"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={`${_id}-matching-item-${_itemIndex}__list`}
@@ -194,7 +195,7 @@ export default function MatchingDropDown(props) {
       >
 
         <span 
-          role="combobox"
+          role="listbox"
           className="dropdown__inner js-dropdown-inner"
           dangerouslySetInnerHTML={{ __html: displayActiveOption?.text }}
           aria-label={text || null}>
