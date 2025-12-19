@@ -1,5 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { classes, compile } from 'core/js/reactHelpers';
+import Adapt from 'core/js/adapt';
+
+const getTrickleButtonHeight = (() => {
+  const fn = Adapt?.trickle?.getTrickleButtonHeight;
+  return fn || (() => 0);
+})();
 
 export default function MatchingDropDown(props) {
   const button = useRef(null);
@@ -36,7 +42,12 @@ export default function MatchingDropDown(props) {
       const offset = list?.current.getBoundingClientRect();
       const height = $(list?.current).height();
       const windowHeight = $(window).height();
-      setIsListOffScreen(offset.top + height > windowHeight);
+      let parent = button.current.closest('.block, .article');
+      if (!parent) {
+        parent = button.current.closest('[data-block], [data-article]');
+      }
+      const trickleHeight = getTrickleButtonHeight(parent);
+      setIsListOffScreen(offset.top + height > (windowHeight - trickleHeight));
       setListHeight(height);
       setButtonOffsetLeft(button?.current.offsetLeft);
       setButtonWidth($(button?.current).outerWidth());
