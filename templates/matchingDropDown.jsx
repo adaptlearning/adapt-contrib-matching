@@ -2,10 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { classes, compile } from 'core/js/reactHelpers';
 import Adapt from 'core/js/adapt';
 
-const getTrickleButtonHeight = (() => {
-  const fn = Adapt?.trickle?.getTrickleButtonHeight;
-  return fn || (() => 0);
-})();
+// Use trickle's helper if available, otherwise return 0
+const getTrickleButtonHeight = () => Adapt.trickle?.getTrickleButtonHeight?.() ?? 0;
 
 export default function MatchingDropDown(props) {
   const button = useRef(null);
@@ -16,6 +14,9 @@ export default function MatchingDropDown(props) {
   const [ isShown, setIsShown ] = useState(false);
   const [ blurTimeoutHandle, setBlurTimeoutHandle ] = useState(null);
   const [ isListOffScreen, setIsListOffScreen ] = useState(false);
+  const [ listHeight, setListHeight ] = useState(null);
+  const [ buttonWidth, setButtonWidth ] = useState(null);
+  const [ buttonOffsetLeft, setButtonOffsetLeft ] = useState(null);
 
   const onStartInteraction = () => setWasOpen(isOpen);
 
@@ -37,10 +38,15 @@ export default function MatchingDropDown(props) {
     setIsOpen(true);
     setTimeout(() => {
       const offset = list?.current.getBoundingClientRect();
-      const windowHeight = $(window).height();
+      const height = list?.current?.offsetHeight || 0;
+      const windowHeight = window.innerHeight;
       const trickleHeight = getTrickleButtonHeight();
-      const height = $(list?.current).height();
-      setIsListOffScreen(offset.top + height > (windowHeight - trickleHeight));
+      const availableHeight = windowHeight - trickleHeight;
+      const isOffScreen = offset.top + height > availableHeight;
+      setIsListOffScreen(isOffScreen);
+      setListHeight(height);
+      setButtonOffsetLeft(button?.current.offsetLeft);
+      setButtonWidth(button?.current?.offsetWidth || 0);
       setIsShown(true);
       list?.current.focus();
       scrollToHighlightedListItem();
@@ -203,9 +209,13 @@ export default function MatchingDropDown(props) {
         className={classes([
           'dropdown__list js-dropdown-list',
           !isOpen && 'u-display-none',
-          isOpen && !isShown && 'u-visibility-hidden',
-          isListOffScreen && isShown && 'is-flipped-up'
+          isOpen && !isShown && 'u-visibility-hidden'
         ])}
+        style={{
+          top: (!isShown || !isListOffScreen) ? '' : -listHeight,
+          left: buttonOffsetLeft,
+          width: buttonWidth
+        }}
         id={`${_id}-matching-item-${_itemIndex}__list`}
         role="listbox"
         tabIndex="-1"
