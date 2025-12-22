@@ -16,9 +16,6 @@ export default function MatchingDropDown(props) {
   const [ isShown, setIsShown ] = useState(false);
   const [ blurTimeoutHandle, setBlurTimeoutHandle ] = useState(null);
   const [ isListOffScreen, setIsListOffScreen ] = useState(false);
-  const [ listHeight, setListHeight ] = useState(null);
-  const [ buttonWidth, setButtonWidth ] = useState(null);
-  const [ buttonOffsetLeft, setButtonOffsetLeft ] = useState(null);
 
   const onStartInteraction = () => setWasOpen(isOpen);
 
@@ -40,17 +37,10 @@ export default function MatchingDropDown(props) {
     setIsOpen(true);
     setTimeout(() => {
       const offset = list?.current.getBoundingClientRect();
-      const height = $(list?.current).height();
       const windowHeight = $(window).height();
-      let parent = button.current.closest('.block, .article');
-      if (!parent) {
-        parent = button.current.closest('[data-block], [data-article]');
-      }
-      const trickleHeight = getTrickleButtonHeight(parent);
+      const trickleHeight = getTrickleButtonHeight();
+      const height = $(list?.current).height();
       setIsListOffScreen(offset.top + height > (windowHeight - trickleHeight));
-      setListHeight(height);
-      setButtonOffsetLeft(button?.current.offsetLeft);
-      setButtonWidth($(button?.current).outerWidth());
       setIsShown(true);
       list?.current.focus();
       scrollToHighlightedListItem();
@@ -213,13 +203,9 @@ export default function MatchingDropDown(props) {
         className={classes([
           'dropdown__list js-dropdown-list',
           !isOpen && 'u-display-none',
-          isOpen && !isShown && 'u-visibility-hidden'
+          isOpen && !isShown && 'u-visibility-hidden',
+          isListOffScreen && isShown && 'is-flipped-up'
         ])}
-        style={{
-          top: (!isShown || !isListOffScreen) ? '' : -listHeight,
-          left: buttonOffsetLeft,
-          width: buttonWidth
-        }}
         id={`${_id}-matching-item-${_itemIndex}__list`}
         role="listbox"
         tabIndex="-1"
